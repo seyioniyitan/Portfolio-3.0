@@ -1,0 +1,100 @@
+import Image from "next/image";
+
+export default function RecentWork() {
+  return (
+    <div className="mt-15 mb-40">
+      <Image
+        src="/assets/recent-work.svg"
+        width={235}
+        height={86}
+        alt="recent_work"
+        className="pl-2"
+      />
+      <div className="w-[443px] pl-6">
+        {recentWorkList.map(({ company, role, year, tag }, index) => (
+          <div
+            key={index}
+            className="flex h-18.5 justify-between border-b border-[#F2F2F7] py-3.5"
+          >
+            <div className="">
+              <div className="flex items-center gap-2">
+                <h2 className="text font-normal">{company}</h2>
+                {tag && (
+                  <p className="flex h-5 w-12 items-center justify-center rounded-full border-[0.6px] border-[#007AFF] px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] text-[#007AFF]">
+                    {tag}
+                  </p>
+                )}
+              </div>
+              <p className="text font-normal text-[#8E8E93]">{role}</p>
+            </div>
+            <h2>{year}</h2>
+          </div>
+        ))}
+        <div className="relative flex h-13.75 items-center justify-between border-b border-[#F2F2F7] py-3.5">
+          <div className="flex items-center gap-2">
+            <h2 className="text font-normal">Download resume</h2>
+            <p className="text text-[12px] font-medium text-[#8E8E93]">805kB</p>
+          </div>
+          <Image
+            src="/assets/file-type.svg"
+            alt="file_type_img"
+            width={84}
+            height={74}
+            priority
+            quality={100}
+            className="absolute right-0 bottom-0"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const recentWorkList: {
+  company: string;
+  role: string;
+  year: number | string;
+  tag?: string;
+}[] = [
+  {
+    company: "Tactile Int, Tactile Labs",
+    role: "Craftsman & Co-founder",
+    year: 2026,
+    tag: "PMVP",
+  },
+  {
+    company: "Grey Finance 3D design system",
+    role: "Senior generalist designer",
+    year: 2025,
+  },
+  {
+    company: "Rise 3.0",
+    role: "Product design lead",
+    year: 2025,
+  },
+  {
+    company: "Soar Capital, Soar Money",
+    role: "Identity Design, Product Design",
+    year: 2025,
+  },
+  {
+    company: "Zykband, Germany",
+    role: "Industrial 3D Design",
+    year: 2025,
+  },
+  {
+    company: "Around The World",
+    role: "Brand Identity Design, Events",
+    year: 2025,
+  },
+  {
+    company: "Leverdman on YouTube",
+    role: "Generalist Design Channel",
+    year: 2025,
+  },
+  {
+    company: "Rolling Shots",
+    role: "Multidisciplinary Design",
+    year: "Continuous",
+  },
+];
