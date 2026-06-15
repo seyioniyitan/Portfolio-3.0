@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="flex items-start gap-45.5 px-4">
+    <header className="absolute top-0 left-0 z-20 flex w-fit items-start gap-45.5 px-4">
       <div className="pt-8">
         <Image
           src="/assets/logo.svg"
