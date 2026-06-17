@@ -20,13 +20,13 @@ export default function ProjectShots() {
             <button
               key={index}
               onClick={() => view && setActiveView(view)}
-              className={`h-[25px] rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase ${
-                view === activeView ? "border-black bg-black text-white" : ""
-              } ${!view ? "opacity-60" : ""}`}
+              className={`h-[25px] rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase ${view === activeView ? "border-black bg-black text-white" : ""
+                } ${!view ? "opacity-60" : ""}`}
             >
               {title}
             </button>
           ))}
+
         </div>
         <WorkTogetherLink />
       </div>
@@ -61,6 +61,9 @@ const Header = () => {
             {link.label}
           </Link>
         ))}
+        <button className="flex h-[25px] items-center justify-center cursor-pointer">
+          <Image src="/assets/theme-toggle.svg" width={24} height={24} alt="theme_toggle" />
+        </button>
       </nav>
     </header>
   );
@@ -71,10 +74,10 @@ const shuffleButtons: {
   title: string;
   view?: "case-studies" | "project-shots";
 }[] = [
-  { id: 1, title: "case studies", view: "case-studies" },
-  { id: 2, title: "project shots ", view: "project-shots" },
-  { id: 3, title: "shuffle" },
-];
+    { id: 1, title: "case studies", view: "case-studies" },
+    { id: 2, title: "project shots ", view: "project-shots" },
+    { id: 3, title: "shuffle" },
+  ];
 
 const ProjectShotsGrid = () => {
   return (

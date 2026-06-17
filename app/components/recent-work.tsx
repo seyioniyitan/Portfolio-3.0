@@ -23,7 +23,6 @@ export default function RecentWork() {
             onMouseLeave={() => setHoveredIndex(null)}
             className="relative flex h-18.5 cursor-default justify-between border-b border-[#F2F2F7] py-3.5"
           >
-            {/* Per-row centered hover preview */}
             <div
               className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-300 ml-30"
               style={{ opacity: hoveredIndex === index ? 1 : 0 }}
