@@ -55,7 +55,7 @@ export default function Header({ showReturnButton = false }: HeaderProps) {
   );
 }
 
-export const menuLinks: { label: string; href: string }[] = [
+const menuLinks: { label: string; href: string }[] = [
   {
     label: "Shop",
     href: "/",

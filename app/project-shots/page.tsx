@@ -1,19 +1,28 @@
+ "use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { menuLinks } from "../components/header";
+import { useState } from "react";
 import WorkTogetherLink from "../components/work-together-link";
 
 export default function ProjectShots() {
+  const [activeView, setActiveView] = useState<"case-studies" | "project-shots">(
+    "project-shots",
+  );
+
   return (
     <div>
       <Header />
 
       <div className="flex items-center justify-between px-6">
         <div className="flex items-center gap-3 pt-7">
-          {shuffleButtons.map(({ title }, index) => (
+          {shuffleButtons.map(({ title, view }, index) => (
             <button
               key={index}
-              className="h-[25px] rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase"
+              onClick={() => view && setActiveView(view)}
+              className={`h-[25px] rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase ${
+                view === activeView ? "border-black bg-black text-white" : ""
+              } ${!view ? "opacity-60" : ""}`}
             >
               {title}
             </button>
@@ -22,20 +31,7 @@ export default function ProjectShots() {
         <WorkTogetherLink />
       </div>
 
-      <div className="grid auto-rows-[280px] grid-cols-3 gap-5 px-6 pt-10">
-        <BentoImage src="/assets/hero-a.png" className="row-span-2" />
-        <BentoImage src="/assets/hero-b.png" />
-        <div className="row-span-2 flex min-h-0 flex-col gap-5">
-          <BentoImage src="/assets/hero-a.png" className="flex-2" />
-          <BentoImage src="/assets/hero-b.png" className="flex-1" />
-        </div>
-        <BentoImage src="/assets/hero-b.png" />
-        <BentoImage src="/assets/hero-a.png" className="col-span-2" />
-      </div>
-
-      <div className="grid grid-cols-2 gap-5 px-6 pt-10">
-        <CaseStudies />
-      </div>
+      {activeView === "project-shots" ? <ProjectShotsGrid /> : <CaseStudies />}
     </div>
   );
 }
@@ -56,7 +52,7 @@ const Header = () => {
       </div>
 
       <nav className="flex gap-3 pt-10">
-        {menuLinks.map((link, index) => (
+        {menuLinks?.map((link, index) => (
           <Link
             key={index}
             href={link.href}
@@ -70,11 +66,30 @@ const Header = () => {
   );
 };
 
-const shuffleButtons = [
-  { id: 1, title: "case studies" },
-  { id: 2, title: "project shots " },
+const shuffleButtons: {
+  id: number;
+  title: string;
+  view?: "case-studies" | "project-shots";
+}[] = [
+  { id: 1, title: "case studies", view: "case-studies" },
+  { id: 2, title: "project shots ", view: "project-shots" },
   { id: 3, title: "shuffle" },
 ];
+
+const ProjectShotsGrid = () => {
+  return (
+    <div className="grid auto-rows-[280px] grid-cols-6 gap-5 px-6 pt-10">
+      <BentoImage src="/assets/hero-a.png" className="col-span-2 row-span-2" />
+      <BentoImage src="/assets/hero-b.png" className="col-span-2" />
+      <div className="col-span-2 row-span-2 flex min-h-0 flex-col gap-5">
+        <BentoImage src="/assets/hero-a.png" className="flex-2" />
+        <BentoImage src="/assets/hero-b.png" className="test flex-1" />
+      </div>
+      <BentoImage src="/assets/hero-b.png" className="col-span-2" />
+      <BentoImage src="/assets/hero-a.png" className="col-span-3" />
+    </div>
+  );
+};
 
 const BentoImage = ({
   src,
@@ -89,7 +104,34 @@ const BentoImage = ({
 );
 
 const CaseStudies = () => {
-  return <div>case</div>;
+  return (
+    <div className="grid grid-cols-2 gap-5 px-6 pt-10">
+      {caseStudyData.map((study, index) => (
+        <article key={`${study.title}-${index}`} className="space-y-3">
+          <div className="relative h-[325px] overflow-hidden">
+            <Image src={study.image} alt={study.title} fill className="object-cover" />
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center justify-between gap-4">
+              <h3 className="text-[23px] leading-7">{study.title}</h3>
+              <div className="flex flex-wrap items-center justify-end gap-2">
+                {study.tag.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-[20px] border border-black px-2 py-0.5 text-[10px] leading-3 font-medium uppercase"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <p className="text-[24px] leading-7 text-black/45">{study.role}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  );
 };
 
 const caseStudyData = [
@@ -100,21 +142,36 @@ const caseStudyData = [
     image: "/assets/hero-a.png",
   },
   {
+    title: "Alien Ware",
+    role: "Product Design Lead",
+    tag: ["Website", "Case Study"],
+    image: "/assets/hero-b.png",
+  },
+  {
     title: "Rise 3.0",
     role: "Product Design Lead",
-    tag: ["Video", "App Store"],
-    image: "/assets/hero-b.png",
+    tag: ["Pdf", "Resume"],
+    image: "/assets/hero-a.png",
   },
   {
     title: "Alien Ware",
     role: "Product Design Lead",
-    tag: ["Video", "App Store"],
-    image: "/assets/hero-a.png",
+    tag: ["Website", "Case Study"],
+    image: "/assets/hero-b.png",
+  },
+];
+
+export const menuLinks: { label: string; href: string }[] = [
+  {
+    label: "Shop",
+    href: "/",
   },
   {
-    title: "Rise 3.0",
-    role: "Product Design Lead",
-    tag: ["Video", "App Store"],
-    image: "/assets/hero-b.png",
+    label: "Articles",
+    href: "/articles",
+  },
+  {
+    label: "About",
+    href: "/about",
   },
 ];
