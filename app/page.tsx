@@ -14,7 +14,7 @@ export default function Home() {
           <div className="shrink-0 pt-[104px]">
             <div className="pl-6">
               <div className="w-[443px] pt-13">
-                <h2 className="h-23 text-[15px] leading-[150%] font-normal tracking-[0%]">
+                <h2 className="text h-[115px] indent-20 font-normal">
                   Seyi Oniyitan | Generalist designer transforming ideas into
                   products, maximising business impact and the friend of your
                   ambitious imaginations. I am transforming and defining design
