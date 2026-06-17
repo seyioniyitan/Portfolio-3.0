@@ -1,6 +1,11 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 
 export default function RecentWork() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   return (
     <div className="mt-15 mb-40">
       <Image
@@ -11,12 +16,28 @@ export default function RecentWork() {
         className="pl-2"
       />
       <div className="w-[443px] pl-6">
-        {recentWorkList.map(({ company, role, year, tag }, index) => (
+        {recentWorkList.map(({ company, role, year, tag, image }, index) => (
           <div
             key={index}
-            className="flex h-18.5 justify-between border-b border-[#F2F2F7] py-3.5"
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+            className="relative flex h-18.5 cursor-default justify-between border-b border-[#F2F2F7] py-3.5"
           >
-            <div className="">
+            {/* Per-row centered hover preview */}
+            <div
+              className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-300 ml-30"
+              style={{ opacity: hoveredIndex === index ? 1 : 0 }}
+            >
+              <Image
+                src={image}
+                alt={`${company} preview`}
+                width={70}
+                height={70}
+                className=" object-cover grayscale"
+              />
+            </div>
+
+            <div>
               <div className="flex items-center gap-2">
                 <h2 className="text font-normal">{company}</h2>
                 {tag && (
@@ -55,46 +76,55 @@ const recentWorkList: {
   role: string;
   year: number | string;
   tag?: string;
+  image: string;
 }[] = [
-  {
-    company: "Tactile Int, Tactile Labs",
-    role: "Craftsman & Co-founder",
-    year: 2026,
-    tag: "PMVP",
-  },
-  {
-    company: "Grey Finance 3D design system",
-    role: "Senior generalist designer",
-    year: 2025,
-  },
-  {
-    company: "Rise 3.0",
-    role: "Product design lead",
-    year: 2025,
-  },
-  {
-    company: "Soar Capital, Soar Money",
-    role: "Identity Design, Product Design",
-    year: 2025,
-  },
-  {
-    company: "Zykband, Germany",
-    role: "Industrial 3D Design",
-    year: 2025,
-  },
-  {
-    company: "Around The World",
-    role: "Brand Identity Design, Events",
-    year: 2025,
-  },
-  {
-    company: "Leverdman on YouTube",
-    role: "Generalist Design Channel",
-    year: 2025,
-  },
-  {
-    company: "Rolling Shots",
-    role: "Multidisciplinary Design",
-    year: "Continuous",
-  },
-];
+    {
+      company: "Tactile Int, Tactile Labs",
+      role: "Craftsman & Co-founder",
+      year: 2026,
+      tag: "PMVP",
+      image: "/assets/hero-b.png",
+    },
+    {
+      company: "Grey Finance 3D design system",
+      role: "Senior generalist designer",
+      year: 2025,
+      image: "/assets/hero-b.png",
+    },
+    {
+      company: "Rise 3.0",
+      role: "Product design lead",
+      year: 2025,
+      image: "/assets/hero-b.png",
+    },
+    {
+      company: "Soar Capital, Soar Money",
+      role: "Identity Design, Product Design",
+      year: 2025,
+      image: "/assets/hero-b.png",
+    },
+    {
+      company: "Zykband, Germany",
+      role: "Industrial 3D Design",
+      year: 2025,
+      image: "/assets/hero-b.png",
+    },
+    {
+      company: "Around The World",
+      role: "Brand Identity Design, Events",
+      year: 2025,
+      image: "/assets/hero-b.png",
+    },
+    {
+      company: "Leverdman on YouTube",
+      role: "Generalist Design Channel",
+      year: 2025,
+      image: "/assets/hero-b.png",
+    },
+    {
+      company: "Rolling Shots",
+      role: "Multidisciplinary Design",
+      year: "Continuous",
+      image: "/assets/hero-b.png",
+    },
+  ];

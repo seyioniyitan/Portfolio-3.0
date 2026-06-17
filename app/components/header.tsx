@@ -22,27 +22,25 @@ export default function Header({
 
   if (variant === "minimal") {
     return (
-      <header className="flex w-full items-start justify-between pl-[15px] pr-6">
-        <div className="flex items-center gap-6">
-          <div className="pt-8">
-            <Image
-              src="/assets/logo.svg"
-              alt="Seyi Oniyitan"
-              height={72}
-              width={172}
-              className="object-cover"
-              priority
-              quality={100}
-            />
-          </div>
-          {showReturnButton ? (
-            <Link
-              href="/project-shots"
-              className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.4px] border-black px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors duration-200 hover:bg-black hover:text-white"
-            >
-              return
-            </Link>
-          ) : null}
+      <header className="relative flex w-full items-start justify-between pl-[15px] pr-6">
+        {showReturnButton ? (
+          <Link
+            href="/project-shots"
+            className="absolute top-[29px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.4px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors duration-200 hover:bg-black hover:text-white"
+          >
+            return
+          </Link>
+        ) : null}
+        <div className="pt-8">
+          <Image
+            src="/assets/logo.svg"
+            alt="Seyi Oniyitan"
+            height={72}
+            width={172}
+            className="object-cover"
+            priority
+            quality={100}
+          />
         </div>
         <div className="pt-[29px]">
           <WorkTogetherLink />
@@ -78,13 +76,15 @@ export default function Header({
             <Link
               key={index}
               href={link.href}
-              className={`flex h-[25px] items-center justify-center rounded-[23px] border-[0.4px] border-black px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors duration-200 hover:bg-black hover:text-white ${
-                isLinkActive(link.href) ? "bg-black text-white" : ""
-              }`}
+              className={`flex h-[25px] items-center justify-center rounded-[23px] border-[0.4px] border-black px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors duration-200 hover:bg-black hover:text-white ${isLinkActive(link.href) ? "bg-black text-white" : ""
+                }`}
             >
               {link.label}
             </Link>
           ))}
+          <button className="flex h-[25px] items-center justify-center cursor-pointer">
+            <Image src="/assets/theme-toggle.svg" width={24} height={24} alt="theme_toggle" />
+          </button>
         </nav>
       </div>
     </header>

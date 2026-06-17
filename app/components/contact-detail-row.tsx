@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type ContactDetailRowProps = {
@@ -23,7 +24,7 @@ export default function ContactDetailRow({
     try {
       await navigator.clipboard.writeText(value);
       setCopied(true);
-    } catch {}
+    } catch { }
   };
 
   return (
@@ -32,15 +33,14 @@ export default function ContactDetailRow({
         {label}
       </div>
       <div className="flex min-w-0 flex-1 items-center gap-1">
-        <div className="text font-normal whitespace-nowrap">{value}</div>
+        <Link href={`https://${value}`} target="_blank" className="text font-normal whitespace-nowrap">{value}</Link>
         <button
           type="button"
           onClick={handleCopy}
-          className={`pointer-events-none flex h-[23px] items-center justify-center rounded-[23px] border px-2 text-[11px] leading-4 font-medium tracking-[0%] opacity-0 transition-all duration-150 group-hover:pointer-events-auto group-hover:opacity-100 ${
-            copied
-              ? "border-[#007AFF] text-[#007AFF]"
-              : "border-black text-black"
-          }`}
+          className={`pointer-events-none flex h-[23px] items-center justify-center rounded-[23px] border px-2 text-[11px] leading-4 font-medium tracking-[0%] opacity-0 transition-all duration-150 group-hover:pointer-events-auto group-hover:opacity-100 ${copied
+            ? "border-[#007AFF] text-[#007AFF]"
+            : "border-black text-black"
+            }`}
         >
           {copied ? "COPIED!" : "COPY"}
         </button>

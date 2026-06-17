@@ -36,7 +36,7 @@ export default function ProjectDetail() {
           ))}
         </div>
 
-        <div className="flex flex-1 items-start gap-12 px-6 pt-20">
+        <div className="flex flex-1 items-start gap-12 px-6 pt-[78px]">
           <div className="w-[185px] shrink-0">
             <h2 className="text h-11.5 font-normal">
               Grey 3D Design System &amp; Migration to Blender
@@ -46,25 +46,32 @@ export default function ProjectDetail() {
             </p>
           </div>
 
-          <div className="w-[447px]">
+          <div className="w-[444px]">
             <h2 className="text indent-20 font-normal">
               Sed ut perspiciatis unde omnis iste natus error sit voluptatem
               accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
               quae ab illo inventore veritatis et quasi architecto beatae vitae
-              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas.
+              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+              aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+              eos qui ratione voluptatem sequi nesciunt.
             </h2>
             <h2 className="text mt-8 indent-20 font-normal">
               Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
               consectetur, adipisci velit, sed quia non numquam eius modi
               tempora incidunt ut labore et dolore magnam aliquam quaerat
-              voluptatem.
+              voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem
+              ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
+              consequatur? Quis autem vel eum iure reprehenderit qui in ea
+              voluptate velit esse quam nihil molestiae consequatur, vel illum
+              qui dolorem eum fugiat quo voluptas nulla pariatur
             </h2>
+            <p className="mt-[188px] text font-normal pb-[78px]">
+              ©2026 Seyi Oniyitan. All rights reserved.
+            </p>
           </div>
         </div>
 
-        <p className="px-6 pb-10 text-right text-[14px] leading-[150%] font-normal tracking-[0%]">
-          ©2026 Seyi Oniyitan. All rights reserved.
-        </p>
+
       </div>
     </section>
   );
