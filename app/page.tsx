@@ -1,19 +1,13 @@
-import { ReactLenis } from "lenis/react";
+import CategorySlide from "@/app/components/category-slide";
+import EmailWithCopy from "@/app/components/email-with-copy";
 import Header from "@/app/components/header";
 import RecentWork from "@/app/components/recent-work";
 import WorkTogetherLink from "@/app/components/work-together-link";
-import EmailWithCopy from "@/app/components/email-with-copy";
-import CategorySlide from "@/app/components/category-slide";
 import HeroSlider from "./components/hero-slider";
 
 export default function Home() {
   return (
     <>
-      <ReactLenis
-        root
-        options={{ lerp: 0.1, duration: 1, smoothWheel: true }}
-      />
-
       <div className="relative overflow-hidden">
         <Header />
         <section className="flex items-start overflow-hidden">
@@ -23,7 +17,8 @@ export default function Home() {
                 <h2 className="h-23 text-[15px] leading-[150%] font-normal tracking-[0%]">
                   Seyi Oniyitan | Generalist designer transforming ideas into
                   products, maximising business impact and the friend of your
-                  ambitious imaginations.
+                  ambitious imaginations. I am transforming and defining design
+                  values in the AI era.
                 </h2>
               </div>
               <div className="flex items-center gap-5">

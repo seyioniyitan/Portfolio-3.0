@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ReactLenis } from "lenis/react";
+
 import "./globals.css";
 
 const inter = Inter({
@@ -20,6 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col overflow-x-hidden">
+        <ReactLenis
+          root
+          options={{ lerp: 0.1, duration: 1, smoothWheel: true }}
+        />
         {children}
       </body>
     </html>
