@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 type HeroSlide = {
   id: string;
@@ -13,24 +14,24 @@ const slides: HeroSlide[] = [
     id: "projects-shots",
     topImage: "/assets/hero-a.png",
     bottomImage: "/assets/hero-b.png",
-    labelImage: "/assets/projects&shots.svg",
+    labelImage: "/assets/test.svg",
     labelAlt: "Projects & Shots",
   },
 ];
 
 const TOP_IMAGE = { width: 418, height: 593 } as const;
 const BOTTOM_IMAGE = { width: 872, height: 581 } as const;
-const LABEL = { width: 202, height: 81 } as const;
+const LABEL = { width: 273, height: 64 } as const;
 
 const IMAGE_GAP = 20;
 const BOTTOM_LEFT_OFFSET = 77;
 
-const BRIDGE_LEFT_OFFSET = -8;
+const BRIDGE_LEFT_OFFSET = -10;
 
 export default function HeroSlider() {
   const slide = slides[0];
   const bottomTop = TOP_IMAGE.height + IMAGE_GAP;
-  const bridgeTop = bottomTop - LABEL.height + 30;
+  const bridgeTop = bottomTop - LABEL.height + 15;
   const sectionWidth = BOTTOM_LEFT_OFFSET + BOTTOM_IMAGE.width;
   const sectionHeight = bottomTop + BOTTOM_IMAGE.height;
 
@@ -49,7 +50,7 @@ export default function HeroSlider() {
       >
         <Image
           src={slide.topImage}
-          alt=""
+          alt="projects&shots"
           fill
           className="object-cover"
           sizes={`${TOP_IMAGE.width}px`}
@@ -68,7 +69,7 @@ export default function HeroSlider() {
       >
         <Image
           src={slide.bottomImage}
-          alt=""
+          alt="projects&shots"
           fill
           className="object-cover"
           sizes={`${BOTTOM_IMAGE.width}px`}
@@ -76,7 +77,8 @@ export default function HeroSlider() {
         />
       </div>
 
-      <div
+      <Link
+        href="/project-shots"
         className="absolute z-10 flex items-end gap-3"
         style={{ top: bridgeTop, left: BRIDGE_LEFT_OFFSET }}
       >
@@ -87,13 +89,7 @@ export default function HeroSlider() {
           height={LABEL.height}
           priority
         />
-        {/* <button
-          type="button"
-          className="mb-1.5 shrink-0 rounded-full border border-white px-3 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase"
-        >
-          Browse
-        </button> */}
-      </div>
+      </Link>
     </section>
   );
 }

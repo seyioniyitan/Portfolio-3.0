@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -6,12 +6,12 @@ import { useState } from "react";
 import WorkTogetherLink from "../components/work-together-link";
 
 export default function ProjectShots() {
-  const [activeView, setActiveView] = useState<"case-studies" | "project-shots">(
-    "project-shots",
-  );
+  const [activeView, setActiveView] = useState<
+    "case-studies" | "project-shots"
+  >("project-shots");
 
   return (
-    <div>
+    <div className="pb-46">
       <Header />
 
       <div className="flex items-center justify-between px-6">
@@ -105,30 +105,39 @@ const BentoImage = ({
 
 const CaseStudies = () => {
   return (
-    <div className="grid grid-cols-2 gap-5 px-6 pt-10">
+    <div className="grid grid-cols-2 gap-5 p-6">
       {caseStudyData.map((study, index) => (
-        <article key={`${study.title}-${index}`} className="space-y-3">
-          <div className="relative h-[325px] overflow-hidden">
-            <Image src={study.image} alt={study.title} fill className="object-cover" />
+        <Link
+          href={`/project-detail/ssjska12`}
+          key={`${study.title}-${index}`}
+          className="space-y-4"
+        >
+          <div className="relative h-[458px] overflow-hidden">
+            <Image
+              src={study.image}
+              alt={study.title}
+              fill
+              className="object-cover"
+            />
           </div>
 
-          <div className="space-y-1">
-            <div className="flex items-center justify-between gap-4">
-              <h3 className="text-[23px] leading-7">{study.title}</h3>
-              <div className="flex flex-wrap items-center justify-end gap-2">
-                {study.tag.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-[20px] border border-black px-2 py-0.5 text-[10px] leading-3 font-medium uppercase"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
+          <div className="flex h-[46px] items-center justify-between gap-4 pr-4 pl-2">
+            <div>
+              <h3 className="text">{study.title}</h3>
+              <p className="text text-[#8E8E93]">{study.role}</p>
             </div>
-            <p className="text-[24px] leading-7 text-black/45">{study.role}</p>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {study.tag.map((item) => (
+                <span
+                  key={item}
+                  className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.4px] border-black px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
-        </article>
+        </Link>
       ))}
     </div>
   );

@@ -3,17 +3,53 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import WorkTogetherLink from "@/app/components/work-together-link";
 
 type HeaderProps = {
   showReturnButton?: boolean;
+  variant?: "default" | "minimal";
 };
 
-export default function Header({ showReturnButton = false }: HeaderProps) {
+export default function Header({
+  showReturnButton = false,
+  variant = "default",
+}: HeaderProps) {
   const pathname = usePathname();
   const isLinkActive = (href: string) => {
     if (href === "/") return pathname === "/";
     return pathname === href || pathname.startsWith(`${href}/`);
   };
+
+  if (variant === "minimal") {
+    return (
+      <header className="flex w-full items-start justify-between pl-[15px] pr-6">
+        <div className="flex items-center gap-6">
+          <div className="pt-8">
+            <Image
+              src="/assets/logo.svg"
+              alt="Seyi Oniyitan"
+              height={72}
+              width={172}
+              className="object-cover"
+              priority
+              quality={100}
+            />
+          </div>
+          {showReturnButton ? (
+            <Link
+              href="/project-shots"
+              className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.4px] border-black px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors duration-200 hover:bg-black hover:text-white"
+            >
+              return
+            </Link>
+          ) : null}
+        </div>
+        <div className="pt-[29px]">
+          <WorkTogetherLink />
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="absolute top-0 left-0 z-20 w-full">
@@ -58,7 +94,7 @@ export default function Header({ showReturnButton = false }: HeaderProps) {
 const menuLinks: { label: string; href: string }[] = [
   {
     label: "Shop",
-    href: "/",
+    href: "/shop",
   },
   {
     label: "Articles",
