@@ -5,9 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
 
+import { useThemeState } from "@/app/hooks/use-theme-state";
+
 export default function WorkTogetherLink() {
   const arrowRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
+  const { resolvedTheme } = useThemeState();
 
   const handleMouseEnter = () => {
     if (arrowRef.current) {
@@ -36,9 +39,10 @@ export default function WorkTogetherLink() {
       });
     }
     if (textRef.current) {
+      const targetColor = resolvedTheme === "dark" ? "#FFFFFF" : "#000000";
       gsap.to(textRef.current, {
-        color: "#000000",
-        textDecorationColor: "#000000",
+        color: targetColor,
+        textDecorationColor: targetColor,
         duration: 0.3,
         ease: "power2.out",
       });
@@ -62,7 +66,10 @@ export default function WorkTogetherLink() {
           />
         </span>
       </span>
-      <span ref={textRef} className="underline">
+      <span
+        ref={textRef}
+        className="underline decoration-1 underline-offset-[20%]"
+      >
         Let&apos;s work together
       </span>
     </Link>

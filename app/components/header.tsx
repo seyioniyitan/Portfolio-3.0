@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import WorkTogetherLink from "@/app/components/work-together-link";
+import ThemeToggle from "@/app/components/theme-toggle";
+import { useThemeState } from "@/app/hooks/use-theme-state";
 
 type HeaderProps = {
   showReturnButton?: boolean;
@@ -15,6 +17,12 @@ export default function Header({
   variant = "default",
 }: HeaderProps) {
   const pathname = usePathname();
+  const { resolvedTheme, mounted } = useThemeState();
+  const imageSrc =
+    mounted && resolvedTheme === "dark"
+      ? "/assets/logo-dark.svg"
+      : "/assets/logo-light.svg";
+
   const isLinkActive = (href: string) => {
     if (href === "/") return pathname === "/";
     return pathname === href || pathname.startsWith(`${href}/`);
@@ -22,7 +30,7 @@ export default function Header({
 
   if (variant === "minimal") {
     return (
-      <header className="relative flex w-full items-start justify-between pl-[15px] pr-6">
+      <header className="relative flex w-full items-start justify-between pr-6 pl-[15px]">
         {showReturnButton ? (
           <Link
             href="/project-shots"
@@ -62,7 +70,7 @@ export default function Header({
       <div className="flex w-fit items-start gap-45.5 px-4">
         <div className="pt-8">
           <Image
-            src="/assets/logo.svg"
+            src={imageSrc}
             alt="Seyi Oniyitan"
             height={72}
             width={172}
@@ -72,19 +80,36 @@ export default function Header({
           />
         </div>
         <nav className="flex items-center gap-3 pt-[29px]">
-          {menuLinks.map((link, index) => (
-            <Link
-              key={index}
-              href={link.href}
-              className={`flex h-[25px] items-center justify-center rounded-[23px] border-[0.4px] border-black px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors duration-200 hover:bg-black hover:text-white ${isLinkActive(link.href) ? "bg-black text-white" : ""
-                }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <button className="flex h-[25px] items-center justify-center cursor-pointer">
-            <Image src="/assets/theme-toggle.svg" width={24} height={24} alt="theme_toggle" />
-          </button>
+          {menuLinks.map((link, index) => {
+            const active = isLinkActive(link.href);
+
+            const base =
+              "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+
+            const lightStyle = `
+    border border-black
+    hover:bg-black hover:text-white
+    ${active ? "bg-black text-white" : ""}
+  `;
+
+            const darkStyle = `
+    border border-white
+    hover:bg-white hover:text-black
+    ${active ? "bg-white text-black" : ""}
+  `;
+
+            const className =
+              resolvedTheme === "dark"
+                ? `${base} ${darkStyle}`
+                : `${base} ${lightStyle}`;
+
+            return (
+              <Link key={index} href={link.href} className={className}>
+                {link.label}
+              </Link>
+            );
+          })}
+          <ThemeToggle />
         </nav>
       </div>
     </header>

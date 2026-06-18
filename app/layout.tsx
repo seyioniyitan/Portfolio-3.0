@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactLenis } from "lenis/react";
+import { ThemeProvider } from "next-themes";
 
 import "./globals.css";
 
@@ -20,13 +21,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${inter.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <body className="flex min-h-full flex-col overflow-x-hidden">
         <ReactLenis
           root
-          options={{ lerp: 0.1, duration: 1, smoothWheel: true }}
+          options={{ lerp: 0.1, duration: 0.3, smoothWheel: true }}
         />
-        {children}
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme="system"
+          enableSystem
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
