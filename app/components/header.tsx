@@ -36,7 +36,7 @@ export default function Header({
             href="/project-shots"
             className="absolute top-[29px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.4px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors duration-200 hover:bg-black hover:text-white"
           >
-            return
+            home
           </Link>
         ) : null}
         <div className="pt-8">
@@ -64,7 +64,7 @@ export default function Header({
           href="/"
           className="absolute top-[29px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.4px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors duration-200 hover:bg-black hover:text-white"
         >
-          return
+          home
         </Link>
       ) : null}
       <div className="flex w-fit items-start gap-45.5 px-4">
@@ -99,7 +99,7 @@ export default function Header({
   `;
 
             const className =
-              resolvedTheme === "dark"
+              mounted && resolvedTheme === "dark"
                 ? `${base} ${darkStyle}`
                 : `${base} ${lightStyle}`;
 

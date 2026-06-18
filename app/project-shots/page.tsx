@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import WorkTogetherLink from "@/app/components/work-together-link";
 import ContactModal from "@/app/components/contact-modal";
+import ThemeToggle from "@/app/components/theme-toggle";
+import { useThemeState } from "@/app/hooks/use-theme-state";
 
 export default function ProjectShots() {
   const [activeView, setActiveView] = useState<
@@ -12,7 +14,7 @@ export default function ProjectShots() {
   >("project-shots");
 
   return (
-    <div className="relative pb-10">
+    <div className="relative pb-20">
       <Header />
 
       <div className="flex items-center justify-between px-6">
@@ -41,38 +43,38 @@ export default function ProjectShots() {
 }
 
 const Header = () => {
+  const { resolvedTheme, mounted } = useThemeState();
+  const imageSrc =
+    mounted && resolvedTheme === "dark"
+      ? "/assets/prjsht-dark.svg"
+      : "/assets/prjsht-light.svg";
+
+  const lightStyle = `border border-black hover:bg-black hover:text-white`;
+
+  const darkStyle = `border border-white hover:bg-white hover:text-black`;
+  const base =
+    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+
+  const className =
+    mounted && resolvedTheme === "dark" ? `${base} ${darkStyle}` : `${base} ${lightStyle}`;
   return (
     <header className="flex justify-between pr-6 pl-[15px]">
-      <div className="flex items-center gap-6">
+      <div className="mt-4.5 flex h-17 items-center justify-center gap-6">
         <div className="relative mt-4.5 h-[68px] w-[200px]">
-          <Image src="/assets/prjsht.svg" alt="projects&shots" fill />
+          <Image src={imageSrc} alt="projects&shots" fill />
         </div>
-        <Link
-          href="/"
-          className="flex h-[25px] w-[77px] items-center justify-center rounded-[23px] border-[0.4px] border-black px-3 py-1 text-[13px] leading-4 font-medium uppercase"
-        >
-          Return
+        <Link href="/" className={className}>
+          home
         </Link>
       </div>
 
       <nav className="flex gap-3 pt-10">
         {menuLinks?.map((link, index) => (
-          <Link
-            key={index}
-            href={link.href}
-            className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.4px] border-black px-3 py-1 text-[13px] leading-4 font-medium uppercase"
-          >
+          <Link key={index} href={link.href} className={className}>
             {link.label}
           </Link>
         ))}
-        <button className="flex h-[25px] cursor-pointer items-center justify-center">
-          <Image
-            src="/assets/theme-toggle.svg"
-            width={24}
-            height={24}
-            alt="theme_toggle"
-          />
-        </button>
+        <ThemeToggle />
       </nav>
     </header>
   );
@@ -93,12 +95,12 @@ const ProjectShotsGrid = () => {
     <div className="grid auto-rows-[280px] grid-cols-6 gap-4 px-6 pt-10">
       <BentoImage src="/assets/hero-a.png" className="col-span-2 row-span-2" />
       <BentoImage src="/assets/hero-b.png" className="col-span-2" />
-      <div className="col-span-2 row-span-2 flex min-h-0 flex-col gap-5">
-        <BentoImage src="/assets/hero-a.png" className="flex-2" />
-        <BentoImage src="/assets/hero-b.png" className="test flex-1" />
+      <div className="col-span-2 row-span-3 flex min-h-0 flex-col gap-5">
+        <BentoImage src="/assets/hero-a.png" className="h-[370px] flex-none" />
+        <BentoImage src="/assets/hero-b.png" className="h-[350px] flex-none" />
       </div>
       <BentoImage src="/assets/hero-b.png" className="col-span-2" />
-      <BentoImage src="/assets/hero-a.png" className="col-span-3" />
+      <BentoImage src="/assets/hero-a.png" className="col-span-3 h-[350px]" />
     </div>
   );
 };

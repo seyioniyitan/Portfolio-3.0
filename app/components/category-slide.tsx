@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const AUTOPLAY_DELAY_MS = 1000;
+const AUTOPLAY_DELAY_MS = 600;
 
 const categoryImages: { id: number; alt: string; image: string }[] = [
   { id: 1, alt: "Product", image: "/assets/product.svg" },
