@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import WorkTogetherLink from "../components/work-together-link";
+import WorkTogetherLink from "@/app/components/work-together-link";
+import ContactModal from "@/app/components/contact-modal";
 
 export default function ProjectShots() {
   const [activeView, setActiveView] = useState<
@@ -11,7 +12,7 @@ export default function ProjectShots() {
   >("project-shots");
 
   return (
-    <div className="pb-46">
+    <div className="relative pb-10">
       <Header />
 
       <div className="flex items-center justify-between px-6">
@@ -20,18 +21,21 @@ export default function ProjectShots() {
             <button
               key={index}
               onClick={() => view && setActiveView(view)}
-              className={`h-[25px] rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase ${view === activeView ? "border-black bg-black text-white" : ""
-                } ${!view ? "opacity-60" : ""}`}
+              className={`h-[25px] rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase ${
+                view === activeView ? "border-black bg-black text-white" : ""
+              } ${!view ? "opacity-60" : ""}`}
             >
               {title}
             </button>
           ))}
-
         </div>
         <WorkTogetherLink />
       </div>
 
       {activeView === "project-shots" ? <ProjectShotsGrid /> : <CaseStudies />}
+      <div className="fixed bottom-7 px-6">
+        <ContactModal />
+      </div>
     </div>
   );
 }
@@ -61,8 +65,13 @@ const Header = () => {
             {link.label}
           </Link>
         ))}
-        <button className="flex h-[25px] items-center justify-center cursor-pointer">
-          <Image src="/assets/theme-toggle.svg" width={24} height={24} alt="theme_toggle" />
+        <button className="flex h-[25px] cursor-pointer items-center justify-center">
+          <Image
+            src="/assets/theme-toggle.svg"
+            width={24}
+            height={24}
+            alt="theme_toggle"
+          />
         </button>
       </nav>
     </header>
@@ -74,14 +83,14 @@ const shuffleButtons: {
   title: string;
   view?: "case-studies" | "project-shots";
 }[] = [
-    { id: 1, title: "case studies", view: "case-studies" },
-    { id: 2, title: "project shots ", view: "project-shots" },
-    { id: 3, title: "shuffle" },
-  ];
+  { id: 1, title: "case studies", view: "case-studies" },
+  { id: 2, title: "project shots ", view: "project-shots" },
+  { id: 3, title: "shuffle" },
+];
 
 const ProjectShotsGrid = () => {
   return (
-    <div className="grid auto-rows-[280px] grid-cols-6 gap-5 px-6 pt-10">
+    <div className="grid auto-rows-[280px] grid-cols-6 gap-4 px-6 pt-10">
       <BentoImage src="/assets/hero-a.png" className="col-span-2 row-span-2" />
       <BentoImage src="/assets/hero-b.png" className="col-span-2" />
       <div className="col-span-2 row-span-2 flex min-h-0 flex-col gap-5">
@@ -108,7 +117,7 @@ const BentoImage = ({
 
 const CaseStudies = () => {
   return (
-    <div className="grid grid-cols-2 gap-5 p-6">
+    <div className="grid grid-cols-2 gap-4 p-6">
       {caseStudyData.map((study, index) => (
         <Link
           href={`/project-detail/ssjska12`}

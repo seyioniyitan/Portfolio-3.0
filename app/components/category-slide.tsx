@@ -13,7 +13,7 @@ const categoryImages: { id: number; alt: string; image: string }[] = [
   { id: 5, alt: "Brand", image: "/assets/brand.svg" },
 ];
 
-export default function CategorySlide() {
+export default function CategorySlide({ variant }: { variant?: boolean }) {
   const [current, setCurrent] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -33,7 +33,9 @@ export default function CategorySlide() {
 
   return (
     <div className="flex h-11 items-center gap-3">
-      <div className="flex h-5 w-[33px] items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase">
+      <div
+        className={`flex h-5 w-[33px] items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase ${variant && "bg-black text-white"}`}
+      >
         on
       </div>
 
@@ -51,14 +53,17 @@ export default function CategorySlide() {
           width={120}
           height={63}
           style={{
-            transition: "transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms",
+            transition:
+              "transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms",
             transform: isTransitioning ? "translateX(12px)" : "translateX(0px)",
             opacity: isTransitioning ? 0 : 1,
           }}
         />
       </div>
 
-      <div className="flex h-5 w-16 items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%]">
+      <div
+        className={`flex h-5 w-16 items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] ${variant && "bg-black text-white"}`}
+      >
         DESIGN™
       </div>
     </div>

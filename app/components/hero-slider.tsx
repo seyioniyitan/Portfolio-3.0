@@ -1,5 +1,7 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useThemeState } from "@/app/hooks/use-theme-state";
 
 type HeroSlide = {
   id: string;
@@ -8,16 +10,6 @@ type HeroSlide = {
   labelImage: string;
   labelAlt: string;
 };
-
-const slides: HeroSlide[] = [
-  {
-    id: "projects-shots",
-    topImage: "/assets/hero-a.png",
-    bottomImage: "/assets/hero-b.png",
-    labelImage: "/assets/test.svg",
-    labelAlt: "Projects & Shots",
-  },
-];
 
 const TOP_IMAGE = { width: 418, height: 593 } as const;
 const BOTTOM_IMAGE = { width: 872, height: 581 } as const;
@@ -29,6 +21,22 @@ const BOTTOM_LEFT_OFFSET = 77;
 const BRIDGE_LEFT_OFFSET = -10;
 
 export default function HeroSlider() {
+  const { resolvedTheme, mounted } = useThemeState();
+  const imageSrc =
+    mounted && resolvedTheme === "dark"
+      ? "/assets/projects&shots-dark.svg"
+      : "/assets/projects&shots-light.svg";
+
+  const slides: HeroSlide[] = [
+    {
+      id: "projects-shots",
+      topImage: "/assets/hero-a.png",
+      bottomImage: "/assets/hero-b.png",
+      labelImage: `${imageSrc}`,
+      labelAlt: "Projects & Shots",
+    },
+  ];
+
   const slide = slides[0];
   const bottomTop = TOP_IMAGE.height + IMAGE_GAP;
   const bridgeTop = bottomTop - LABEL.height + 15;
