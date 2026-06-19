@@ -30,9 +30,9 @@ export default function Home() {
             <RecentWork />
             <div className="pb-10 pl-6">
               <CategorySlide />
-              <h2 className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%]">
+              <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%]">
                 ©2026 All rights reserved.
-              </h2>
+              </p>
             </div>
           </div>
 

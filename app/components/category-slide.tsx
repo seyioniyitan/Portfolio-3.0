@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useThemeState } from "@/app/hooks/use-theme-state";
 
 const AUTOPLAY_DELAY_MS = 600;
 
@@ -16,6 +17,18 @@ const categoryImages: { id: number; alt: string; image: string }[] = [
 export default function CategorySlide({ variant }: { variant?: boolean }) {
   const [current, setCurrent] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const { resolvedTheme, mounted } = useThemeState();
+  const base =
+    "flex h-5 items-center justify-center rounded-[23px] border-[0.6px]  px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase";
+
+  const lightStyle = `border-black hover:bg-black hover:text-white`;
+
+  const darkStyle = `border-white hover:bg-white hover:text-black`;
+
+  const className =
+    mounted && resolvedTheme === "dark"
+      ? `${base} ${darkStyle}`
+      : `${base} ${lightStyle}`;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -30,12 +43,14 @@ export default function CategorySlide({ variant }: { variant?: boolean }) {
   }, []);
 
   const { alt, image } = categoryImages[current];
+  const imageSrc =
+    mounted && resolvedTheme === "dark"
+      ? image.replace(".svg", "-dark.svg")
+      : image;
 
   return (
     <div className="flex h-11 items-center gap-3">
-      <div
-        className={`flex h-5 w-[33px] items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase ${variant && "bg-black text-white"}`}
-      >
+      <div className={`${variant && "bg-black text-white w-[33px]"} ${className}`}>
         on
       </div>
 
@@ -48,7 +63,7 @@ export default function CategorySlide({ variant }: { variant?: boolean }) {
       >
         <Image
           key={current}
-          src={image}
+          src={imageSrc}
           alt={alt}
           width={120}
           height={63}
@@ -61,9 +76,8 @@ export default function CategorySlide({ variant }: { variant?: boolean }) {
         />
       </div>
 
-      <div
-        className={`flex h-5 w-16 items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] ${variant && "bg-black text-white"}`}
-      >
+      <div className={`${variant && "bg-black text-white w-16"} ${className}`}>
+
         DESIGN™
       </div>
     </div>

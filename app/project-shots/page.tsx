@@ -15,7 +15,7 @@ export default function ProjectShots() {
 
   return (
     <div className="relative pb-20">
-      <Header />
+      <ProjectShotsHeader />
 
       <div className="flex items-center justify-between px-6">
         <div className="flex items-center gap-3 pt-7">
@@ -42,7 +42,7 @@ export default function ProjectShots() {
   );
 }
 
-const Header = () => {
+export const ProjectShotsHeader = () => {
   const { resolvedTheme, mounted } = useThemeState();
   const imageSrc =
     mounted && resolvedTheme === "dark"
@@ -56,7 +56,9 @@ const Header = () => {
     "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
 
   const className =
-    mounted && resolvedTheme === "dark" ? `${base} ${darkStyle}` : `${base} ${lightStyle}`;
+    mounted && resolvedTheme === "dark"
+      ? `${base} ${darkStyle}`
+      : `${base} ${lightStyle}`;
   return (
     <header className="flex justify-between pr-6 pl-[15px]">
       <div className="mt-4.5 flex h-17 items-center justify-center gap-6">

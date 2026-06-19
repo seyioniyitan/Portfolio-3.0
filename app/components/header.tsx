@@ -41,7 +41,7 @@ export default function Header({
         ) : null}
         <div className="pt-8">
           <Image
-            src="/assets/logo.svg"
+            src={imageSrc}
             alt="Seyi Oniyitan"
             height={72}
             width={172}
