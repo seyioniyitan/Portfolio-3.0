@@ -22,7 +22,7 @@ export default function RecentWork() {
         alt="recent_work"
         className="pl-2"
       />
-      <div className="w-[443px] pl-6">
+      <div className="px-4 md:w-[443px] md:pl-6">
         {recentWorkList.map(({ company, role, year, tag, image }, index) => (
           <div
             key={index}
@@ -84,53 +84,53 @@ const recentWorkList: {
   tag?: string;
   image: string;
 }[] = [
-    {
-      company: "Tactile Int, Tactile Labs",
-      role: "Craftsman & Co-founder",
-      year: 2026,
-      tag: "PMVP",
-      image: "/assets/hero-b.png",
-    },
-    {
-      company: "Grey Finance 3D design system",
-      role: "Senior generalist designer",
-      year: 2026,
-      image: "/assets/hero-b.png",
-    },
-    {
-      company: "Rise 3.0",
-      role: "Product design lead",
-      year: 2025,
-      image: "/assets/hero-b.png",
-    },
-    {
-      company: "Soar Capital, Soar Money",
-      role: "Identity Design, Product Design",
-      year: 2025,
-      image: "/assets/hero-b.png",
-    },
-    {
-      company: "Zykband, Germany",
-      role: "Industrial 3D Design",
-      year: 2025,
-      image: "/assets/hero-b.png",
-    },
-    {
-      company: "Around The World",
-      role: "Brand Identity Design, Events",
-      year: 2025,
-      image: "/assets/hero-b.png",
-    },
-    {
-      company: "Leverdman on YouTube",
-      role: "Generalist Design Channel",
-      year: 2025,
-      image: "/assets/hero-b.png",
-    },
-    {
-      company: "Rolling Shots",
-      role: "Multidisciplinary Design",
-      year: "Continuous",
-      image: "/assets/hero-b.png",
-    },
-  ];
+  {
+    company: "Tactile Int, Tactile Labs",
+    role: "Craftsman & Co-founder",
+    year: 2026,
+    tag: "PMVP",
+    image: "/assets/hero-b.png",
+  },
+  {
+    company: "Grey Finance 3D design system",
+    role: "Senior generalist designer",
+    year: 2026,
+    image: "/assets/hero-b.png",
+  },
+  {
+    company: "Rise 3.0",
+    role: "Product design lead",
+    year: 2025,
+    image: "/assets/hero-b.png",
+  },
+  {
+    company: "Soar Capital, Soar Money",
+    role: "Identity Design, Product Design",
+    year: 2025,
+    image: "/assets/hero-b.png",
+  },
+  {
+    company: "Zykband, Germany",
+    role: "Industrial 3D Design",
+    year: 2025,
+    image: "/assets/hero-b.png",
+  },
+  {
+    company: "Around The World",
+    role: "Brand Identity Design, Events",
+    year: 2025,
+    image: "/assets/hero-b.png",
+  },
+  {
+    company: "Leverdman on YouTube",
+    role: "Generalist Design Channel",
+    year: 2025,
+    image: "/assets/hero-b.png",
+  },
+  {
+    company: "Rolling Shots",
+    role: "Multidisciplinary Design",
+    year: "Continuous",
+    image: "/assets/hero-b.png",
+  },
+];

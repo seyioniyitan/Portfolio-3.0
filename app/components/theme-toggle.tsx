@@ -3,7 +3,13 @@
 import { useThemeState } from "@/app/hooks/use-theme-state";
 import Image from "next/image";
 
-export default function ThemeToggle() {
+export default function ThemeToggle({
+  width,
+  height,
+}: {
+  width?: number;
+  height?: number;
+}) {
   const { resolvedTheme, setTheme, mounted } = useThemeState();
 
   const toggle = () => {
@@ -23,8 +29,8 @@ export default function ThemeToggle() {
     >
       <Image
         src={imageSrc}
-        width={24}
-        height={24}
+        width={`${width ? width : "24"}`}
+        height={`${height ? height : "24"}`}
         alt="theme_toggle"
         priority
       />

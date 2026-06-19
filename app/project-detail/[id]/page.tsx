@@ -8,17 +8,36 @@ import { menuLinks } from "@/app/project-shots/page";
 import WorkTogetherLink from "@/app/components/work-together-link";
 
 const projectImages = [
-  { src: "/assets/heart.png", alt: "Heart icon", width: 110, height: 110 },
-  { src: "/assets/oval.png", alt: "Coin icon", width: 104, height: 100 },
+  { src: "/assets/p-a.png", alt: "Heart icon", width: 265, height: 265 },
+  { src: "/assets/p-b.png", alt: "Coin icon", width: 271, height: 271 },
   {
-    src: "/assets/mag.png",
-    alt: "Magnifying glass icon",
-    width: 90,
-    height: 90,
+    src: "/assets/p-c.png",
+    alt: "Magnifying",
+    width: 250,
+    height: 250,
+  },
+  {
+    src: "/assets/p-d.png",
+    alt: "Magnifying",
+    width: 250,
+    height: 249,
   },
 ];
 
 export default function ProjectDetail() {
+  const { resolvedTheme, mounted } = useThemeState();
+
+  const lightStyle = `border border-black hover:bg-black hover:text-white`;
+
+  const darkStyle = `border border-white hover:bg-white hover:text-black`;
+  const base =
+    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+
+  const className =
+    mounted && resolvedTheme === "dark"
+      ? `${base} ${darkStyle}`
+      : `${base} ${lightStyle}`;
+
   return (
     <section className="flex min-h-screen">
       <div className="flex w-[60%] flex-col">
@@ -57,6 +76,15 @@ export default function ProjectDetail() {
               Send an email to learn more about this project.
             </h2>
             <WorkTogetherLink />
+
+            <div className="mt-8 flex items-center gap-2">
+              <Link href="/" className={className}>
+                open website
+              </Link>
+              <Link href="/" className={className}>
+                open behance
+              </Link>
+            </div>
           </div>
         </div>
         <div className="mt-[211px] mb-[45px] ml-6">
@@ -67,7 +95,22 @@ export default function ProjectDetail() {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col bg-[#232323]"></div>
+      <div className="flex flex-1 flex-col bg-[#232323]">
+        <ProjectShotsHeaderRight />
+
+        <div className="mt-30 grid grid-cols-2">
+          {projectImages.map(({ alt, src, width, height }, index) => (
+            <Image
+              key={index}
+              alt={alt}
+              src={src}
+              width={width}
+              height={height}
+              className="mb-25 object-cover"
+            />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
@@ -120,10 +163,14 @@ const ProjectShotsHeaderRight = () => {
       ? `${base} ${darkStyle}`
       : `${base} ${lightStyle}`;
   return (
-    <header className="flex justify-between pr-6 pl-[15px]">
-      <nav className="flex gap-3 pt-10">
+    <header className="mt-10 mr-6 flex justify-end">
+      <nav className="flex gap-3">
         {menuLinks?.map((link, index) => (
-          <Link key={index} href={link.href} className={className}>
+          <Link
+            key={index}
+            href={link.href}
+            className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.4px] border-white px-3 py-1 text-[13px] leading-4 font-medium text-white uppercase antialiased transition-colors duration-200 hover:bg-black hover:text-white"
+          >
             {link.label}
           </Link>
         ))}

@@ -14,7 +14,13 @@ const categoryImages: { id: number; alt: string; image: string }[] = [
   { id: 5, alt: "Brand", image: "/assets/brand.svg" },
 ];
 
-export default function CategorySlide({ variant }: { variant?: boolean }) {
+export default function CategorySlide({
+  variant,
+  mobile,
+}: {
+  variant?: boolean;
+  mobile?: boolean;
+}) {
   const [current, setCurrent] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { resolvedTheme, mounted } = useThemeState();
@@ -48,9 +54,33 @@ export default function CategorySlide({ variant }: { variant?: boolean }) {
       ? image.replace(".svg", "-dark.svg")
       : image;
 
+  if (mobile)
+    return (
+      <div className="flex h-37 flex-col bg-[#007AFF]">
+        <div className="mx-4 mt-3.5 flex h-8 items-center justify-between">
+          <h2 className="text font-semibold text-white">
+            Let&apos;s work together
+          </h2>
+          <div className="flex h-8 w-10 items-center justify-center rounded-[23px] bg-black">
+            <Image
+              src="/assets/arrow-icon.svg"
+              alt="arrow-icon"
+              width={14}
+              height={12}
+            />
+          </div>
+        </div>
+        <div className="mt-6 flex items-center justify-center">
+          <CategorySlide variant />
+        </div>
+      </div>
+    );
+
   return (
     <div className="flex h-11 items-center gap-3">
-      <div className={`${variant && "bg-black text-white w-[33px]"} ${className}`}>
+      <div
+        className={`${variant && "w-[33px] bg-black text-white"} ${className}`}
+      >
         on
       </div>
 
@@ -76,8 +106,7 @@ export default function CategorySlide({ variant }: { variant?: boolean }) {
         />
       </div>
 
-      <div className={`${variant && "bg-black text-white w-16"} ${className}`}>
-
+      <div className={`${variant && "w-16 bg-black text-white"} ${className}`}>
         DESIGN™
       </div>
     </div>
