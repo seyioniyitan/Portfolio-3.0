@@ -14,7 +14,7 @@ export default function RecentWork() {
       : "/assets/recent-work-light.svg";
 
   return (
-    <div className="mt-15 mb-40">
+    <div className="mt-15 mb-10 md:mb-15">
       <Image
         src={imageSrc}
         width={235}

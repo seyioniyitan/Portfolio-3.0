@@ -41,7 +41,12 @@ export default function Home() {
 
             <RecentWork />
             <div className="md:pb-10 md:pl-6">
-              <CategorySlide mobile />
+              <div className="md:hidden">
+                <CategorySlide mobile />
+              </div>
+              <div className="hidden md:block">
+                <CategorySlide />
+              </div>
               <p className="mt-6 hidden text-[14px] leading-[150%] font-normal tracking-[0%] md:block">
                 ©2026 All rights reserved.
               </p>
