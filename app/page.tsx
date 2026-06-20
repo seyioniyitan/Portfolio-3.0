@@ -39,7 +39,7 @@ export default function Home() {
 
   return (
     <>
-      {/* {!done && <LoadingScreen onComplete={() => setDone(true)} />} */}
+      {!done && <LoadingScreen onComplete={() => setDone(true)} />}
       <div className="relative overflow-hidden">
         <div className="hidden md:block">
           <Header />
