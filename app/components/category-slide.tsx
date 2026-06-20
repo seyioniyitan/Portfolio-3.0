@@ -56,7 +56,7 @@ export default function CategorySlide({
 
   if (mobile)
     return (
-      <div className="flex h-37 flex-col bg-[#007AFF] md:hidden">
+      <div className="fixed bottom-0 left-0 flex h-37 w-full flex-col bg-[#007AFF] md:hidden">
         <div className="mx-4 mt-3.5 flex h-8 items-center justify-between">
           <h2 className="text font-semibold text-white">
             Let&apos;s work together

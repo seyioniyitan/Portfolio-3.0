@@ -20,7 +20,7 @@ const BOTTOM_LEFT_OFFSET = 77;
 
 const BRIDGE_LEFT_OFFSET = -10;
 
-export default function HeroSlider() {
+export default function HeroSlider({ mobile }: { mobile?: boolean }) {
   const { resolvedTheme, mounted } = useThemeState();
   const imageSrc =
     mounted && resolvedTheme === "dark"
@@ -43,9 +43,33 @@ export default function HeroSlider() {
   const sectionWidth = BOTTOM_LEFT_OFFSET + BOTTOM_IMAGE.width;
   const sectionHeight = bottomTop + BOTTOM_IMAGE.height;
 
+  if (mobile) {
+    return (
+      <div className="flex items-start gap-[17px]">
+        <div className="relative h-[289px] w-1/2 overflow-hidden">
+          <Image
+            src="/assets/hero-a.png"
+            alt="project_image"
+            className="object-cover"
+            fill
+          />
+        </div>
+
+        <div className="relative h-[356px] w-1/2 overflow-hidden">
+          <Image
+            src="/assets/hero-b.png"
+            alt="project_image"
+            className="tsranslate-x-1/2 object-cover"
+            fill
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <section
-      className="relative ml-56 shrink-0 overflow-hidden"
+      className="relative shrink-0 overflow-hidden md:ml-56"
       style={{ width: sectionWidth, height: sectionHeight }}
       aria-label="Featured work"
     >
