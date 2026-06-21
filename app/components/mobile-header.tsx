@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import WorkTogetherLink from "@/app/components/work-together-link";
 import ThemeToggle from "@/app/components/theme-toggle";
 import { useThemeState } from "@/app/hooks/use-theme-state";
 

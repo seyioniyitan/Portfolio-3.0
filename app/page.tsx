@@ -1,16 +1,16 @@
 "use client";
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useThemeState } from "@/app/hooks/use-theme-state";
 import CategorySlide from "@/app/components/category-slide";
 import EmailWithCopy from "@/app/components/email-with-copy";
 import Header from "@/app/components/header";
 import RecentWork from "@/app/components/recent-work";
 import WorkTogetherLink from "@/app/components/work-together-link";
-import HeroSlider from "./components/hero-slider";
-import LoadingScreen from "./components/loading-screen";
-import { useState } from "react";
-import MobileHeader from "./components/mobile-header";
-import Image from "next/image";
-import Link from "next/link";
-import { useThemeState } from "@/app/hooks/use-theme-state";
+import HeroSlider from "@/app/components/hero-slider";
+import LoadingScreen from "@/app/components/loading-screen";
+import MobileHeader from "@/app/components/mobile-header";
 
 export default function Home() {
   const [done, setDone] = useState(false);
@@ -85,7 +85,7 @@ export default function Home() {
 
             <RecentWork />
             <div className="md:pb-10 md:pl-6">
-              <div className="md:hidden">
+              <div className="mt-[158px] md:hidden">
                 <CategorySlide mobile />
               </div>
               <div className="hidden md:block">

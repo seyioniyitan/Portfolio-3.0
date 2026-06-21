@@ -1,4 +1,5 @@
 import Header from "@/app/components/header";
+import TestHeader from "@/app/components/test-header";
 import ContactDetailRow from "@/app/components/contact-detail-row";
 import CategorySlide from "@/app/components/category-slide";
 import Image from "next/image";
@@ -30,10 +31,13 @@ export default function AboutPage() {
   return (
     <section>
       <div className="relative overflow-hidden">
-        <Header showReturnButton />
-        <section className="flex items-start gap-[322px] overflow-hidden">
-          <div className="shrink-0 pt-[140px] pl-6">
-            <div className="w-[447px] pt-13 pr-6 md:pr-0">
+        <TestHeader
+          showReturnButton
+          mobileLinks={[{ label: "About", href: "/about" }]}
+        />
+        <section className="flex flex-col items-start gap-8 overflow-hidden lg:flex-row lg:gap-[322px]">
+          <div className="order-2 px-4 lg:order-1 lg:shrink-0 lg:px-0 lg:pt-[140px] lg:pl-6">
+            <div className="w-full lg:w-[447px] lg:pt-13">
               <h2 className="text indent-20 font-normal">
                 Sed ut perspiciatis unde omnis iste natus error sit voluptatem
                 accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
@@ -49,7 +53,7 @@ export default function AboutPage() {
               </h2>
             </div>
 
-            <div className="mt-27 space-y-2">
+            <div className="mt-16 space-y-2 lg:mt-27">
               {contactDetails.map((item) => (
                 <ContactDetailRow
                   key={item.label}
@@ -59,16 +63,16 @@ export default function AboutPage() {
               ))}
             </div>
 
-            <div className="mt-[282px]">
+            <div className="mt-[140px] lg:mt-[282px]">
               <CategorySlide />
-              <h2 className="mt-6 mb-[45px] text-[14px] leading-[150%] font-normal tracking-[0%]">
+              <h2 className="mt-6 mb-[65px] text-[14px] leading-[150%] font-normal tracking-[0%] lg:mb-[45px]">
                 ©2026 All rights reserved.
               </h2>
             </div>
           </div>
 
-          <div className="min-w-0 flex-1 space-y-4 overflow-hidden pt-4">
-            <div className="relative h-[429px] w-[296px]">
+          <div className="order-1 mt-31.5 flex w-full gap-2.5 overflow-hidden lg:order-2 lg:mt-0 lg:block lg:min-w-0 lg:flex-1 lg:gap-0 lg:space-y-4 lg:pt-4">
+            <div className="relative h-[266px] w-1/2 lg:h-[429px] lg:w-[296px]">
               <Image
                 src="/assets/about-a.png"
                 alt="Seyi Oniyitan"
@@ -76,7 +80,7 @@ export default function AboutPage() {
                 className="object-cover"
               />
             </div>
-            <div className="relative mr-3 ml-40 h-[551px] w-[470px]">
+            <div className="relative mt-[107px] h-[230px] w-1/2 lg:mt-0 lg:mr-3 lg:ml-40 lg:h-[551px] lg:w-[470px]">
               <Image
                 src="/assets/about-b.jpg"
                 alt="Seyi Oniyitan"

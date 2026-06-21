@@ -15,10 +15,16 @@ export default function ProjectShots() {
 
   return (
     <div className="relative pb-20">
-      <ProjectShotsHeader />
+      <div className="hidden md:block">
+        <ProjectShotsHeader />
+      </div>
+
+      <div className="md:hidden">
+        <ProjectShotsMobileHeader />
+      </div>
 
       <div className="flex items-center justify-between px-6">
-        <div className="flex items-center gap-3 pt-7">
+        <div className="flex items-center gap-3 pt-6 md:pt-7">
           {shuffleButtons.map(({ title, view }, index) => (
             <button
               key={index}
@@ -31,7 +37,9 @@ export default function ProjectShots() {
             </button>
           ))}
         </div>
-        <WorkTogetherLink />
+        <div className="hidden md:block">
+          <WorkTogetherLink />
+        </div>
       </div>
 
       {activeView === "project-shots" ? <ProjectShotsGrid /> : <CaseStudies />}
@@ -70,7 +78,7 @@ export const ProjectShotsHeader = () => {
         </Link>
       </div>
 
-      <nav className="flex gap-3 pt-10">
+      <nav className="hidden gap-3 pt-10 md:flex">
         {menuLinks?.map((link, index) => (
           <Link key={index} href={link.href} className={className}>
             {link.label}
@@ -78,6 +86,42 @@ export const ProjectShotsHeader = () => {
         ))}
         <ThemeToggle />
       </nav>
+    </header>
+  );
+};
+
+const ProjectShotsMobileHeader = () => {
+  const { resolvedTheme, mounted } = useThemeState();
+  const imageSrc =
+    mounted && resolvedTheme === "dark"
+      ? "/assets/prjsht-dark.svg"
+      : "/assets/prjsht-light.svg";
+
+  const lightStyle = `border border-black hover:bg-black hover:text-white`;
+
+  const darkStyle = `border border-white hover:bg-white hover:text-black`;
+  const base =
+    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+
+  const className =
+    mounted && resolvedTheme === "dark"
+      ? `${base} ${darkStyle}`
+      : `${base} ${lightStyle}`;
+  return (
+    <header className="mt-6 mr-4 ml-2 flex h-[49px] items-center justify-between">
+      <div className="relative mt-4.5 h-full w-[143px]">
+        <Image src={imageSrc} alt="projects&shots" fill />
+      </div>
+
+      <div className="flex items-center gap-4">
+        <Link href="/" className={className}>
+          home
+        </Link>
+        <Link href="/" className={className}>
+          more
+        </Link>
+        <ThemeToggle width={32} />
+      </div>
     </header>
   );
 };
@@ -92,18 +136,54 @@ const shuffleButtons: {
   { id: 3, title: "shuffle" },
 ];
 
+// const ProjectShotsGrid = () => {
+//   return (
+//     <div className="grid auto-rows-[280px] grid-cols-6 gap-4 px-6 pt-10">
+//       <BentoImage src="/assets/hero-a.png" className="col-span-2 row-span-2" />
+//       <BentoImage src="/assets/hero-b.png" className="col-span-2" />
+//       <div className="col-span-2 row-span-3 flex min-h-0 flex-col gap-5">
+//         <BentoImage src="/assets/hero-a.png" className="h-[370px] flex-none" />
+//         <BentoImage src="/assets/hero-b.png" className="h-[350px] flex-none" />
+//       </div>
+//       <BentoImage src="/assets/hero-b.png" className="col-span-2" />
+//       <BentoImage src="/assets/hero-a.png" className="col-span-3 h-[350px]" />
+//     </div>
+//   );
+// };
+
 const ProjectShotsGrid = () => {
   return (
-    <div className="grid auto-rows-[280px] grid-cols-6 gap-4 px-6 pt-10">
-      <BentoImage src="/assets/hero-a.png" className="col-span-2 row-span-2" />
-      <BentoImage src="/assets/hero-b.png" className="col-span-2" />
-      <div className="col-span-2 row-span-3 flex min-h-0 flex-col gap-5">
-        <BentoImage src="/assets/hero-a.png" className="h-[370px] flex-none" />
-        <BentoImage src="/assets/hero-b.png" className="h-[350px] flex-none" />
+    <>
+      {/* Desktop */}
+      <div className="hidden auto-rows-[280px] grid-cols-6 gap-4 px-6 pt-10 md:grid">
+        <BentoImage
+          src="/assets/hero-a.png"
+          className="col-span-2 row-span-2"
+        />
+        <BentoImage src="/assets/hero-b.png" className="col-span-2" />
+        <div className="col-span-2 row-span-3 flex min-h-0 flex-col gap-5">
+          <BentoImage
+            src="/assets/hero-a.png"
+            className="h-[370px] flex-none"
+          />
+          <BentoImage
+            src="/assets/hero-b.png"
+            className="h-[350px] flex-none"
+          />
+        </div>
+        <BentoImage src="/assets/hero-b.png" className="col-span-2" />
+        <BentoImage src="/assets/hero-a.png" className="col-span-3 h-[350px]" />
       </div>
-      <BentoImage src="/assets/hero-b.png" className="col-span-2" />
-      <BentoImage src="/assets/hero-a.png" className="col-span-3 h-[350px]" />
-    </div>
+
+      {/* Mobile */}
+      <div className="grid grid-cols-2 gap-2 px-4 pt-8 md:hidden">
+        <BentoImage src="/assets/hero-a.png" className="col-span-1 h-[220px]" />
+        <BentoImage src="/assets/hero-b.png" className="col-span-1 h-[220px]" />
+        <BentoImage src="/assets/hero-b.png" className="col-span-2 h-[200px]" />
+        <BentoImage src="/assets/hero-a.png" className="col-span-1 h-[220px]" />
+        <BentoImage src="/assets/hero-b.png" className="col-span-1 h-[220px]" />
+      </div>
+    </>
   );
 };
 
