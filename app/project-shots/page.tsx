@@ -7,6 +7,7 @@ import WorkTogetherLink from "@/app/components/work-together-link";
 import ContactModal from "@/app/components/contact-modal";
 import ThemeToggle from "@/app/components/theme-toggle";
 import { useThemeState } from "@/app/hooks/use-theme-state";
+import Header from "@/app/components/header";
 
 export default function ProjectShots() {
   const [activeView, setActiveView] = useState<
@@ -14,39 +15,39 @@ export default function ProjectShots() {
   >("project-shots");
 
   return (
-    <div className="relative pb-20">
-      <div className="hidden md:block">
-        <ProjectShotsHeader />
-      </div>
+    <section>
+      <Header variant="project-shots" />
 
-      <div className="md:hidden">
-        <ProjectShotsMobileHeader />
-      </div>
-
-      <div className="flex items-center justify-between px-6">
-        <div className="flex items-center gap-3 pt-6 md:pt-7">
-          {shuffleButtons.map(({ title, view }, index) => (
-            <button
-              key={index}
-              onClick={() => view && setActiveView(view)}
-              className={`h-[25px] rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase ${
-                view === activeView ? "border-black bg-black text-white" : ""
-              } ${!view ? "opacity-60" : ""}`}
-            >
-              {title}
-            </button>
-          ))}
+      <div className="relative pb-20 md:mt-0">
+        <div className="flex items-center justify-between px-4 lg:px-6">
+          <div className="flex w-full items-center justify-between gap-2 pt-6 md:w-auto md:justify-normal md:pt-7 lg:gap-3">
+            {shuffleButtons.map(({ title, view }, index) => (
+              <button
+                key={index}
+                onClick={() => view && setActiveView(view)}
+                className={`h-[25px] rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase ${
+                  view === activeView ? "bg-black text-white" : ""
+                } ${!view ? "opacity-60" : ""}`}
+              >
+                {title}
+              </button>
+            ))}
+          </div>
+          <div className="hidden md:block">
+            <WorkTogetherLink />
+          </div>
         </div>
-        <div className="hidden md:block">
-          <WorkTogetherLink />
+
+        {activeView === "project-shots" ? (
+          <ProjectShotsGrid />
+        ) : (
+          <CaseStudies />
+        )}
+        <div className="fixed bottom-7 px-6">
+          <ContactModal />
         </div>
       </div>
-
-      {activeView === "project-shots" ? <ProjectShotsGrid /> : <CaseStudies />}
-      <div className="fixed bottom-7 px-6">
-        <ContactModal />
-      </div>
-    </div>
+    </section>
   );
 }
 
@@ -201,14 +202,14 @@ const BentoImage = ({
 
 const CaseStudies = () => {
   return (
-    <div className="grid grid-cols-2 gap-4 p-6">
+    <div className="grid grid-cols-1 gap-4 p-6 lg:grid-cols-2">
       {caseStudyData.map((study, index) => (
         <Link
           href={`/project-detail/ssjska12`}
           key={`${study.title}-${index}`}
           className="space-y-4"
         >
-          <div className="relative h-[458px] overflow-hidden">
+          <div className="relative h-[242px] overflow-hidden lg:h-[458px]">
             <Image
               src={study.image}
               alt={study.title}
@@ -217,9 +218,9 @@ const CaseStudies = () => {
             />
           </div>
 
-          <div className="flex h-[46px] items-center justify-between gap-4 pr-4 pl-2">
+          <div className="mb-7 flex h-[87px] flex-col items-center justify-center gap-4 pr-4 pl-2 md:justify-between lg:mb-0 lg:h-[46px] lg:flex-row">
             <div>
-              <h3 className="text">{study.title}</h3>
+              <h3 className="text text-center lg:text-left">{study.title}</h3>
               <p className="text text-[#8E8E93]">{study.role}</p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-2">

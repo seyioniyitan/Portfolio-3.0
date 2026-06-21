@@ -1,16 +1,15 @@
 "use client";
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { useThemeState } from "@/app/hooks/use-theme-state";
 import CategorySlide from "@/app/components/category-slide";
 import EmailWithCopy from "@/app/components/email-with-copy";
-import Header from "@/app/components/header";
-import RecentWork from "@/app/components/recent-work";
-import WorkTogetherLink from "@/app/components/work-together-link";
 import HeroSlider from "@/app/components/hero-slider";
 import LoadingScreen from "@/app/components/loading-screen";
-import MobileHeader from "@/app/components/mobile-header";
+import RecentWork from "@/app/components/recent-work";
+import WorkTogetherLink from "@/app/components/work-together-link";
+import { useThemeState } from "@/app/hooks/use-theme-state";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import Header from "@/app/components/header";
 
 export default function Home() {
   const [done, setDone] = useState(false);
@@ -23,12 +22,12 @@ export default function Home() {
     "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
 
   const lightStyle = `
-    border border-black
+    border-[0.6px] border-black
     hover:bg-black hover:text-white
   `;
 
   const darkStyle = `
-    border border-white
+    border-[0.6px] border-white
     hover:bg-white hover:text-black
   `;
 
@@ -41,21 +40,19 @@ export default function Home() {
     <>
       {!done && <LoadingScreen onComplete={() => setDone(true)} />}
       <div className="relative overflow-hidden">
-        <div className="hidden md:block">
-          <Header />
-        </div>
-        <div className="md:hidden">
-          <MobileHeader />
-        </div>
-        <section className="flex items-start">
+        <Header />
+        <section className="mt-[75px] flex items-start md:mt-0">
           <div className="md:shrink-0 md:pt-[104px]">
             <div className="mb-5 px-4 md:mb-0 md:px-0 md:pl-6">
               <div className="mt-10 w-full md:mt-13 md:w-[443px]">
                 <h2 className="text h-[138px] indent-16 font-normal md:h-[115px] md:indent-20">
-                  Seyi Oniyitan | Generalist designer transforming ideas into
-                  products, maximising business impact and the friend of your
-                  ambitious imaginations. I am transforming and defining design
-                  values in the AI era.
+                  <span className="underline decoration-1 underline-offset-[17%]">
+                    Seyi Oniyitan
+                  </span>{" "}
+                  | Generalist designer transforming ideas into products,
+                  maximising business impact and the friend of your ambitious
+                  imaginations. I am transforming and defining design values in
+                  the AI era.
                 </h2>
               </div>
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-5">
@@ -85,7 +82,7 @@ export default function Home() {
 
             <RecentWork />
             <div className="md:pb-10 md:pl-6">
-              <div className="mt-[158px] md:hidden">
+              <div className="mt-[188px] md:hidden">
                 <CategorySlide mobile />
               </div>
               <div className="hidden md:block">
