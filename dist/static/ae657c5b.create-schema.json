@@ -1,0 +1,21 @@
+[
+  {
+    "fields": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "headline",
+        "type": "text"
+      },
+      {
+        "name": "tagline",
+        "type": "text"
+      }
+    ],
+    "name": "hero",
+    "type": "document",
+    "title": "Hero Section"
+  }
+]

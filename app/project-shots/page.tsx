@@ -8,6 +8,7 @@ import ContactModal from "@/app/components/contact-modal";
 import ThemeToggle from "@/app/components/theme-toggle";
 import { useThemeState } from "@/app/hooks/use-theme-state";
 import Header from "@/app/components/header";
+import CategorySlide from "../components/category-slide";
 
 export default function ProjectShots() {
   const [activeView, setActiveView] = useState<
@@ -43,89 +44,13 @@ export default function ProjectShots() {
         ) : (
           <CaseStudies />
         )}
-        <div className="fixed bottom-7 px-6">
+        <div className="fixed bottom-7 hidden px-6 lg:block">
           <ContactModal />
         </div>
       </div>
     </section>
   );
 }
-
-export const ProjectShotsHeader = () => {
-  const { resolvedTheme, mounted } = useThemeState();
-  const imageSrc =
-    mounted && resolvedTheme === "dark"
-      ? "/assets/prjsht-dark.svg"
-      : "/assets/prjsht-light.svg";
-
-  const lightStyle = `border border-black hover:bg-black hover:text-white`;
-
-  const darkStyle = `border border-white hover:bg-white hover:text-black`;
-  const base =
-    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
-
-  const className =
-    mounted && resolvedTheme === "dark"
-      ? `${base} ${darkStyle}`
-      : `${base} ${lightStyle}`;
-  return (
-    <header className="flex justify-between pr-6 pl-[15px]">
-      <div className="mt-4.5 flex h-17 items-center justify-center gap-6">
-        <div className="relative mt-4.5 h-[68px] w-[200px]">
-          <Image src={imageSrc} alt="projects&shots" fill />
-        </div>
-        <Link href="/" className={className}>
-          home
-        </Link>
-      </div>
-
-      <nav className="hidden gap-3 pt-10 md:flex">
-        {menuLinks?.map((link, index) => (
-          <Link key={index} href={link.href} className={className}>
-            {link.label}
-          </Link>
-        ))}
-        <ThemeToggle />
-      </nav>
-    </header>
-  );
-};
-
-const ProjectShotsMobileHeader = () => {
-  const { resolvedTheme, mounted } = useThemeState();
-  const imageSrc =
-    mounted && resolvedTheme === "dark"
-      ? "/assets/prjsht-dark.svg"
-      : "/assets/prjsht-light.svg";
-
-  const lightStyle = `border border-black hover:bg-black hover:text-white`;
-
-  const darkStyle = `border border-white hover:bg-white hover:text-black`;
-  const base =
-    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
-
-  const className =
-    mounted && resolvedTheme === "dark"
-      ? `${base} ${darkStyle}`
-      : `${base} ${lightStyle}`;
-  return (
-    <header className="mt-6 mr-4 ml-2 flex h-[49px] items-center justify-between">
-      <div className="relative mt-4.5 h-full w-[143px]">
-        <Image src={imageSrc} alt="projects&shots" fill />
-      </div>
-
-      <div className="flex items-center gap-4">
-        <Link href="/" className={className}>
-          home
-        </Link>
-        <Link href="/" className={className}>
-          more
-        </Link>
-        <ThemeToggle width={32} />
-      </div>
-    </header>
-  );
-};
 
 const shuffleButtons: {
   id: number;
@@ -136,21 +61,6 @@ const shuffleButtons: {
   { id: 2, title: "project shots ", view: "project-shots" },
   { id: 3, title: "shuffle" },
 ];
-
-// const ProjectShotsGrid = () => {
-//   return (
-//     <div className="grid auto-rows-[280px] grid-cols-6 gap-4 px-6 pt-10">
-//       <BentoImage src="/assets/hero-a.png" className="col-span-2 row-span-2" />
-//       <BentoImage src="/assets/hero-b.png" className="col-span-2" />
-//       <div className="col-span-2 row-span-3 flex min-h-0 flex-col gap-5">
-//         <BentoImage src="/assets/hero-a.png" className="h-[370px] flex-none" />
-//         <BentoImage src="/assets/hero-b.png" className="h-[350px] flex-none" />
-//       </div>
-//       <BentoImage src="/assets/hero-b.png" className="col-span-2" />
-//       <BentoImage src="/assets/hero-a.png" className="col-span-3 h-[350px]" />
-//     </div>
-//   );
-// };
 
 const ProjectShotsGrid = () => {
   return (
@@ -177,12 +87,35 @@ const ProjectShotsGrid = () => {
       </div>
 
       {/* Mobile */}
-      <div className="grid grid-cols-2 gap-2 px-4 pt-8 md:hidden">
-        <BentoImage src="/assets/hero-a.png" className="col-span-1 h-[220px]" />
-        <BentoImage src="/assets/hero-b.png" className="col-span-1 h-[220px]" />
-        <BentoImage src="/assets/hero-b.png" className="col-span-2 h-[200px]" />
-        <BentoImage src="/assets/hero-a.png" className="col-span-1 h-[220px]" />
-        <BentoImage src="/assets/hero-b.png" className="col-span-1 h-[220px]" />
+
+      <div className="lg:hidden">
+        <div className="row-span-3 grid grid-cols-2 gap-2 px-4 pt-6">
+          <BentoImage
+            src="/assets/hero-a.png"
+            className="col-span-1 row-span-2 h-full"
+          />
+
+          <BentoImage
+            src="/assets/hero-b.png"
+            className="col-span-1 row-span-1 h-[137px]"
+          />
+
+          <BentoImage
+            src="/assets/hero-a.png"
+            className="col-span-1 h-[155px]"
+          />
+
+          <BentoImage
+            src="/assets/hero-a.png"
+            className="col-span-1 h-[260px]"
+          />
+
+          <BentoImage
+            src="/assets/hero-b.png"
+            className="col-span-1 h-[230px]"
+          />
+        </div>
+        <CategorySlide mobile />
       </div>
     </>
   );

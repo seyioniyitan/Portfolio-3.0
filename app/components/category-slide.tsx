@@ -78,9 +78,7 @@ export default function CategorySlide({
 
   return (
     <div className="flex h-11 items-center gap-3">
-      <div
-        className={`${variant && "w-[33px] bg-black text-white"} ${className}`}
-      >
+      <div className={`${variant && "w-[33px] text-black"} ${className}`}>
         on
       </div>
 
@@ -106,7 +104,7 @@ export default function CategorySlide({
         />
       </div>
 
-      <div className={`${variant && "w-16 bg-black text-white"} ${className}`}>
+      <div className={`${variant && "w-16 text-black"} ${className}`}>
         DESIGN™
       </div>
     </div>
