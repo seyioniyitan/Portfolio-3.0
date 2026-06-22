@@ -24,12 +24,11 @@ export default function CategorySlide({
   const [current, setCurrent] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { resolvedTheme, mounted } = useThemeState();
-  const base =
-    "flex h-5 items-center justify-center rounded-[23px] border-[0.6px]  px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase";
+  const base = "";
 
-  const lightStyle = `border-black hover:bg-black hover:text-white`;
+  const lightStyle = ``;
 
-  const darkStyle = `border-white hover:bg-white hover:text-black`;
+  const darkStyle = ``;
 
   const className =
     mounted && resolvedTheme === "dark"
@@ -38,13 +37,8 @@ export default function CategorySlide({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrent((prev) => (prev + 1) % categoryImages.length);
-        setIsTransitioning(false);
-      }, 150);
+      setCurrent((prev) => (prev + 1) % categoryImages.length);
     }, AUTOPLAY_DELAY_MS);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -78,7 +72,9 @@ export default function CategorySlide({
 
   return (
     <div className="flex h-11 items-center gap-3">
-      <div className={`${variant && "w-[33px] text-black"} ${className}`}>
+      <div
+        className={`${variant && "w-[33px] text-black"} flex h-5 items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase dark:border-white`}
+      >
         on
       </div>
 
@@ -89,22 +85,12 @@ export default function CategorySlide({
           transform: isTransitioning ? "translateX(-8px)" : "translateX(0px)",
         }}
       >
-        <Image
-          key={current}
-          src={imageSrc}
-          alt={alt}
-          width={120}
-          height={63}
-          style={{
-            transition:
-              "transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms",
-            transform: isTransitioning ? "translateX(12px)" : "translateX(0px)",
-            opacity: isTransitioning ? 0 : 1,
-          }}
-        />
+        <Image key={current} src={imageSrc} alt={alt} width={120} height={63} />
       </div>
 
-      <div className={`${variant && "w-16 text-black"} ${className}`}>
+      <div
+        className={`${variant && "w-16 text-black"} flex h-5 items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase dark:border-white`}
+      >
         DESIGN™
       </div>
     </div>

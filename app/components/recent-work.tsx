@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useThemeState } from "@/app/hooks/use-theme-state";
+import PdfFileSvg from "./svgs/pdf-file-svg";
 
 export default function RecentWork() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -28,7 +29,7 @@ export default function RecentWork() {
             key={index}
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
-            className="relative flex h-18.5 cursor-default justify-between border-b border-[#F2F2F7] py-3.5"
+            className="relative flex h-18.5 cursor-default justify-between border-b border-[#F2F2F7] py-3.5 dark:border-[#7F7F7F66]/40"
           >
             <div
               className="pointer-events-none absolute inset-0 z-10 ml-30 flex items-center justify-center transition-opacity duration-300"
@@ -47,7 +48,7 @@ export default function RecentWork() {
               <div className="flex items-center gap-2">
                 <h2 className="text font-normal">{company}</h2>
                 {tag && (
-                  <p className="flex h-5 w-12 items-center justify-center rounded-full border-[0.6px] border-[#007AFF] px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] text-[#007AFF]">
+                  <p className="flex h-3.5 w-6 items-center justify-center rounded-[4px] border-[0.4px] border-[#00000014]/8 bg-[#8080808C]/55 px-1 py-0.5 text-[8px] leading-[100%] font-semibold tracking-[0%] text-white">
                     {tag}
                   </p>
                 )}
@@ -62,15 +63,10 @@ export default function RecentWork() {
             <h2 className="text font-normal">Download resume</h2>
             <p className="text text-[12px] font-medium text-[#8E8E93]">805kB</p>
           </div>
-          <Image
-            src="/assets/file-type.svg"
-            alt="file_type_img"
-            width={84}
-            height={74}
-            priority
-            quality={100}
-            className="absolute right-0 bottom-0"
-          />
+
+          <div className="absolute right-0 bottom-0">
+            <PdfFileSvg />
+          </div>
         </div>
       </div>
     </div>
@@ -88,7 +84,7 @@ const recentWorkList: {
     company: "Tactile Int, Tactile Labs",
     role: "Craftsman & Co-founder",
     year: 2026,
-    tag: "PMVP",
+    tag: "WIP",
     image: "/assets/hero-b.png",
   },
   {

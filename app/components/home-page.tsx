@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Header from "@/app/components/header";
 import { HomePageData } from "@/types";
+import ProjectShotsSvg from "./svgs/projects-shots-svg";
 
 export default function HomePage({ data }: { data: HomePageData }) {
   const { hero, projects } = data;
@@ -22,7 +23,7 @@ export default function HomePage({ data }: { data: HomePageData }) {
       ? "/assets/prj-shots-mobile-dark.svg"
       : "/assets/prj-shots-mobile.svg";
   const base =
-    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+    "flex h-5 items-center justify-center rounded-[23px] px-2 py-0.5 text-[11px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
 
   const lightStyle = `
     border-[0.6px] border-black
@@ -63,13 +64,16 @@ export default function HomePage({ data }: { data: HomePageData }) {
 
             <div className="md:hidden">
               <div className="mr-4 ml-2 flex h-[45px] items-center justify-between">
-                <div className="relative h-[54px] w-[156px] overflow-hidden">
+                {/* <div className="relative h-[54px] w-[156px] overflow-hidden">
                   <Image
                     src={imageSrc}
                     alt="project_image"
                     className="h-full w-full object-cover"
                     fill
                   />
+                </div> */}
+                <div>
+                  <ProjectShotsSvg />
                 </div>
                 <Link href="/project-shots" className={className}>
                   browse
