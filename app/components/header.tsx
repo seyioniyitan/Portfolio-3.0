@@ -160,7 +160,7 @@ export default function Header({
           {showReturnButton && (
             <Link
               href="/"
-              className="absolute top-0 left-[67px] flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.4px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors duration-200 hover:text-white dark:border-white dark:bg-[#232323]"
+              className="absolute top-0 left-[67px] flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.4px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors duration-200 hover:bg-black hover:text-white dark:border-white dark:bg-[#232323] dark:hover:bg-white dark:hover:text-black"
             >
               home
             </Link>

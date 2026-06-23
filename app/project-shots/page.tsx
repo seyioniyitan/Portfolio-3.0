@@ -9,6 +9,7 @@ import ThemeToggle from "@/app/components/theme-toggle";
 import { useThemeState } from "@/app/hooks/use-theme-state";
 import Header from "@/app/components/header";
 import CategorySlide from "../components/category-slide";
+import { caseStudyData } from "@/app/lib/project-data";
 
 export default function ProjectShots() {
   const [activeView, setActiveView] = useState<
@@ -138,7 +139,7 @@ const CaseStudies = () => {
     <div className="grid grid-cols-1 gap-4 p-6 lg:grid-cols-2">
       {caseStudyData.map((study, index) => (
         <Link
-          href={`/project-detail/ssjska12`}
+          href={`/project-detail/${study.id}`}
           key={`${study.title}-${index}`}
           className="space-y-4"
         >
@@ -172,33 +173,6 @@ const CaseStudies = () => {
     </div>
   );
 };
-
-const caseStudyData = [
-  {
-    title: "Rise 3.0",
-    role: "Product Design Lead",
-    tag: ["Video", "App Store"],
-    image: "/assets/hero-a.png",
-  },
-  {
-    title: "Alien Ware",
-    role: "Product Design Lead",
-    tag: ["Website", "Case Study"],
-    image: "/assets/hero-b.png",
-  },
-  {
-    title: "Rise 3.0",
-    role: "Product Design Lead",
-    tag: ["Pdf", "Resume"],
-    image: "/assets/hero-a.png",
-  },
-  {
-    title: "Alien Ware",
-    role: "Product Design Lead",
-    tag: ["Website", "Case Study"],
-    image: "/assets/hero-b.png",
-  },
-];
 
 export const menuLinks: { label: string; href: string }[] = [
   {

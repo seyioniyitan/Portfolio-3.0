@@ -1,10 +1,11 @@
 import Image from "next/image";
 import CategorySlide from "./category-slide";
+import ProjectShotsCategorySlide from "./project-shots-category-slide";
 
 export default function ContactModal() {
   return (
     <div className="w-[393px]">
-      <div className="relative flex h-[63px] items-center justify-between rounded-t-[12px] bg-white">
+      <div className="relative flex h-[63px] items-center justify-between rounded-t-[12px] bg-white dark:bg-[#232323]">
         <div className="flex items-center gap-2 py-5 pl-4">
           <h2 className="text font-normal dark:text-white">Download resume</h2>
           <p className="text text-[12px] font-medium text-[#8E8E93]">805kB</p>
@@ -35,7 +36,7 @@ export default function ContactModal() {
           </div>
         </div>
         <div className="flex items-center justify-center">
-          <CategorySlide variant />
+          <ProjectShotsCategorySlide variant />
         </div>
       </div>
     </div>

@@ -1,181 +1,35 @@
-"use client";
-import Image from "next/image";
-import CategorySlide from "@/app/components/category-slide";
-import { useThemeState } from "@/app/hooks/use-theme-state";
-import Link from "next/link";
-import ThemeToggle from "@/app/components/theme-toggle";
-import { menuLinks } from "@/app/project-shots/page";
-import WorkTogetherLink from "@/app/components/work-together-link";
+import { notFound } from "next/navigation";
+import TypeA from "@/app/components/project-detail-page/type-a";
+import TypeB from "@/app/components/project-detail-page/type-b";
+import TypeC from "@/app/components/project-detail-page/type-c";
+import TypeD from "@/app/components/project-detail-page/type-d";
+import TypeE from "@/app/components/project-detail-page/type-e";
+import { caseStudyData } from "@/app/lib/project-data";
 
-const projectImages = [
-  { src: "/assets/p-a.png", alt: "Heart icon", width: 265, height: 265 },
-  { src: "/assets/p-b.png", alt: "Coin icon", width: 271, height: 271 },
-  {
-    src: "/assets/p-c.png",
-    alt: "Magnifying",
-    width: 250,
-    height: 250,
-  },
-  {
-    src: "/assets/p-d.png",
-    alt: "Magnifying",
-    width: 250,
-    height: 249,
-  },
-];
+export default async function ProjectDetail({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const project = caseStudyData.find((item) => item.id === id);
 
-export default function ProjectDetail() {
-  const { resolvedTheme, mounted } = useThemeState();
+  if (!project) {
+    notFound();
+  }
 
-  const lightStyle = `border border-black hover:bg-black hover:text-white`;
-
-  const darkStyle = `border border-white hover:bg-white hover:text-black`;
-  const base =
-    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
-
-  const className =
-    mounted && resolvedTheme === "dark"
-      ? `${base} ${darkStyle}`
-      : `${base} ${lightStyle}`;
-
-  return (
-    <section className="flex min-h-screen">
-      <div className="flex w-[60%] flex-col">
-        <ProjectShotsHeaderLeft />
-
-        <div className="flex flex-1 items-start gap-12 px-6 pt-[53px]">
-          <div className="w-[185px] shrink-0">
-            <h2 className="text h-11.5 font-normal">
-              Grey 3D Design System &amp; Migration to Blender
-            </h2>
-            <p className="text h-[23px] font-normal text-[#8E8E93]">
-              Generalist &amp; 3D Design
-            </p>
-          </div>
-
-          <div className="w-[444px]">
-            <h2 className="text indent-20 font-normal">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-              quae ab illo inventore veritatis et quasi architecto beatae vitae
-              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-              aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-              eos qui ratione voluptatem sequi nesciunt.
-            </h2>
-            <h2 className="text mt-6 indent-20 font-normal">
-              Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-              consectetur, adipisci velit, sed quia non numquam eius modi
-              tempora incidunt ut labore et dolore magnam aliquam quaerat
-              voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem
-              ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
-              consequatur? Quis autem vel eum iure reprehenderit qui in ea
-              voluptate velit esse quam nihil molestiae consequatur, vel illum
-              qui dolorem eum fugiat quo voluptas nulla pariatur
-            </h2>
-            <h2 className="text my-6 font-normal">
-              Send an email to learn more about this project.
-            </h2>
-            <WorkTogetherLink />
-
-            <div className="mt-8 flex items-center gap-2">
-              <Link href="/" className={className}>
-                open website
-              </Link>
-              <Link href="/" className={className}>
-                open behance
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className="mt-[211px] mb-[45px] ml-6">
-          <CategorySlide />
-          <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%]">
-            ©2026 All rights reserved.
-          </p>
-        </div>
-      </div>
-
-      <div className="flex flex-1 flex-col bg-[#232323]">
-        <ProjectShotsHeaderRight />
-
-        <div className="mt-30 grid grid-cols-2">
-          {projectImages.map(({ alt, src, width, height }, index) => (
-            <Image
-              key={index}
-              alt={alt}
-              src={src}
-              width={width}
-              height={height}
-              className="mb-25 object-cover"
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+  switch (project.type) {
+    case "A":
+      return <TypeA />;
+    case "B":
+      return <TypeB />;
+    case "C":
+      return <TypeC />;
+    case "D":
+      return <TypeD />;
+    case "E":
+      return <TypeE />;
+    default:
+      notFound();
+  }
 }
-
-const ProjectShotsHeaderLeft = () => {
-  const { resolvedTheme, mounted } = useThemeState();
-  const imageSrc =
-    mounted && resolvedTheme === "dark"
-      ? "/assets/prjsht-dark.svg"
-      : "/assets/prjsht-light.svg";
-
-  const lightStyle = `border border-black hover:bg-black hover:text-white`;
-
-  const darkStyle = `border border-white hover:bg-white hover:text-black`;
-  const base =
-    "flex h-[25px] w-16 items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
-
-  const className =
-    mounted && resolvedTheme === "dark"
-      ? `${base} ${darkStyle}`
-      : `${base} ${lightStyle}`;
-  return (
-    <header className="mt-4.5 ml-[15px] w-fit">
-      <div className="flex items-center gap-6">
-        <div className="relative h-[68px] w-[200px]">
-          <Image src={imageSrc} alt="projects&shots" fill />
-        </div>
-        <Link href="/" className={className}>
-          home
-        </Link>
-      </div>
-    </header>
-  );
-};
-const ProjectShotsHeaderRight = () => {
-  const { resolvedTheme, mounted } = useThemeState();
-  const imageSrc =
-    mounted && resolvedTheme === "dark"
-      ? "/assets/prjsht-dark.svg"
-      : "/assets/prjsht-light.svg";
-
-  const lightStyle = `border border-black hover:bg-black hover:text-white`;
-
-  const darkStyle = `border border-white hover:bg-white hover:text-black`;
-  const base =
-    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
-
-  const className =
-    mounted && resolvedTheme === "dark"
-      ? `${base} ${darkStyle}`
-      : `${base} ${lightStyle}`;
-  return (
-    <header className="mt-10 mr-6 flex justify-end">
-      <nav className="flex gap-3">
-        {menuLinks?.map((link, index) => (
-          <Link
-            key={index}
-            href={link.href}
-            className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.4px] border-white px-3 py-1 text-[13px] leading-4 font-medium text-white uppercase antialiased transition-colors duration-200 hover:bg-black hover:text-white"
-          >
-            {link.label}
-          </Link>
-        ))}
-        <ThemeToggle />
-      </nav>
-    </header>
-  );
-};
