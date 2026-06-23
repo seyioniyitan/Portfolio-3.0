@@ -20,7 +20,7 @@ export default function PdfFileSvg() {
             clipRule="evenodd"
             d="M51.3359 8.20212C49.7799 6.51281 47.6899 5.41057 45.417 5.08067L27.7328 2.51383C22.2673 1.72051 17.1934 5.50812 16.4001 10.9737L8.8588 62.9292C8.06548 68.3948 11.8531 73.4686 17.3187 74.262L56.9038 80.0077C62.3694 80.801 67.4432 77.0134 68.2366 71.5479L73.195 37.3869C73.6275 34.4068 72.6942 31.3905 70.6541 29.1756L51.3359 8.20212Z"
             fill="white"
-            fill-opacity="0.4"
+            fillOpacity="0.4"
           />
         </g>
         <g opacity={0.6} style={{ mixBlendMode: "darken" }}>
@@ -41,7 +41,7 @@ export default function PdfFileSvg() {
           clipRule="evenodd"
           d="M73.2526 36.9091C73.5247 34.0868 72.5852 31.2722 70.6541 29.1756L51.3359 8.20209C49.7799 6.51278 47.6899 5.41055 45.417 5.08064L42.5773 4.66846L40.0635 21.987C39.2702 27.4525 43.0578 32.5264 48.5233 33.3197L73.2526 36.9091Z"
           fill="white"
-          fill-opacity="0.2"
+          fillOpacity="0.2"
         />
         <path
           d="M11.3727 45.6106L46.0097 50.6381L44.2141 63.0085C43.8175 65.7413 41.2806 67.6351 38.5478 67.2384L8.8589 62.9291L11.3727 45.6106Z"
@@ -71,9 +71,9 @@ export default function PdfFileSvg() {
             width="64.5449"
             height="77.7039"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
+            colorInterpolationFilters="sRGB"
           >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feBlend
               mode="normal"
               in="SourceGraphic"
@@ -122,9 +122,9 @@ export default function PdfFileSvg() {
             width="44.9321"
             height="25.8975"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
+            colorInterpolationFilters="sRGB"
           >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feBlend
               mode="normal"
               in="SourceGraphic"
@@ -157,8 +157,8 @@ export default function PdfFileSvg() {
             y2="78.1129"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0.150247" stop-color="#9EA3AF" />
-            <stop offset="0.698405" stop-color="#E9E9EB" />
+            <stop offset="0.150247" stopColor="#9EA3AF" />
+            <stop offset="0.698405" stopColor="#E9E9EB" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_6396_4553"
@@ -168,8 +168,8 @@ export default function PdfFileSvg() {
             y2="43.8946"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0.104104" stop-color="#ABACB1" />
-            <stop offset="1" stop-color="#ABACB1" stop-opacity="0" />
+            <stop offset="0.104104" stopColor="#ABACB1" />
+            <stop offset="1" stopColor="#ABACB1" stopOpacity="0" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_6396_4553"
@@ -179,10 +179,10 @@ export default function PdfFileSvg() {
             y2="38.4077"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#D8DAE0" />
-            <stop offset="0.114042" stop-color="#EBEBEC" />
-            <stop offset="0.532726" stop-color="#D7D9DD" />
-            <stop offset="0.782422" stop-color="#ADB1BB" />
+            <stop stopColor="#D8DAE0" />
+            <stop offset="0.114042" stopColor="#EBEBEC" />
+            <stop offset="0.532726" stopColor="#D7D9DD" />
+            <stop offset="0.782422" stopColor="#ADB1BB" />
           </linearGradient>
           <linearGradient
             id="paint3_linear_6396_4553"
@@ -192,8 +192,8 @@ export default function PdfFileSvg() {
             y2="67.1834"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0.35776" stop-color="#ABACB1" />
-            <stop offset="0.835855" stop-color="#ABACB1" stop-opacity="0" />
+            <stop offset="0.35776" stopColor="#ABACB1" />
+            <stop offset="0.835855" stopColor="#ABACB1" stopOpacity="0" />
           </linearGradient>
         </defs>
       </svg>

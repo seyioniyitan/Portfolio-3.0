@@ -58,7 +58,7 @@ export default function RecentWork() {
             <h2>{year}</h2>
           </div>
         ))}
-        <div className="relative flex h-13.75 items-center justify-between border-b border-[#F2F2F7] py-3.5">
+        <div className="relative flex h-13.75 items-center justify-between border-b border-[#F2F2F7] py-3.5 dark:border-[#7F7F7F66]/40">
           <div className="flex items-center gap-2">
             <h2 className="text font-normal">Download resume</h2>
             <p className="text text-[12px] font-medium text-[#8E8E93]">805kB</p>

@@ -26,7 +26,7 @@ export default function RootLayout({
       className={`${inter.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col antialiased">
         <ReactLenis
           root
           options={{ lerp: 0.1, duration: 0.3, smoothWheel: true }}

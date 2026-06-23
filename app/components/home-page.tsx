@@ -63,7 +63,7 @@ export default function HomePage({ data }: { data: HomePageData }) {
             </div>
 
             <div className="md:hidden">
-              <div className="mr-4 ml-2 flex h-[45px] items-center justify-between">
+              <div className="test mt-s2 mr-4 ml-2 flex h-[45px] items-center justify-between">
                 {/* <div className="relative h-[54px] w-[156px] overflow-hidden">
                   <Image
                     src={imageSrc}
