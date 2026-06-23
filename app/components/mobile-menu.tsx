@@ -25,7 +25,7 @@ export default function MobileMenu() {
   const lightStyle = `bg-white text-black`;
 
   const darkStyle = `
-    border-[0.4px] border-white bg-black text-white`;
+      bg-black text-white`;
 
   const className =
     mounted && resolvedTheme === "dark"

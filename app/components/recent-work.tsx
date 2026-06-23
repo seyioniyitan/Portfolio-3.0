@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useThemeState } from "@/app/hooks/use-theme-state";
 import PdfFileSvg from "./svgs/pdf-file-svg";
+import Link from "next/link";
 
 export default function RecentWork() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -14,15 +15,39 @@ export default function RecentWork() {
       ? "/assets/recent-work-dark.svg"
       : "/assets/recent-work-light.svg";
 
+  const base =
+    "flex h-5 items-center justify-center rounded-[23px] px-2 py-0.5 text-[11px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+
+  const lightStyle = `
+    border-[0.6px] border-black
+    hover:bg-black hover:text-white
+  `;
+
+  const darkStyle = `
+    border-[0.6px] border-white
+    hover:bg-white hover:text-black
+  `;
+
+  const className =
+    mounted && resolvedTheme === "dark"
+      ? `${base} ${darkStyle}`
+      : `${base} ${lightStyle}`;
   return (
     <div className="mt-10 mb-10 lg:mt-15 lg:mb-15">
-      <Image
-        src={imageSrc}
-        width={235}
-        height={86}
-        alt="recent_work"
-        className="pl-2"
-      />
+      <div className="flex items-center gap-1">
+        <Image
+          src={imageSrc}
+          width={235}
+          height={86}
+          alt="recent_work"
+          className="pl-2"
+        />
+        <div className="hidden lg:block">
+          <Link href="/project-shots" className={className}>
+            browse
+          </Link>
+        </div>
+      </div>
       <div className="px-4 md:w-[443px] md:pl-6">
         {recentWorkList.map(({ company, role, year, tag, image }, index) => (
           <div

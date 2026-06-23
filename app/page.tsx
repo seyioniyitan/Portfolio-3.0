@@ -5,8 +5,8 @@ import { HomePageData } from "@/types";
 
 export default async function Home() {
   const [hero, projects] = await Promise.all([
-    client.fetch(heroQuery, {}, { cache: "no-store" }),
-    client.fetch(projectShotsQuery, {}, { cache: "no-store" }),
+    client?.fetch(heroQuery, {}, { cache: "no-store" }),
+    client?.fetch(projectShotsQuery, {}, { cache: "no-store" }),
   ]);
 
   const data: HomePageData = {

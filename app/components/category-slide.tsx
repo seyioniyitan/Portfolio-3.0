@@ -73,7 +73,7 @@ export default function CategorySlide({
   return (
     <div className="flex h-11 items-center gap-3">
       <div
-        className={`${variant && "w-[33px] text-black"} flex h-5 items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase dark:border-white`}
+        className={`${variant && "w-[33px] text-black"} flex h-5 items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase md:dark:border-white`}
       >
         on
       </div>
@@ -89,7 +89,7 @@ export default function CategorySlide({
       </div>
 
       <div
-        className={`${variant && "w-16 text-black"} flex h-5 items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase dark:border-white`}
+        className={`${variant && "w-16 text-black"} flex h-5 items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase md:dark:border-white`}
       >
         DESIGN™
       </div>

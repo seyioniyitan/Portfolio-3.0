@@ -18,10 +18,7 @@ export default function HomePage({ data }: { data: HomePageData }) {
 
   const [done, setDone] = useState(false);
   const { resolvedTheme, mounted } = useThemeState();
-  const imageSrc =
-    mounted && resolvedTheme === "dark"
-      ? "/assets/prj-shots-mobile-dark.svg"
-      : "/assets/prj-shots-mobile.svg";
+
   const base =
     "flex h-5 items-center justify-center rounded-[23px] px-2 py-0.5 text-[11px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
 
@@ -63,15 +60,7 @@ export default function HomePage({ data }: { data: HomePageData }) {
             </div>
 
             <div className="md:hidden">
-              <div className="test mt-s2 mr-4 ml-2 flex h-[45px] items-center justify-between">
-                {/* <div className="relative h-[54px] w-[156px] overflow-hidden">
-                  <Image
-                    src={imageSrc}
-                    alt="project_image"
-                    className="h-full w-full object-cover"
-                    fill
-                  />
-                </div> */}
+              <div className="mt-s2 mr-4 ml-2 flex h-[45px] items-center justify-between">
                 <div>
                   <ProjectShotsSvg />
                 </div>
@@ -88,6 +77,9 @@ export default function HomePage({ data }: { data: HomePageData }) {
             <div className="md:pb-10 md:pl-6">
               <div className="hidden md:block">
                 <CategorySlide />
+              </div>
+              <div className="mt-[188px] md:hidden">
+                <CategorySlide mobile />
               </div>
               <p className="mt-6 hidden text-[14px] leading-[150%] font-normal tracking-[0%] md:block">
                 ©2026 All rights reserved.
