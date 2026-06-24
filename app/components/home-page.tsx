@@ -12,6 +12,7 @@ import { useState } from "react";
 import Header from "@/app/components/header";
 import { HomePageData } from "@/types";
 import ProjectShotsSvg from "./svgs/projects-shots-svg";
+import PagePushWrapper from "./page-push";
 
 export default function HomePage({ data }: { data: HomePageData }) {
   const { hero, projects } = data;
@@ -20,7 +21,7 @@ export default function HomePage({ data }: { data: HomePageData }) {
   const { resolvedTheme, mounted } = useThemeState();
 
   const base =
-    "flex h-5 items-center justify-center rounded-[23px] px-2 py-0.5 text-[11px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+    "flex h-[25px] px-3 py-1 lg:h-5 items-center justify-center rounded-[23px] lg:px-2 lg:py-0.5 text-[13px] lg:text-[11px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
 
   const lightStyle = `
     border-[0.6px] border-black
@@ -40,6 +41,7 @@ export default function HomePage({ data }: { data: HomePageData }) {
   return (
     <>
       {!done && <LoadingScreen onComplete={() => setDone(true)} />}
+      {/* <PagePushWrapper> */}
       <div className="relative overflow-hidden">
         <Header />
         <section className="mt-[75px] flex items-start md:mt-0">
@@ -92,6 +94,7 @@ export default function HomePage({ data }: { data: HomePageData }) {
           </div>
         </section>
       </div>
+      {/* </PagePushWrapper> */}
     </>
   );
 }

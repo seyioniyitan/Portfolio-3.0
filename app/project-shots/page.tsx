@@ -1,20 +1,18 @@
 "use client";
 
+import ContactModal from "@/app/components/contact-modal";
+import Header from "@/app/components/header";
+import WorkTogetherLink from "@/app/components/work-together-link";
+import { caseStudyData } from "@/app/lib/project-data";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import WorkTogetherLink from "@/app/components/work-together-link";
-import ContactModal from "@/app/components/contact-modal";
-import ThemeToggle from "@/app/components/theme-toggle";
-import { useThemeState } from "@/app/hooks/use-theme-state";
-import Header from "@/app/components/header";
 import CategorySlide from "../components/category-slide";
-import { caseStudyData } from "@/app/lib/project-data";
 
 export default function ProjectShots() {
   const [activeView, setActiveView] = useState<
     "case-studies" | "project-shots"
-  >("project-shots");
+  >("case-studies");
 
   return (
     <section>
@@ -40,11 +38,7 @@ export default function ProjectShots() {
           </div>
         </div>
 
-        {activeView === "project-shots" ? (
-          <ProjectShotsGrid />
-        ) : (
-          <CaseStudies />
-        )}
+        {activeView === "case-studies" ? <CaseStudies /> : <ProjectShotsGrid />}
         <div className="fixed bottom-7 hidden px-6 lg:block">
           <ContactModal />
         </div>

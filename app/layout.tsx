@@ -4,6 +4,8 @@ import { ReactLenis } from "lenis/react";
 import { ThemeProvider } from "next-themes";
 
 import "./globals.css";
+import { MobileMenuProvider } from "@/app/context/mobile-menu-context";
+import PagePushWrapper from "./components/page-push";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,7 +38,9 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
         >
-          {children}
+          <MobileMenuProvider>
+            <PagePushWrapper>{children}</PagePushWrapper>
+          </MobileMenuProvider>
         </ThemeProvider>
       </body>
     </html>

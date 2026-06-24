@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useThemeState } from "@/app/hooks/use-theme-state";
+import { useMobileMenu } from "@/app/context/mobile-menu-context";
 
 const menuLinks = [
   { label: "Shop", href: "/shop" },
@@ -12,59 +13,21 @@ const menuLinks = [
   { label: "About", href: "/about" },
 ];
 
+export const MENU_HEIGHT = 176; // px — keep in sync with overlay height
+
 export default function MobileMenu() {
-  const [open, setOpen] = useState(false);
+  const { open, setOpen } = useMobileMenu();
   const overlayRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
   const { resolvedTheme, mounted } = useThemeState();
 
   const base =
-    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
-
-  const lightStyle = `bg-white text-black`;
-
-  const darkStyle = `
-      bg-black text-white`;
-
-  const className =
+    "flex h-[25px] w-fit items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+  const pillClass =
     mounted && resolvedTheme === "dark"
-      ? `${base} ${darkStyle}`
-      : `${base} ${lightStyle}`;
-
-  //   useEffect(() => {
-  //     const overlay = overlayRef.current;
-  //     if (!overlay) return;
-
-  //     if (open) {
-  //       // Make visible before animating in
-  //       gsap.set(overlay, { display: "flex", yPercent: -100 });
-  //       gsap.to(overlay, {
-  //         yPercent: 0,
-  //         duration: 0.4,
-  //         ease: "back.out(1.6)",
-  //       });
-  //       gsap.fromTo(
-  //         itemsRef.current,
-  //         { y: 0, opacity: 0 },
-  //         {
-  //           y: 0,
-  //           opacity: 1,
-  //           duration: 0.4,
-  //           ease: "power2.out",
-  //           stagger: 0.07,
-  //           delay: 0.25,
-  //         },
-  //       );
-  //     } else {
-  //       gsap.to(overlay, {
-  //         yPercent: -100,
-  //         duration: 0.45,
-  //         ease: "power3.inOut",
-  //         onComplete: () => gsap.set(overlay, { display: "none" }),
-  //       });
-  //     }
-  //   }, [open]);
+      ? `${base} bg-black text-white`
+      : `${base} bg-white text-black`;
 
   useEffect(() => {
     const overlay = overlayRef.current;
@@ -98,6 +61,7 @@ export default function MobileMenu() {
       });
     }
   }, [open]);
+
   return (
     <>
       <button
@@ -109,8 +73,12 @@ export default function MobileMenu() {
 
       <div
         ref={overlayRef}
-        style={{ display: "none", backgroundColor: "#007AFF" }}
-        className="fixed inset-0 z-50 flex h-44 w-full justify-between px-4 pt-6 pb-[35px]"
+        style={{
+          display: "none",
+          backgroundColor: "#007AFF",
+          height: `${MENU_HEIGHT}px`,
+        }}
+        className="fixed top-0 left-0 z-50 flex w-full justify-between px-4 pt-6 pb-[35px]"
       >
         <div className="relative h-[51px] w-[77px]">
           <Image
@@ -131,14 +99,14 @@ export default function MobileMenu() {
                 itemsRef.current[i] = el;
               }}
               onClick={() => setOpen(false)}
-              className={className}
+              className={pillClass}
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <button onClick={() => setOpen(false)} className={className}>
+        <button onClick={() => setOpen(false)} className={pillClass}>
           Close
         </button>
       </div>

@@ -36,7 +36,7 @@ export default function EmailWithCopy() {
       <button
         type="button"
         onClick={handleCopy}
-        className={`flex h-5 min-w-12 cursor-pointer items-center justify-center rounded-[23px] border-[0.6px] px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] transition-colors duration-150 ${
+        className={`flex h-[25px] w-fit cursor-pointer items-center justify-center rounded-[23px] border-[0.6px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] transition-colors duration-150 lg:h-5 lg:min-w-12 lg:px-2 lg:py-0.5 lg:text-[11px] ${
           copied
             ? "border-[#007AFF] text-[#007AFF]"
             : "border-foreground text-foreground"

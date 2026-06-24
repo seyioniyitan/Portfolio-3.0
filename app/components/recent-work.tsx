@@ -16,7 +16,7 @@ export default function RecentWork() {
       : "/assets/recent-work-light.svg";
 
   const base =
-    "flex h-5 items-center justify-center rounded-[23px] px-2 py-0.5 text-[11px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+    "flex h-5 items-center justify-center rounded-[23px] px-2 py-0.5 text-[11px] leading-4 font-medium uppercase antialiased transition-colors";
 
   const lightStyle = `
     border-[0.6px] border-black
@@ -57,7 +57,7 @@ export default function RecentWork() {
             className="relative flex h-18.5 cursor-default justify-between border-b border-[#F2F2F7] py-3.5 dark:border-[#7F7F7F66]/40"
           >
             <div
-              className="pointer-events-none absolute inset-0 z-10 ml-30 flex items-center justify-center transition-opacity duration-300"
+              className="pointer-events-none absolute inset-0 z-10 ml-30 flex items-center justify-center transition-opacity"
               style={{ opacity: hoveredIndex === index ? 1 : 0 }}
             >
               <Image
