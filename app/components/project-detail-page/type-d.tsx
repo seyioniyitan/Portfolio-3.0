@@ -84,34 +84,120 @@ export default function TypeD() {
         </div>
       </div>
 
-      <div
-        className="h-screen lg:hidden"
-        style={{
-          backgroundImage: "url('/assets/type-d/a.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "-110.2px center",
-        }}
-      >
-        <Header showReturnButton />
+      {/* Mobile */}
+      <div className="relative lg:hidden">
+        {/* Fixed background */}
+        <div
+          className="fixed inset-0 -z-10"
+          style={{
+            backgroundImage: "url('/assets/type-d/a.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "-110.2px center",
+          }}
+        />
 
-        {/* <div className="mx-4 max-h-[calc(100vh-18rem)] overflow-y-auto px-2 py-6">
-          <h2 className="text font-normal">
-            Grey 3D Design System & Migration to Blender
-          </h2>
-          <p className="text font-normal text-[#8E8E93]">
-            Generalist & 3D Design
-          </p>
-        </div> */}
-        <div className="mx-4 px-2 py-6 pt-[75px]">
-          <h2 className="text font-normal">
-            Grey 3D Design System & Migration to Blender
-          </h2>
-          <p className="text font-normal text-[#8E8E93]">
-            Generalist & 3D Design
-          </p>
+        {/* Progressive blur — fixed, always visible */}
+        <div
+          className="fixed top-0 left-0 z-10 w-full"
+          style={{ height: "100px" }}
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              maskImage:
+                "linear-gradient(to bottom, black 0%, black 40%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, black 0%, black 40%, transparent 100%)",
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              backdropFilter: "blur(6px)",
+              WebkitBackdropFilter: "blur(6px)",
+              maskImage:
+                "linear-gradient(to bottom, transparent 30%, black 50%, transparent 90%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 30%, black 50%, transparent 90%)",
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              backdropFilter: "blur(2px)",
+              WebkitBackdropFilter: "blur(2px)",
+              maskImage:
+                "linear-gradient(to bottom, transparent 60%, black 80%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 60%, black 80%, transparent 100%)",
+            }}
+          />
         </div>
 
-        <div className="mt-[158px]">
+        {/* Header — above blur */}
+        <div className="fixed top-0 left-0 z-20 w-full pt-6">
+          <Header showReturnButton />
+        </div>
+
+        {/* Spacer so content starts ~80vh down */}
+        <div className="h-[60vh]" />
+
+        {/* Scrollable content — starts near bottom of viewport */}
+        <div className="relative z-0 mx-4 mb-40 bg-white px-4 py-6 [transition:background-color_0.3s_ease-in-out,color_0.1s_ease-in-out] dark:bg-[#232323]">
+          <div className="mx-auto w-[209px]">
+            <h2 className="text font-normal">
+              Grey 3D Design System & Migration to Blender
+            </h2>
+            <p className="text font-normal text-[#8E8E93]">
+              Generalist & 3D Designs
+            </p>
+          </div>
+
+          <div className="mt-6">
+            <h2 className="text font-normal">
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+              quae ab illo inventore veritatis et quasi architecto beatae vitae
+              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+              aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+              eos qui ratione.
+            </h2>
+            <h2 className="text mt-6 font-normal">
+              Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+              consectetur, adipisci velit, sed quia non numquam eius modi
+              tempora incidunt ut labore et dolore magnam aliquam quaerat
+              voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem
+              ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
+              consequatur? Quis autem vel eum iure reprehenderit qui in ea
+              voluptate velit esse quam nihil molestiae consequatur, vel illum
+              qui dolorem eum fugiat quo voluptas nulla pariatur
+            </h2>
+            <h2 className="text my-6 font-normal">
+              Send an email to learn more about this project.
+            </h2>
+            <WorkTogetherLink />
+
+            <div className="mt-8 flex items-center gap-2">
+              <Link href="/" className={`${className} flex-1`}>
+                open website
+              </Link>
+              <Link href="/" className={`${className} flex-1`}>
+                open behance
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-4 flex h-32 flex-col justify-center">
+            <CategorySlide />
+            <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%]">
+              ©2026 All rights reserved.
+            </p>
+          </div>
+        </div>
+
+        <div className="pb-10">
           <CategorySlide mobile />
         </div>
       </div>
