@@ -17,6 +17,7 @@ type HeaderProps = {
   showReturnButton?: boolean;
   variant?: "default" | "minimal" | "project-shots";
   mobileLinks?: MobileExtraLink[];
+  backgroundImage?: boolean;
 };
 
 const menuLinks: { label: string; href: string }[] = [
@@ -29,6 +30,7 @@ export default function Header({
   showReturnButton = false,
   variant = "default",
   mobileLinks = [],
+  backgroundImage = false,
 }: HeaderProps) {
   const pathname = usePathname();
   const { resolvedTheme, mounted } = useThemeState();
@@ -58,7 +60,6 @@ export default function Header({
     return `${navPillBase} border-[0.4px] border-black hover:bg-black hover:text-white ${active ? "bg-black text-white" : ""}`;
   };
 
-  // ─── Project-shots variant ────────────────────────────────────────────────
   if (variant === "project-shots") {
     return (
       <header className="w-full">
@@ -103,7 +104,6 @@ export default function Header({
     );
   }
 
-  // ─── Minimal variant ──────────────────────────────────────────────────────
   if (variant === "minimal") {
     return (
       <header className="relative flex w-full items-start justify-between pr-6 pl-[15px]">
@@ -183,6 +183,7 @@ export default function Header({
       {/* Mobile */}
       <div className="mt-[25px] flex w-full items-start justify-between pr-4 pl-2 md:hidden">
         <Image
+          // src={`${backgroundImage ? "/assets/logo-light.svg" : imageSrc} `}
           src={imageSrc}
           alt="Seyi Oniyitan"
           height={72}

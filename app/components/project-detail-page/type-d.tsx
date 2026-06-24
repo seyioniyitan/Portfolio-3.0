@@ -86,7 +86,6 @@ export default function TypeD() {
 
       {/* Mobile */}
       <div className="relative lg:hidden">
-        {/* Fixed background */}
         <div
           className="fixed inset-0 -z-10"
           style={{
@@ -96,7 +95,6 @@ export default function TypeD() {
           }}
         />
 
-        {/* Progressive blur — fixed, always visible */}
         <div
           className="fixed top-0 left-0 z-10 w-full"
           style={{ height: "100px" }}
@@ -136,15 +134,12 @@ export default function TypeD() {
           />
         </div>
 
-        {/* Header — above blur */}
         <div className="fixed top-0 left-0 z-20 w-full pt-6">
-          <Header showReturnButton />
+          <Header showReturnButton backgroundImage />
         </div>
 
-        {/* Spacer so content starts ~80vh down */}
         <div className="h-[60vh]" />
 
-        {/* Scrollable content — starts near bottom of viewport */}
         <div className="relative z-0 mx-4 mb-40 bg-white px-4 py-6 [transition:background-color_0.3s_ease-in-out,color_0.1s_ease-in-out] dark:bg-[#232323]">
           <div className="mx-auto w-[209px]">
             <h2 className="text font-normal">

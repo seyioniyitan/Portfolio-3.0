@@ -46,7 +46,7 @@ export default function ContactDetailRow({
           className={`pointer-events-none flex h-[23px] items-center justify-center rounded-[23px] border px-2 text-[11px] leading-4 font-medium tracking-[0%] opacity-0 transition-all duration-150 group-hover:pointer-events-auto group-hover:opacity-100 ${
             copied
               ? "border-[#007AFF] text-[#007AFF]"
-              : "border-black text-black"
+              : "border-black text-black dark:border-white dark:text-white"
           }`}
         >
           {copied ? "COPIED!" : "COPY"}

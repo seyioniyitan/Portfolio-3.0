@@ -14,6 +14,8 @@ export default async function Home() {
     projects,
   };
 
+  console.log("projectsHere", projects);
+
   return (
     <>
       <HomePage data={data} />

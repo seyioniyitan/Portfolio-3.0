@@ -1,6 +1,23 @@
 import { type SchemaTypeDefinition } from "sanity";
-import { hero } from "../schemas/hero";
+
+import { blockContentType } from "./blockContentType";
+import { categoryType } from "./categoryType";
+import { postType } from "./postType";
+import { authorType } from "./authorType";
+import { artPieceType } from "./artPieceType";
+import { porjectShotsType } from "./projectShotsTypes";
+import { fullProjectType } from "./fullProjectType";
+import { hero } from "./hero";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [hero],
+  types: [
+    blockContentType,
+    categoryType,
+    postType,
+    authorType,
+    artPieceType,
+    porjectShotsType,
+    fullProjectType,
+    hero,
+  ],
 };
