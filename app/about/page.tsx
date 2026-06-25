@@ -76,7 +76,7 @@ export default function AboutPage() {
           <div className="order-1 mt-31.5 flex w-full gap-2.5 overflow-hidden lg:order-2 lg:mt-0 lg:block lg:min-w-0 lg:flex-1 lg:gap-0 lg:space-y-4 lg:pt-4">
             <div className="relative h-[266px] w-1/2 lg:h-[429px] lg:w-[296px]">
               <Image
-                src="/assets/about-a.png"
+                src="/assets/about-a.jpg"
                 alt="Seyi Oniyitan"
                 fill
                 className="object-cover"

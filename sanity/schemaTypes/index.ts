@@ -8,6 +8,7 @@ import { artPieceType } from "./artPieceType";
 import { porjectShotsType } from "./projectShotsTypes";
 import { fullProjectType } from "./fullProjectType";
 import { hero } from "./hero";
+import { recentWork } from "./recentWork";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -19,5 +20,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     porjectShotsType,
     fullProjectType,
     hero,
+    recentWork,
   ],
 };
