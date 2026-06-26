@@ -44,3 +44,50 @@ export type fullProjectData = {
   publishedAt?: string;
   body?: unknown;
 }[];
+
+export type ProjectDetail = {
+  _id: string;
+  title?: string;
+  link?: string;
+  role?: string;
+  slug?: {
+    current: string;
+  };
+  publishedAt?: string;
+  body?: PortableTextBlock[];
+  mainImage?: {
+    alt?: string;
+    asset: {
+      _ref: string;
+    };
+  };
+  categories?: {
+    _id: string;
+    title: string;
+  }[];
+};
+
+export type AboutPageData = {
+  _id: string;
+  introOne?: string;
+  introTwo?: string;
+
+  contactDetails?: {
+    label: string;
+    value: string;
+  }[];
+
+  imageOne?: {
+    alt?: string;
+    asset: {
+      _ref: string;
+    };
+  };
+
+  imageTwo?: {
+    alt?: string;
+    asset: {
+      _ref: string;
+    };
+  };
+};

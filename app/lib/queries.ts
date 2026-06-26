@@ -29,3 +29,45 @@ export const fullProjectQuery = groq`
     ..., body
   }
 `;
+
+export const fullProjectBySlugQuery = groq`
+  *[
+    _type == "fullProject" &&
+    slug.current == $slug
+  ][0]{
+    _id,
+    title,
+    link,
+    slug,
+    publishedAt,
+    body,
+    mainImage {
+      alt,
+      asset
+    },
+    categories[]->{
+      _id,
+      title
+    }
+  }
+`;
+
+export const aboutPageQuery = groq`
+  *[_type == "aboutPage"][0]{
+    _id,
+    introOne,
+    introTwo,
+
+    contactDetails,
+
+    imageOne{
+      alt,
+      asset
+    },
+
+    imageTwo{
+      alt,
+      asset
+    }
+  }
+`;

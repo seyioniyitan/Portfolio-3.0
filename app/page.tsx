@@ -18,8 +18,6 @@ export default async function Home() {
     hero,
   };
 
-  console.log("fullProjectsData", fullProjects);
-
   return (
     <>
       <HomePage data={data} />

@@ -51,7 +51,7 @@ export default function WorkTogetherLink() {
 
   return (
     <Link
-      href="/"
+      href="mailto:hello@seyioniyitan.com?subject=Design%20Project"
       className="text flex items-center gap-2 font-semibold"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

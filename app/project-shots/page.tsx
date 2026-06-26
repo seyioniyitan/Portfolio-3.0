@@ -101,11 +101,6 @@ const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
                 <p className="text text-center font-normal text-[#8E8E93]">
                   {project?.role}
                 </p>
-                {/* <p className="text text-[#8E8E93]">
-                  {project.categories
-                    ?.map((category) => category.title)
-                    .join(" • ")}
-                </p> */}
               </div>
             </div>
           </Link>

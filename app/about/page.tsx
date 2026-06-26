@@ -1,32 +1,21 @@
-import ContactDetailRow from "@/app/components/contact-detail-row";
 import CategorySlide from "@/app/components/category-slide";
-import Image from "next/image";
+import ContactDetailRow from "@/app/components/contact-detail-row";
 import Header from "@/app/components/header";
+import Image from "next/image";
+import { aboutPageQuery } from "@/app/lib/queries";
+import { client } from "@/app/lib/sanity";
+import { AboutPageData } from "@/types";
+import { urlFor } from "@/sanity/lib/image";
 
-const contactDetails = [
-  {
-    label: "Email address",
-    value: "hello@seyionitan.com",
-  },
-  {
-    label: "LinkedIn",
-    value: "linkedin.com/in/seyi-oniyitan",
-  },
-  {
-    label: "Twitter (X)",
-    value: "x.com/leveredman",
-  },
-  {
-    label: "Medium",
-    value: "medium.com/@seyioniyitan",
-  },
-  {
-    label: "Gumroad",
-    value: "gumroad.com/leveredman",
-  },
-];
+export default async function AboutPage() {
+  const aboutPageData = await client.fetch<AboutPageData>(
+    aboutPageQuery,
+    {},
+    { cache: "no-store" },
+  );
+  const { introOne, introTwo, contactDetails, imageOne, imageTwo } =
+    aboutPageData;
 
-export default function AboutPage() {
   return (
     <section>
       <div className="relative overflow-hidden">
@@ -40,23 +29,14 @@ export default function AboutPage() {
         <section className="hidden flex-col items-start gap-8 overflow-hidden lg:flex lg:flex-row lg:gap-[322px]">
           <div className="order-2 px-4 lg:order-1 lg:shrink-0 lg:px-0 lg:pt-[140px] lg:pl-6">
             <div className="w-full lg:w-[447px] lg:pt-13">
-              <h2 className="text font-normal lg:indent-17.5">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis et quasi architecto beatae
-                vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-                voluptas.
-              </h2>
+              <h2 className="text font-normal lg:indent-17.5">{introOne}</h2>
               <h2 className="text mt-8 font-normal lg:indent-17.5">
-                Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-                consectetur, adipisci velit, sed quia non numquam eius modi
-                tempora incidunt ut labore et dolore magnam aliquam quaerat
-                voluptatem.
+                {introTwo}
               </h2>
             </div>
 
             <div className="mt-16 space-y-2 lg:mt-27">
-              {contactDetails.map((item) => (
+              {contactDetails?.map((item) => (
                 <ContactDetailRow
                   key={item.label}
                   label={item.label}
@@ -76,16 +56,16 @@ export default function AboutPage() {
           <div className="order-1 mt-31.5 flex w-full gap-2.5 overflow-hidden lg:order-2 lg:mt-0 lg:block lg:min-w-0 lg:flex-1 lg:gap-0 lg:space-y-4 lg:pt-4">
             <div className="relative h-[266px] w-1/2 lg:h-[429px] lg:w-[296px]">
               <Image
-                src="/assets/about-a.jpg"
-                alt="Seyi Oniyitan"
+                src={urlFor(imageOne!).url()}
+                alt={imageOne?.alt!}
                 fill
                 className="object-cover"
               />
             </div>
             <div className="relative mt-[107px] h-[230px] w-1/2 lg:mt-0 lg:mr-3 lg:ml-40 lg:h-[551px] lg:w-[470px]">
               <Image
-                src="/assets/about-b.jpg"
-                alt="Seyi Oniyitan"
+                src={urlFor(imageTwo!).url()}
+                alt={imageTwo?.alt!}
                 fill
                 className="object-cover"
               />
@@ -95,43 +75,31 @@ export default function AboutPage() {
 
         {/* ── Mobile ── */}
         <section className="flex flex-col gap-8 lg:hidden">
-          {/* Images */}
           <div className="mt-31.5 flex w-full gap-2.5 overflow-hidden">
             <div className="relative h-[266px] w-1/2 shrink-0">
               <Image
-                src="/assets/about-a.jpg"
-                alt="Seyi Oniyitan"
+                src={urlFor(imageOne!).url()}
+                alt={imageOne?.alt!}
                 fill
                 className="object-cover"
               />
             </div>
             <div className="relative mt-25 h-[230px] w-1/2 shrink-0 self-end">
               <Image
-                src="/assets/about-b.jpg"
-                alt="Seyi Oniyitan"
+                src={urlFor(imageTwo!).url()}
+                alt={imageTwo?.alt!}
                 fill
                 className="object-cover"
               />
             </div>
           </div>
 
-          {/* Text */}
           <div className="w-full min-w-0 px-4">
-            <h2 className="text font-normal">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-              quae ab illo inventore veritatis et quasi architecto beatae vitae
-              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas.
-            </h2>
-            <h2 className="text mt-8 font-normal">
-              Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-              consectetur, adipisci velit, sed quia non numquam eius modi
-              tempora incidunt ut labore et dolore magnam aliquam quaerat
-              voluptatem.
-            </h2>
+            <h2 className="text font-normal">{introOne}</h2>
+            <h2 className="text mt-8 font-normal">{introTwo}</h2>
 
             <div className="mt-16 space-y-2">
-              {contactDetails.map((item) => (
+              {contactDetails?.map((item) => (
                 <ContactDetailRow
                   key={item.label}
                   label={item.label}

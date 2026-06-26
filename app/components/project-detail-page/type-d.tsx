@@ -8,9 +8,15 @@ import WorkTogetherLink from "@/app/components/work-together-link";
 import { useThemeState } from "@/app/hooks/use-theme-state";
 import Link from "next/link";
 import Header from "@/app/components/header";
+import { ProjectDetail } from "@/types";
+import { PortableText } from "@portabletext/react";
+import { urlFor } from "@/sanity/lib/image";
 
-export default function TypeD() {
+export default function TypeD({ data }: { data: ProjectDetail }) {
   const { resolvedTheme, mounted } = useThemeState();
+  const { title, link, body, role, mainImage } = data;
+
+  console.log(data);
 
   const lightStyle = `border border-black hover:bg-black hover:text-white`;
   const darkStyle = `border border-white hover:bg-white hover:text-black`;
@@ -22,6 +28,15 @@ export default function TypeD() {
       ? `${base} ${darkStyle}`
       : `${base} ${lightStyle}`;
 
+  let imageSrc = "/assets/hero-a.png";
+  if (mainImage) {
+    try {
+      imageSrc = urlFor(mainImage).url();
+    } catch {
+      imageSrc = "/assets/hero-a.png";
+    }
+  }
+
   return (
     <section>
       <div className="hidden min-h-screen lg:flex">
@@ -30,14 +45,13 @@ export default function TypeD() {
 
           <div className="flex flex-1 items-start gap-12 px-6 pt-[53px]">
             <div className="w-[185px] shrink-0">
-              <h2 className="text font-normal">title mobile</h2>
-              <p className="text font-normal text-[#8E8E93]">subtitle</p>
+              <h2 className="text font-normal">{title}</h2>
+              <p className="text font-normal text-[#8E8E93]">{role}</p>
             </div>
 
             <div className="w-[444px]">
               <h2 className="text indent-17.5 font-normal">
-                This project detail is now rendered from the fetched Sanity
-                data.
+                <PortableText value={body} />
               </h2>
               <h2 className="text mt-6 indent-17.5 font-normal">
                 content here too
@@ -47,12 +61,20 @@ export default function TypeD() {
               </h2>
               <WorkTogetherLink />
 
-              <div className="mt-8 flex items-center gap-2">
-                website link here
-                <Link href="/" className={className}>
-                  open behance
-                </Link>
-              </div>
+              {data.link && (
+                <div className="mt-8">
+                  <Link
+                    href={data.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={className}
+                  >
+                    {data.link.includes("behance.net")
+                      ? "Open Behance"
+                      : "Open Website"}
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
           <div className="mt-[211px] mb-[45px] ml-6">
@@ -66,7 +88,7 @@ export default function TypeD() {
         <div
           className="flex flex-1 flex-col bg-[#232323]"
           style={{
-            backgroundImage: "url('/assets/type-d/a.png')",
+            backgroundImage: `url(${imageSrc})`,
             backgroundSize: "cover",
             backgroundPosition: "-166px center",
           }}
@@ -80,7 +102,7 @@ export default function TypeD() {
         <div
           className="fixed inset-0 -z-10"
           style={{
-            backgroundImage: "url('/assets/type-d/a.png')",
+            backgroundImage: `url(${imageSrc})`,
             backgroundSize: "cover",
             backgroundPosition: "-110.2px center",
           }}
@@ -133,46 +155,36 @@ export default function TypeD() {
 
         <div className="relative z-0 mx-4 mb-40 bg-white px-4 py-6 [transition:background-color_0.3s_ease-in-out,color_0.1s_ease-in-out] dark:bg-[#232323]">
           <div className="mx-auto w-[209px]">
-            <h2 className="text font-normal">
-              Grey 3D Design System & Migration to Blender
-            </h2>
-            <p className="text font-normal text-[#8E8E93]">
-              Generalist & 3D Designs
-            </p>
+            <h2 className="text font-normal">{title}</h2>
+            <p className="text font-normal text-[#8E8E93]">{role}</p>
           </div>
 
           <div className="mt-6">
             <h2 className="text font-normal">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-              quae ab illo inventore veritatis et quasi architecto beatae vitae
-              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-              aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-              eos qui ratione.
+              <PortableText value={body} />
             </h2>
             <h2 className="text mt-6 font-normal">
-              Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-              consectetur, adipisci velit, sed quia non numquam eius modi
-              tempora incidunt ut labore et dolore magnam aliquam quaerat
-              voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem
-              ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
-              consequatur? Quis autem vel eum iure reprehenderit qui in ea
-              voluptate velit esse quam nihil molestiae consequatur, vel illum
-              qui dolorem eum fugiat quo voluptas nulla pariatur
+              <PortableText value={body} />
             </h2>
             <h2 className="text my-6 font-normal">
               Send an email to learn more about this project.
             </h2>
             <WorkTogetherLink />
 
-            <div className="mt-8 flex items-center gap-2">
-              <Link href="/" className={`${className} flex-1`}>
-                open website
-              </Link>
-              <Link href="/" className={`${className} flex-1`}>
-                open behance
-              </Link>
-            </div>
+            {data.link && (
+              <div className="mt-8">
+                <Link
+                  href={data.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={className}
+                >
+                  {data.link.includes("behance.net")
+                    ? "Open Behance"
+                    : "Open Website"}
+                </Link>
+              </div>
+            )}
           </div>
 
           <div className="mt-4 flex h-32 flex-col justify-center">

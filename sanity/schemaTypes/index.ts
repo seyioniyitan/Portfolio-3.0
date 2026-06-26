@@ -9,6 +9,7 @@ import { porjectShotsType } from "./projectShotsTypes";
 import { fullProjectType } from "./fullProjectType";
 import { hero } from "./hero";
 import { recentWork } from "./recentWork";
+import { aboutPageType } from "./aboutPage";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -21,5 +22,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     fullProjectType,
     hero,
     recentWork,
+    aboutPageType,
   ],
 };
