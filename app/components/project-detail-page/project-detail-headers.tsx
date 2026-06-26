@@ -50,7 +50,7 @@ export function ProjectShotsHeaderRight() {
           <Link
             key={index}
             href={link.href}
-            className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.4px] border-white px-3 py-1 text-[13px] leading-4 font-medium text-white uppercase antialiased transition-colors duration-200 hover:bg-black hover:text-white"
+            className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.8px] border-white px-3 py-1 text-[13px] leading-4 font-medium text-white uppercase antialiased transition-colors duration-200 hover:bg-black hover:text-white"
           >
             {link.label}
           </Link>

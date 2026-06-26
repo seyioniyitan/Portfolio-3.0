@@ -48,23 +48,15 @@ export default function TypeC() {
 
         <div className="flex flex-1 items-start gap-12 px-6 pt-[53px]">
           <div className="w-[185px] shrink-0">
-            <h2 className="text font-normal">Type C Project Detail</h2>
-            <p className="text font-normal text-[#8E8E93]">
-              Project type C details
-            </p>
+            <h2 className="text font-normal">title mobile</h2>
+            <p className="text font-normal text-[#8E8E93]">subtitle mobile</p>
           </div>
 
           <div className="w-[444px]">
-            <h2 className="text indent-20 font-normal">
-              This is a placeholder layout for type C projects. Replace the
-              right-side image block with the correct project visuals after
-              copying this stub.
+            <h2 className="text indent-17.5 font-normal">
+              This project detail is now rendered from the fetched Sanity data.
             </h2>
-            <h2 className="text mt-6 indent-20 font-normal">
-              Use this area to describe the project, highlight the role, and
-              explain the design direction. The image grid on the right will be
-              the only visible difference compared to other type layouts.
-            </h2>
+            <h2 className="text mt-6 indent-17.5 font-normal">link</h2>
             <h2 className="text my-6 font-normal">
               Send an email to learn more about this project.
             </h2>

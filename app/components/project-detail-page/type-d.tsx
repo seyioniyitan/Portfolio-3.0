@@ -7,7 +7,7 @@ import {
 import WorkTogetherLink from "@/app/components/work-together-link";
 import { useThemeState } from "@/app/hooks/use-theme-state";
 import Link from "next/link";
-import Header from "../header";
+import Header from "@/app/components/header";
 
 export default function TypeD() {
   const { resolvedTheme, mounted } = useThemeState();
@@ -30,24 +30,17 @@ export default function TypeD() {
 
           <div className="flex flex-1 items-start gap-12 px-6 pt-[53px]">
             <div className="w-[185px] shrink-0">
-              <h2 className="text font-normal">
-                Placeholder Type D Project Detail
-              </h2>
-              <p className="text font-normal text-[#8E8E93]">
-                Project type D details
-              </p>
+              <h2 className="text font-normal">title mobile</h2>
+              <p className="text font-normal text-[#8E8E93]">subtitle</p>
             </div>
 
             <div className="w-[444px]">
-              <h2 className="text indent-20 font-normal">
-                This is a placeholder layout for type D projects. Replace the
-                right-side image block with the correct project visuals after
-                copying this stub.
+              <h2 className="text indent-17.5 font-normal">
+                This project detail is now rendered from the fetched Sanity
+                data.
               </h2>
-              <h2 className="text mt-6 indent-20 font-normal">
-                Use this area to describe the project, highlight the role, and
-                explain the design direction. The image grid on the right will
-                be the only visible difference compared to other type layouts.
+              <h2 className="text mt-6 indent-17.5 font-normal">
+                content here too
               </h2>
               <h2 className="text my-6 font-normal">
                 Send an email to learn more about this project.
@@ -55,9 +48,7 @@ export default function TypeD() {
               <WorkTogetherLink />
 
               <div className="mt-8 flex items-center gap-2">
-                <Link href="/" className={className}>
-                  open website
-                </Link>
+                website link here
                 <Link href="/" className={className}>
                   open behance
                 </Link>

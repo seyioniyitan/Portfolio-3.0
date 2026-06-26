@@ -1,21 +1,19 @@
 "use client";
 import CategorySlide from "@/app/components/category-slide";
 import EmailWithCopy from "@/app/components/email-with-copy";
+import Header from "@/app/components/header";
 import HeroSlider from "@/app/components/hero-slider";
 import LoadingScreen from "@/app/components/loading-screen";
 import RecentWork from "@/app/components/recent-work";
 import WorkTogetherLink from "@/app/components/work-together-link";
 import { useThemeState } from "@/app/hooks/use-theme-state";
-import Image from "next/image";
+import { HomePageData } from "@/types";
 import Link from "next/link";
 import { useState } from "react";
-import Header from "@/app/components/header";
-import { HomePageData } from "@/types";
 import ProjectShotsSvg from "./svgs/projects-shots-svg";
-import PagePushWrapper from "./page-push";
 
 export default function HomePage({ data }: { data: HomePageData }) {
-  const { hero, projects } = data;
+  const { hero } = data;
 
   const [done, setDone] = useState(false);
   const { resolvedTheme, mounted } = useThemeState();
@@ -41,14 +39,13 @@ export default function HomePage({ data }: { data: HomePageData }) {
   return (
     <>
       {!done && <LoadingScreen onComplete={() => setDone(true)} />}
-      {/* <PagePushWrapper> */}
       <div className="relative overflow-hidden">
         <Header />
         <section className="mt-[75px] flex items-start md:mt-0">
           <div className="md:shrink-0 md:pt-[104px]">
             <div className="mb-5 px-4 md:mb-0 md:px-0 md:pl-6">
               <div className="mt-10 w-full md:mt-13 md:w-[443px]">
-                <h2 className="text h-[138px] indent-16 font-normal md:h-[115px] md:indent-20">
+                <h2 className="text h-[138px] indent-16 font-normal md:h-[115px] md:indent-17.5">
                   <span className="underline decoration-1 underline-offset-[17%]">
                     Seyi Oniyitan
                   </span>{" "}
@@ -76,9 +73,12 @@ export default function HomePage({ data }: { data: HomePageData }) {
             </div>
 
             <RecentWork />
-            <div className="md:pb-10 md:pl-6">
-              <div className="hidden md:block">
+            <div className="pointer-events-auto md:pb-10 md:pl-6">
+              <div className="mt-10.5 ml-4 lg:mt-0 lg:ml-0">
                 <CategorySlide />
+                <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%] lg:hidden">
+                  ©2026 All rights reserved.
+                </p>
               </div>
               <div className="mt-[188px] md:hidden">
                 <CategorySlide mobile />
@@ -94,7 +94,6 @@ export default function HomePage({ data }: { data: HomePageData }) {
           </div>
         </section>
       </div>
-      {/* </PagePushWrapper> */}
     </>
   );
 }

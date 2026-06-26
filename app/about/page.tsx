@@ -10,7 +10,7 @@ const contactDetails = [
   },
   {
     label: "LinkedIn",
-    value: "linkedin.com/seyi-oniyitan",
+    value: "linkedin.com/in/seyi-oniyitan",
   },
   {
     label: "Twitter (X)",
@@ -40,14 +40,14 @@ export default function AboutPage() {
         <section className="hidden flex-col items-start gap-8 overflow-hidden lg:flex lg:flex-row lg:gap-[322px]">
           <div className="order-2 px-4 lg:order-1 lg:shrink-0 lg:px-0 lg:pt-[140px] lg:pl-6">
             <div className="w-full lg:w-[447px] lg:pt-13">
-              <h2 className="text font-normal lg:indent-20">
+              <h2 className="text font-normal lg:indent-17.5">
                 Sed ut perspiciatis unde omnis iste natus error sit voluptatem
                 accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
                 quae ab illo inventore veritatis et quasi architecto beatae
                 vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
                 voluptas.
               </h2>
-              <h2 className="text mt-8 font-normal lg:indent-20">
+              <h2 className="text mt-8 font-normal lg:indent-17.5">
                 Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
                 consectetur, adipisci velit, sed quia non numquam eius modi
                 tempora incidunt ut labore et dolore magnam aliquam quaerat

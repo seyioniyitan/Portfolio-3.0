@@ -12,6 +12,10 @@ export const fullProjectType = defineType({
       type: "string",
     }),
     defineField({
+      name: "role",
+      type: "string",
+    }),
+    defineField({
       name: "link",
       type: "string",
     }),

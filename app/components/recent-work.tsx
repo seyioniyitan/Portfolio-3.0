@@ -73,7 +73,7 @@ export default function RecentWork() {
               <div className="flex items-center gap-2">
                 <h2 className="text font-normal">{company}</h2>
                 {tag && (
-                  <p className="flex h-3.5 w-6 items-center justify-center rounded-[4px] border-[0.4px] border-[#00000014]/8 bg-[#8080808C]/55 px-1 py-0.5 text-[8px] leading-[100%] font-semibold tracking-[0%] text-white">
+                  <p className="flex h-3.5 w-6 items-center justify-center rounded-[4px] border-[0.8px] border-[#000000]/8 bg-[#808080]/55 px-1 py-0.5 text-[8px] leading-[100%] font-semibold tracking-[0%] text-white">
                     {tag}
                   </p>
                 )}
@@ -84,9 +84,11 @@ export default function RecentWork() {
           </div>
         ))}
         <div className="relative flex h-13.75 items-center justify-between border-b border-[#F2F2F7] py-3.5 dark:border-[#7F7F7F66]/40">
-          <div className="flex items-center gap-2">
+          <div className="flex h-[23px] items-end gap-2">
             <h2 className="text font-normal">Download resume</h2>
-            <p className="text text-[12px] font-medium text-[#8E8E93]">805kB</p>
+            <p className="block text-[12px] leading-[150%] font-medium tracking-[0%] text-[#8E8E93]">
+              805kB
+            </p>
           </div>
 
           <div className="absolute right-0 bottom-0">

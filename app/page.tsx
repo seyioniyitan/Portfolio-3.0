@@ -1,20 +1,24 @@
-import { heroQuery, projectShotsQuery } from "@/app/lib/queries";
+import {
+  fullProjectQuery,
+  heroQuery,
+  projectShotsQuery,
+} from "@/app/lib/queries";
 import { client } from "@/app/lib/sanity";
 import HomePage from "@/app/components/home-page";
 import { HomePageData } from "@/types";
 
 export default async function Home() {
-  const [hero, projects] = await Promise.all([
-    client?.fetch(heroQuery, {}, { cache: "no-store" }),
-    client?.fetch(projectShotsQuery, {}, { cache: "no-store" }),
+  const [hero, projectShots, fullProjects] = await Promise.all([
+    client.fetch(heroQuery, {}, { cache: "no-store" }),
+    client.fetch(projectShotsQuery, {}, { cache: "no-store" }),
+    client.fetch(fullProjectQuery, {}, { cache: "no-store" }),
   ]);
 
   const data: HomePageData = {
     hero,
-    projects,
   };
 
-  console.log("projectsHere", projects);
+  console.log("fullProjectsData", fullProjects);
 
   return (
     <>

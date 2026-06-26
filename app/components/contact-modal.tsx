@@ -1,5 +1,4 @@
 import Image from "next/image";
-import CategorySlide from "./category-slide";
 import ProjectShotsCategorySlide from "./project-shots-category-slide";
 
 export default function ContactModal() {

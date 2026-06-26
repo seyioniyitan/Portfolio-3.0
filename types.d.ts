@@ -5,16 +5,42 @@ export type HomePageData = {
     headline: string;
     tagline?: string;
   } | null;
+};
 
-  projects: {
+export type ProjectShot = {
+  _id: string;
+  title: string;
+  image?: {
+    alt?: string;
+    asset: {
+      _ref: string;
+    };
+  };
+  categories?: {
     _id: string;
     title: string;
-    link?: string;
-    body?: string;
-    image?: {
-      asset: {
-        url: string;
-      };
-    };
   }[];
 };
+
+export type fullProjectData = {
+  _id: string;
+  title?: string;
+  role?: string;
+  link?: string;
+  slug?: {
+    current: string;
+  };
+  mainImage: {
+    asset: {
+      _ref: string;
+      _type: string;
+    };
+    alt?: string;
+  };
+  categories?: {
+    _id: string;
+    title: string;
+  }[];
+  publishedAt?: string;
+  body?: unknown;
+}[];

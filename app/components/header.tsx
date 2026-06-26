@@ -7,6 +7,7 @@ import { useThemeState } from "@/app/hooks/use-theme-state";
 import WorkTogetherLink from "@/app/components/work-together-link";
 import ThemeToggle from "@/app/components/theme-toggle";
 import MobileMenu from "@/app/components/mobile-menu";
+import { useMobileMenu } from "@/app/context/mobile-menu-context";
 
 type MobileExtraLink = {
   label: string;
@@ -21,8 +22,8 @@ type HeaderProps = {
 };
 
 const menuLinks: { label: string; href: string }[] = [
-  { label: "Shop", href: "/shop" },
-  { label: "Articles", href: "/articles" },
+  { label: "Store", href: "https://www.gumroad.com/leveredman" },
+  { label: "Articles", href: "https://www.medium.com/@seyioniyitan" },
   { label: "About", href: "/about" },
 ];
 
@@ -34,6 +35,7 @@ export default function Header({
 }: HeaderProps) {
   const pathname = usePathname();
   const { resolvedTheme, mounted } = useThemeState();
+  const { open } = useMobileMenu();
 
   const imageSrc =
     mounted && resolvedTheme === "dark"
@@ -55,9 +57,9 @@ export default function Header({
 
   const pillClass = (active = false) => {
     if (mounted && resolvedTheme === "dark") {
-      return `${navPillBase} border-[0.4px] border-white hover:bg-white hover:text-black ${active ? "bg-white text-black" : ""}`;
+      return `${navPillBase} border-[0.8px] border-white hover:bg-white hover:text-black ${active ? "bg-white text-black" : ""}`;
     }
-    return `${navPillBase} border-[0.4px] border-black hover:bg-black hover:text-white ${active ? "bg-black text-white" : ""}`;
+    return `${navPillBase} border-[0.8px] border-black hover:bg-black hover:text-white ${active ? "bg-black text-white" : ""}`;
   };
 
   if (variant === "project-shots") {
@@ -74,15 +76,21 @@ export default function Header({
             </Link>
           </div>
           <nav className="flex gap-3 pt-10">
-            {menuLinks.map((link, index) => (
-              <Link
-                key={index}
-                href={link.href}
-                className={pillClass(isLinkActive(link.href))}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {menuLinks.map((link, index) => {
+              const isExternal = /^https?:\/\//i.test(link.href);
+
+              return (
+                <Link
+                  key={index}
+                  href={link.href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
+                  className={pillClass(isLinkActive(link.href))}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
             <ThemeToggle />
           </nav>
         </div>
@@ -97,7 +105,9 @@ export default function Header({
               home
             </Link>
             <MobileMenu />
-            <ThemeToggle width={32} />
+            <div className={open ? "hidden" : ""}>
+              <ThemeToggle width={32} />
+            </div>
           </div>
         </div>
       </header>
@@ -110,7 +120,7 @@ export default function Header({
         {showReturnButton && (
           <Link
             href="/project-shots"
-            className="absolute top-[29px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.4px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors hover:bg-black hover:text-white"
+            className="absolute top-[29px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.8px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors hover:bg-black hover:text-white"
           >
             home
           </Link>
@@ -139,7 +149,7 @@ export default function Header({
       {showReturnButton && (
         <Link
           href="/"
-          className="absolute top-[25px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.4px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors hover:text-white md:hidden dark:border-white dark:bg-[#232323]"
+          className="absolute top-[25px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.8px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors hover:text-white md:hidden dark:border-white dark:bg-[#232323]"
         >
           home
         </Link>
@@ -160,22 +170,28 @@ export default function Header({
           {showReturnButton && (
             <Link
               href="/"
-              className="absolute top-0 left-[67px] flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.4px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors hover:bg-black hover:text-white dark:border-white dark:bg-[#232323] dark:hover:bg-white dark:hover:text-black"
+              className="absolute top-0 left-[67px] flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.8px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors hover:bg-black hover:text-white dark:border-white dark:bg-[#232323] dark:hover:bg-white dark:hover:text-black"
             >
               home
             </Link>
           )}
         </div>
         <nav className="flex items-center gap-3">
-          {menuLinks.map((link, index) => (
-            <Link
-              key={index}
-              href={link.href}
-              className={pillClass(isLinkActive(link.href))}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {menuLinks.map((link, index) => {
+            const isExternal = /^https?:\/\//i.test(link.href);
+
+            return (
+              <Link
+                key={index}
+                href={link.href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                className={pillClass(isLinkActive(link.href))}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
           <ThemeToggle />
         </nav>
       </div>
@@ -203,7 +219,9 @@ export default function Header({
             </Link>
           ))}
           <MobileMenu />
-          <ThemeToggle width={32} />
+          <div className={open ? "hidden" : ""}>
+            <ThemeToggle width={32} />
+          </div>
         </div>
       </div>
     </header>

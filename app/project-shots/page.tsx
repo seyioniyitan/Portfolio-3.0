@@ -1,120 +1,59 @@
-"use client";
-
 import ContactModal from "@/app/components/contact-modal";
 import Header from "@/app/components/header";
+import ShuffleButtons, {
+  type ProjectView,
+} from "@/app/components/shuffle-buttons";
 import WorkTogetherLink from "@/app/components/work-together-link";
-import { caseStudyData } from "@/app/lib/project-data";
+import { fullProjectQuery, projectShotsQuery } from "@/app/lib/queries";
+import { client } from "@/app/lib/sanity";
+import { urlFor } from "@/sanity/lib/image";
+import { fullProjectData } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import CategorySlide from "../components/category-slide";
+import ProjectShotsGrid from "../components/project-shots-grid";
 
-export default function ProjectShots() {
-  const [activeView, setActiveView] = useState<
-    "case-studies" | "project-shots"
-  >("case-studies");
+export default async function ProjectShots({
+  searchParams,
+}: {
+  searchParams: Promise<{ view?: string }>;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const activeView: ProjectView =
+    resolvedSearchParams.view === "project-shots"
+      ? "project-shots"
+      : "case-studies";
+
+  const [fullProjects, projectShots] = await Promise.all([
+    client.fetch(fullProjectQuery, {}, { cache: "no-store" }),
+    client.fetch(projectShotsQuery, {}, { cache: "no-store" }),
+  ]);
 
   return (
     <section>
       <Header variant="project-shots" />
-
       <div className="relative pb-20 md:mt-0">
         <div className="flex items-center justify-between px-4 lg:px-6">
-          <div className="flex w-full items-center justify-between gap-2 pt-6 md:w-auto md:justify-normal md:pt-7 lg:gap-3">
-            {shuffleButtons.map(({ title, view }, index) => (
-              <button
-                key={index}
-                onClick={() => view && setActiveView(view)}
-                className={`h-[25px] rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase ${
-                  view === activeView ? "bg-black text-white" : ""
-                } ${!view ? "opacity-60" : ""}`}
-              >
-                {title}
-              </button>
-            ))}
-          </div>
+          <ShuffleButtons activeView={activeView} />
           <div className="hidden md:block">
             <WorkTogetherLink />
           </div>
         </div>
 
-        {activeView === "case-studies" ? <CaseStudies /> : <ProjectShotsGrid />}
-        <div className="fixed bottom-7 hidden px-6 lg:block">
-          <ContactModal />
+        {activeView === "case-studies" ? (
+          <CaseStudies fullProjects={fullProjects} />
+        ) : (
+          <ProjectShotsGrid shots={projectShots} />
+        )}
+
+        <div className="pointer-events-none fixed bottom-7 hidden px-6 lg:block">
+          <div className="pointer-events-auto">
+            <ContactModal />
+          </div>
         </div>
       </div>
     </section>
   );
 }
-
-const shuffleButtons: {
-  id: number;
-  title: string;
-  view?: "case-studies" | "project-shots";
-}[] = [
-  { id: 1, title: "case studies", view: "case-studies" },
-  { id: 2, title: "project shots ", view: "project-shots" },
-  { id: 3, title: "shuffle" },
-];
-
-const ProjectShotsGrid = () => {
-  return (
-    <>
-      {/* Desktop */}
-      <div className="hidden auto-rows-[280px] grid-cols-6 gap-4 px-6 pt-10 md:grid">
-        <BentoImage
-          src="/assets/hero-a.png"
-          className="col-span-2 row-span-2"
-        />
-        <BentoImage src="/assets/hero-b.png" className="col-span-2" />
-        <div className="col-span-2 row-span-3 flex min-h-0 flex-col gap-5">
-          <BentoImage
-            src="/assets/hero-a.png"
-            className="h-[370px] flex-none"
-          />
-          <BentoImage
-            src="/assets/hero-b.png"
-            className="h-[350px] flex-none"
-          />
-        </div>
-        <BentoImage src="/assets/hero-b.png" className="col-span-2" />
-        <BentoImage src="/assets/hero-a.png" className="col-span-3 h-[350px]" />
-      </div>
-
-      {/* Mobile */}
-
-      <div className="lg:hidden">
-        <div className="row-span-3 grid grid-cols-2 gap-2 px-4 pt-6">
-          <BentoImage
-            src="/assets/hero-a.png"
-            className="col-span-1 row-span-2 h-full"
-          />
-
-          <BentoImage
-            src="/assets/hero-b.png"
-            className="col-span-1 row-span-1 h-[137px]"
-          />
-
-          <BentoImage
-            src="/assets/hero-a.png"
-            className="col-span-1 h-[155px]"
-          />
-
-          <BentoImage
-            src="/assets/hero-a.png"
-            className="col-span-1 h-[260px]"
-          />
-
-          <BentoImage
-            src="/assets/hero-b.png"
-            className="col-span-1 h-[230px]"
-          />
-        </div>
-        <CategorySlide mobile />
-      </div>
-    </>
-  );
-};
 
 const BentoImage = ({
   src,
@@ -128,42 +67,50 @@ const BentoImage = ({
   </div>
 );
 
-const CaseStudies = () => {
+const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
   return (
-    <div className="grid grid-cols-1 gap-4 p-6 lg:grid-cols-2">
-      {caseStudyData.map((study, index) => (
-        <Link
-          href={`/project-detail/${study.id}`}
-          key={`${study.title}-${index}`}
-          className="space-y-4"
-        >
-          <div className="relative h-[242px] overflow-hidden lg:h-[458px]">
-            <Image
-              src={study.image}
-              alt={study.title}
-              fill
-              className="object-cover"
-            />
-          </div>
+    <div className="grid grid-cols-1 gap-x-5 gap-y-8 p-6 lg:grid-cols-2">
+      {fullProjects.map((project, index) => {
+        const href = project.slug?.current
+          ? `/project-detail/${project.slug.current}`
+          : "/project-shots";
 
-          <div className="mb-7 flex h-[87px] flex-col items-center justify-center gap-4 pr-4 pl-2 md:justify-between lg:mb-0 lg:h-[46px] lg:flex-row">
-            <div>
-              <h3 className="text text-center lg:text-left">{study.title}</h3>
-              <p className="text text-[#8E8E93]">{study.role}</p>
+        let imageSrc = "/assets/hero-a.png";
+        if (project.mainImage) {
+          try {
+            imageSrc = urlFor(project.mainImage).url();
+          } catch {
+            imageSrc = "/assets/hero-a.png";
+          }
+        }
+
+        return (
+          <Link href={href} key={`${project._id}-${index}`} className="">
+            <div className="relative h-[242px] overflow-hidden lg:h-[458px]">
+              <Image
+                src={imageSrc}
+                alt={project.title ?? "Project"}
+                fill
+                className="object-cover"
+              />
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              {study.tag.map((item) => (
-                <span
-                  key={item}
-                  className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.4px] border-black px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase"
-                >
-                  {item}
-                </span>
-              ))}
+
+            <div className="mb-7 flex h-15.5 flex-col justify-center gap-4 pr-4 pl-2 lg:mb-0 lg:flex-row lg:items-end">
+              <div className="h-[46px]">
+                <h3 className="text text-center">{project.title}</h3>
+                <p className="text text-center font-normal text-[#8E8E93]">
+                  {project?.role}
+                </p>
+                {/* <p className="text text-[#8E8E93]">
+                  {project.categories
+                    ?.map((category) => category.title)
+                    .join(" • ")}
+                </p> */}
+              </div>
             </div>
-          </div>
-        </Link>
-      ))}
+          </Link>
+        );
+      })}
     </div>
   );
 };
