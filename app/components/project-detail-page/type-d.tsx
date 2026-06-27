@@ -14,14 +14,14 @@ import { urlFor } from "@/sanity/lib/image";
 
 export default function TypeD({ data }: { data: ProjectDetail }) {
   const { resolvedTheme, mounted } = useThemeState();
-  const { title, link, body, role, mainImage } = data;
+  const { title, bodyOne, bodyTwo, role, links, mainImage } = data;
 
   console.log(data);
 
-  const lightStyle = `border border-black hover:bg-black hover:text-white`;
-  const darkStyle = `border border-white hover:bg-white hover:text-black`;
+  const lightStyle = `border-[0.8px] border-black hover:bg-black hover:text-white`;
+  const darkStyle = `border-[0.8px] border-white hover:bg-white hover:text-black`;
   const base =
-    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased ";
 
   const className =
     mounted && resolvedTheme === "dark"
@@ -51,30 +51,29 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
 
             <div className="w-[444px]">
               <h2 className="text indent-17.5 font-normal">
-                <PortableText value={body} />
+                <PortableText value={bodyOne} />
               </h2>
               <h2 className="text mt-6 indent-17.5 font-normal">
-                content here too
+                <PortableText value={bodyTwo} />
               </h2>
               <h2 className="text my-6 font-normal">
                 Send an email to learn more about this project.
               </h2>
               <WorkTogetherLink />
 
-              {data.link && (
-                <div className="mt-8">
+              <div className="mt-8 flex items-center gap-2">
+                {links?.map(({ url, title }, index) => (
                   <Link
-                    href={data.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={className}
+                    key={index}
+                    href={url ?? "/"}
+                    target={url ? "_blank" : undefined}
+                    rel={url ? "noopener noreferrer" : undefined}
+                    className={`${className} `}
                   >
-                    {data.link.includes("behance.net")
-                      ? "Open Behance"
-                      : "Open Website"}
+                    {title}
                   </Link>
-                </div>
-              )}
+                ))}
+              </div>
             </div>
           </div>
           <div className="mt-[211px] mb-[45px] ml-6">
@@ -161,30 +160,27 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
 
           <div className="mt-6">
             <h2 className="text font-normal">
-              <PortableText value={body} />
+              <PortableText value={bodyOne} />
             </h2>
             <h2 className="text mt-6 font-normal">
-              <PortableText value={body} />
+              <PortableText value={bodyTwo} />
             </h2>
             <h2 className="text my-6 font-normal">
               Send an email to learn more about this project.
             </h2>
             <WorkTogetherLink />
-
-            {data.link && (
-              <div className="mt-8">
+            {links?.map(({ url, title }, index) => (
+              <div className="mt-8 flex items-center" key={index}>
                 <Link
-                  href={data.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={className}
+                  href={url ?? "/"}
+                  target={url ? "_blank" : undefined}
+                  rel={url ? "noopener noreferrer" : undefined}
+                  className={`${className} flex-1`}
                 >
-                  {data.link.includes("behance.net")
-                    ? "Open Behance"
-                    : "Open Website"}
+                  {title}
                 </Link>
               </div>
-            )}
+            ))}
           </div>
 
           <div className="mt-4 flex h-32 flex-col justify-center">

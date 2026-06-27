@@ -10,14 +10,16 @@ import RecentWork from "@/app/components/recent-work";
 import WorkTogetherLink from "@/app/components/work-together-link";
 import ProjectShotsSvg from "@/app/components/svgs/projects-shots-svg";
 import { useThemeState } from "@/app/hooks/use-theme-state";
-import { HomePageData, ProjectShot } from "@/types";
+import { HomePageData, ProjectShot, RecentWorkData } from "@/types";
 
 export default function HomePage({
   data,
   projectShots,
+  recentWork,
 }: {
   data: HomePageData;
   projectShots: ProjectShot[];
+  recentWork: RecentWorkData[];
 }) {
   const { hero } = data;
 
@@ -25,15 +27,15 @@ export default function HomePage({
   const { resolvedTheme, mounted } = useThemeState();
 
   const base =
-    "flex h-[25px] px-3 py-1 lg:h-5 items-center justify-center rounded-[23px] lg:px-2 lg:py-0.5 text-[13px] lg:text-[11px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+    "flex h-[25px] px-3 py-1 lg:h-5 items-center justify-center rounded-[23px] lg:px-2 lg:py-0.5 text-[13px] lg:text-[11px] leading-4 font-medium uppercase antialiased ";
 
   const lightStyle = `
-    border-[0.6px] border-black
+    border-[0.8px] border-black
     hover:bg-black hover:text-white
   `;
 
   const darkStyle = `
-    border-[0.6px] border-white
+    border-[0.8px] border-white
     hover:bg-white hover:text-black
   `;
 
@@ -78,7 +80,7 @@ export default function HomePage({
               </div>
             </div>
 
-            <RecentWork />
+            <RecentWork recentWork={recentWork} />
             <div className="pointer-events-auto md:pb-10 md:pl-6">
               <div className="mt-10.5 ml-4 lg:mt-0 lg:ml-0">
                 <CategorySlide />

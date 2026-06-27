@@ -10,12 +10,15 @@ export type HomePageData = {
 export type ProjectShot = {
   _id: string;
   title: string;
+  hidden?: boolean;
+
   image?: {
     alt?: string;
     asset: {
       _ref: string;
     };
   };
+
   categories?: {
     _id: string;
     title: string;
@@ -48,22 +51,30 @@ export type fullProjectData = {
 export type ProjectDetail = {
   _id: string;
   title?: string;
-  link?: string;
   role?: string;
   slug?: {
     current: string;
   };
   publishedAt?: string;
-  body?: PortableTextBlock[];
+
+  bodyOne?: any[];
+  bodyTwo?: any[];
+
   mainImage?: {
     alt?: string;
     asset: {
       _ref: string;
     };
   };
+
   categories?: {
     _id: string;
     title: string;
+  }[];
+
+  links?: {
+    title: string;
+    url: string;
   }[];
 };
 
@@ -85,6 +96,21 @@ export type AboutPageData = {
   };
 
   imageTwo?: {
+    alt?: string;
+    asset: {
+      _ref: string;
+    };
+  };
+};
+
+export type RecentWorkData = {
+  _id: string;
+  company: string;
+  role: string;
+  year: string;
+  tag?: string;
+
+  image?: {
     alt?: string;
     asset: {
       _ref: string;

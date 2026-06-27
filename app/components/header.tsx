@@ -53,7 +53,7 @@ export default function Header({
   };
 
   const navPillBase =
-    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors ";
+    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased";
 
   const pillClass = (active = false) => {
     if (mounted && resolvedTheme === "dark") {
@@ -120,7 +120,7 @@ export default function Header({
         {showReturnButton && (
           <Link
             href="/project-shots"
-            className="absolute top-[29px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.8px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors hover:bg-black hover:text-white"
+            className="absolute top-[29px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.8px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase hover:bg-black hover:text-white"
           >
             home
           </Link>
@@ -149,7 +149,7 @@ export default function Header({
       {showReturnButton && (
         <Link
           href="/"
-          className="absolute top-[25px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.8px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors hover:text-white md:hidden dark:border-white dark:bg-[#232323]"
+          className="absolute top-[25px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.8px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase hover:text-white md:hidden dark:border-white dark:bg-[#232323]"
         >
           home
         </Link>
@@ -170,7 +170,7 @@ export default function Header({
           {showReturnButton && (
             <Link
               href="/"
-              className="absolute top-0 left-[67px] flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.8px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase transition-colors hover:bg-black hover:text-white dark:border-white dark:bg-[#232323] dark:hover:bg-white dark:hover:text-black"
+              className="absolute top-0 left-[67px] flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.8px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase hover:bg-black hover:text-white dark:border-white dark:bg-[#232323] dark:hover:bg-white dark:hover:text-black"
             >
               home
             </Link>

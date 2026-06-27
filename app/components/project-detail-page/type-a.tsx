@@ -14,11 +14,11 @@ import Header from "@/app/components/header";
 export default function TypeA() {
   const { resolvedTheme, mounted } = useThemeState();
 
-  const lightStyle = `border border-black hover:bg-black hover:text-white`;
+  const lightStyle = `border-[0.8px]border-black hover:bg-black hover:text-white`;
 
-  const darkStyle = `border border-white hover:bg-white hover:text-black`;
+  const darkStyle = `border-[0.8px]border-white hover:bg-white hover:text-black`;
   const base =
-    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+    "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased ";
 
   const className =
     mounted && resolvedTheme === "dark"

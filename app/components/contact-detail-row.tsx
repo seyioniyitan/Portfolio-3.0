@@ -64,7 +64,7 @@ export default function ContactDetailRow({
         <button
           type="button"
           onClick={handleCopy}
-          className={`pointer-events-none flex h-[23px] items-center justify-center rounded-[23px] border px-2 text-[11px] leading-4 font-medium tracking-[0%] opacity-0 transition-all duration-150 group-hover:pointer-events-auto group-hover:opacity-100 ${
+          className={`border-[0.8px]px-2 pointer-events-none flex h-[23px] items-center justify-center rounded-[23px] text-[11px] leading-4 font-medium tracking-[0%] opacity-0 group-hover:pointer-events-auto group-hover:opacity-100 ${
             copied
               ? "border-[#007AFF] text-[#007AFF]"
               : "border-black text-black dark:border-white dark:text-white"

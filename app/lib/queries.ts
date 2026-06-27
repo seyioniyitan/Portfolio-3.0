@@ -1,9 +1,14 @@
 import { groq } from "next-sanity";
 
 export const projectShotsQuery = groq`
-  *[_type == "projectShots"] | order(_createdAt desc) {
+  *[
+    _type == "projectShots" &&
+    (!defined(hidden) || hidden == false)
+  ]
+  | order(_createdAt desc) {
     _id,
     title,
+    hidden,
     image {
       alt,
       asset
@@ -37,17 +42,26 @@ export const fullProjectBySlugQuery = groq`
   ][0]{
     _id,
     title,
-    link,
+    role,
     slug,
     publishedAt,
-    body,
+
+    bodyOne,
+    bodyTwo,
+
     mainImage {
       alt,
       asset
     },
+
     categories[]->{
       _id,
       title
+    },
+
+    links[]{
+      title,
+      url
     }
   }
 `;
@@ -66,6 +80,20 @@ export const aboutPageQuery = groq`
     },
 
     imageTwo{
+      alt,
+      asset
+    }
+  }
+`;
+
+export const recentWorkQuery = groq`
+  *[_type == "recentWork"] | order(_createdAt asc) {
+    _id,
+    company,
+    role,
+    year,
+    tag,
+    image {
       alt,
       asset
     }

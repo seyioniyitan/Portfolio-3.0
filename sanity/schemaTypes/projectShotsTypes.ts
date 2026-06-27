@@ -1,7 +1,7 @@
 import { DocumentTextIcon } from "@sanity/icons";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-export const porjectShotsType = defineType({
+export const projectShotsType = defineType({
   name: "projectShots",
   title: "Project shots",
   type: "document",
@@ -26,21 +26,40 @@ export const porjectShotsType = defineType({
         }),
       ],
     }),
+
     defineField({
       name: "categories",
       type: "array",
-      of: [defineArrayMember({ type: "reference", to: { type: "category" } })],
+      of: [
+        defineArrayMember({
+          type: "reference",
+          to: { type: "category" },
+        }),
+      ],
+    }),
+
+    defineField({
+      name: "hidden",
+      title: "Hide from website",
+      description:
+        "When enabled, this project shot will not be returned in queries.",
+      type: "boolean",
+      initialValue: false,
     }),
   ],
+
   preview: {
     select: {
       title: "title",
-      author: "author.name",
       media: "image",
+      hidden: "hidden",
     },
-    prepare(selection) {
-      const { author } = selection;
-      return { ...selection, subtitle: author && `by ${author}` };
+    prepare({ title, media, hidden }) {
+      return {
+        title,
+        media,
+        subtitle: hidden ? "Hidden from website" : "Visible on website",
+      };
     },
   },
 });

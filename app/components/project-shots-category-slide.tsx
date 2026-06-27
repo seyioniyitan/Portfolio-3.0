@@ -63,7 +63,7 @@ export default function ProjectShotsCategorySlide({
   return (
     <div className="flex h-11 items-center gap-3">
       <div
-        className={`${variant && "w-[33px] text-black"} flex h-5 items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase lg:dark:border-black`}
+        className={`${variant && "w-[33px] text-black"} flex h-5 items-center justify-center rounded-[23px] border-[0.8px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase lg:dark:border-black`}
       >
         on
       </div>
@@ -79,7 +79,7 @@ export default function ProjectShotsCategorySlide({
       </div>
 
       <div
-        className={`${variant && "w-16 text-black"} flex h-5 items-center justify-center rounded-[23px] border-[0.6px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase lg:dark:border-black`}
+        className={`${variant && "w-16 text-black"} flex h-5 items-center justify-center rounded-[23px] border-[0.8px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase lg:dark:border-black`}
       >
         DESIGN™
       </div>

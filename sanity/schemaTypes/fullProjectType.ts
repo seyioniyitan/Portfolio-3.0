@@ -11,14 +11,12 @@ export const fullProjectType = defineType({
       name: "title",
       type: "string",
     }),
+
     defineField({
       name: "role",
       type: "string",
     }),
-    defineField({
-      name: "link",
-      type: "string",
-    }),
+
     defineField({
       name: "slug",
       type: "slug",
@@ -26,6 +24,7 @@ export const fullProjectType = defineType({
         source: "title",
       },
     }),
+
     defineField({
       name: "mainImage",
       type: "image",
@@ -40,29 +39,70 @@ export const fullProjectType = defineType({
         }),
       ],
     }),
+
     defineField({
       name: "categories",
       type: "array",
-      of: [defineArrayMember({ type: "reference", to: { type: "category" } })],
+      of: [
+        defineArrayMember({
+          type: "reference",
+          to: { type: "category" },
+        }),
+      ],
     }),
+
     defineField({
       name: "publishedAt",
       type: "datetime",
     }),
+
     defineField({
-      name: "body",
+      name: "bodyOne",
+      title: "First Paragraph",
       type: "blockContent",
     }),
+
+    defineField({
+      name: "bodyTwo",
+      title: "Second Paragraph",
+      type: "blockContent",
+    }),
+
+    defineField({
+      name: "links",
+      title: "Links",
+      type: "array",
+      validation: (Rule) => Rule.max(2),
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "title",
+              title: "Button Title",
+              type: "string",
+            }),
+            defineField({
+              name: "url",
+              title: "Link",
+              type: "url",
+            }),
+          ],
+          preview: {
+            select: {
+              title: "title",
+              subtitle: "url",
+            },
+          },
+        }),
+      ],
+    }),
   ],
+
   preview: {
     select: {
       title: "title",
-      author: "author.name",
       media: "mainImage",
-    },
-    prepare(selection) {
-      const { author } = selection;
-      return { ...selection, subtitle: author && `by ${author}` };
     },
   },
 });

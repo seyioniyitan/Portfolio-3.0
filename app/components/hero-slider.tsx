@@ -14,7 +14,7 @@ const LABEL = { width: 273, height: 64 } as const;
 const IMAGE_GAP = 20;
 const BOTTOM_LEFT_OFFSET = 77;
 const BRIDGE_LEFT_OFFSET = -10;
-const ROTATE_INTERVAL_MS = 5000;
+const ROTATE_INTERVAL_MS = 2000;
 
 const buildImageUrl = (shot: ProjectShot) => {
   if (!shot.image?.asset) return "/assets/hero-a.png";
@@ -36,7 +36,6 @@ const pickTwoRandomIndices = (length: number, exclude?: [number, number]) => {
   return [first, second] as [number, number];
 };
 
-// Pulse skeleton box
 const Skeleton = ({ className }: { className?: string }) => (
   <div
     className={`animate-pulse rounded-sm bg-gray-200 dark:bg-[#2a2a2a] ${className ?? ""}`}
@@ -91,7 +90,6 @@ export default function HeroSlider({
   const topImage = slides[pair[0]] ?? slides[0];
   const bottomImage = slides[pair[1]] ?? slides[0];
 
-  // Preload all images in the background so swaps are instant
   useEffect(() => {
     slides.forEach(({ image }) => {
       if (!image) return;
@@ -127,7 +125,7 @@ export default function HeroSlider({
           <Image
             src={bottomImage.image}
             alt={bottomImage.alt}
-            className="translate-x-1/2 object-cover"
+            className="object-cover"
             fill
             onLoad={() => {
               loadedSet.current.add(bottomImage.image);
@@ -153,7 +151,7 @@ export default function HeroSlider({
     >
       {/* Top image */}
       <div
-        className="absolute top-0 left-0 z-[1] overflow-hidden"
+        className="absolute top-0 left-0 z-1 overflow-hidden"
         style={{ width: TOP_IMAGE.width, height: TOP_IMAGE.height }}
       >
         {!topLoaded && <Skeleton className="absolute inset-0" />}
@@ -161,7 +159,7 @@ export default function HeroSlider({
           src={topImage.image}
           alt={topImage.alt}
           fill
-          className="object-cover"
+          className="object-contain object-bottom"
           sizes={`${TOP_IMAGE.width}px`}
           priority
           onLoad={() => {
@@ -173,10 +171,10 @@ export default function HeroSlider({
 
       {/* Bottom image */}
       <div
-        className="absolute z-[1] overflow-hidden"
+        className="absolute z-1 overflow-hidden"
         style={{
           top: bottomTop,
-          left: BOTTOM_LEFT_OFFSET,
+          // left: BOTTOM_LEFT_OFFSET,
           width: BOTTOM_IMAGE.width,
           height: BOTTOM_IMAGE.height,
         }}
@@ -186,7 +184,7 @@ export default function HeroSlider({
           src={bottomImage.image}
           alt={bottomImage.alt}
           fill
-          className="object-cover"
+          className="object-contain object-top"
           sizes={`${BOTTOM_IMAGE.width}px`}
           priority
           onLoad={() => {

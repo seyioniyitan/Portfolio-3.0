@@ -23,7 +23,7 @@ export default function MobileMenu() {
   const { resolvedTheme, mounted } = useThemeState();
 
   const base =
-    "flex h-[25px] w-fit items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+    "flex h-[25px] w-fit items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased ";
   const pillClass =
     mounted && resolvedTheme === "dark"
       ? `${base} bg-black text-white`
@@ -66,7 +66,7 @@ export default function MobileMenu() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.8px] border-black px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200 hover:bg-black hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+        className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.8px] border-black px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased hover:bg-black hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
       >
         more
       </button>

@@ -2,16 +2,19 @@ import {
   fullProjectQuery,
   heroQuery,
   projectShotsQuery,
+  recentWorkQuery,
 } from "@/app/lib/queries";
 import { client } from "@/app/lib/sanity";
 import HomePage from "@/app/components/home-page";
 import { HomePageData } from "@/types";
+import { recentWork } from "@/sanity/schemaTypes/recentWork";
 
 export default async function Home() {
-  const [hero, projectShots, fullProjects] = await Promise.all([
+  const [hero, projectShots, fullProjects, recentWork] = await Promise.all([
     client.fetch(heroQuery, {}, { cache: "no-store" }),
     client.fetch(projectShotsQuery, {}, { cache: "no-store" }),
     client.fetch(fullProjectQuery, {}, { cache: "no-store" }),
+    client.fetch(recentWorkQuery, {}, { cache: "no-store" }),
   ]);
 
   const data: HomePageData = {
@@ -20,7 +23,11 @@ export default async function Home() {
 
   return (
     <>
-      <HomePage data={data} projectShots={projectShots} />
+      <HomePage
+        data={data}
+        projectShots={projectShots}
+        recentWork={recentWork}
+      />
     </>
   );
 }

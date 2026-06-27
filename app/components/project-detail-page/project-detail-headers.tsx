@@ -12,10 +12,10 @@ export function ProjectShotsHeaderLeft() {
       ? "/assets/prjsht-dark.svg"
       : "/assets/prjsht-light.svg";
 
-  const lightStyle = `border border-black hover:bg-black hover:text-white`;
-  const darkStyle = `border border-white hover:bg-white hover:text-black`;
+  const lightStyle = `border-[0.8px] border-black hover:bg-black hover:text-white`;
+  const darkStyle = `border-[0.8px] border-white hover:bg-white hover:text-black`;
   const base =
-    "flex h-[25px] w-16 items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased transition-colors duration-200";
+    "flex h-[25px] w-16 items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased ";
 
   const className =
     mounted && resolvedTheme === "dark"
@@ -50,7 +50,7 @@ export function ProjectShotsHeaderRight() {
           <Link
             key={index}
             href={link.href}
-            className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.8px] border-white px-3 py-1 text-[13px] leading-4 font-medium text-white uppercase antialiased transition-colors duration-200 hover:bg-black hover:text-white"
+            className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.8px] border-white px-3 py-1 text-[13px] leading-4 font-medium text-white uppercase antialiased hover:bg-black hover:text-white"
           >
             {link.label}
           </Link>
