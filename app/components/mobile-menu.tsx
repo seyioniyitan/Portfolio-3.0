@@ -98,6 +98,7 @@ export default function MobileMenu() {
               ref={(el) => {
                 itemsRef.current[i] = el;
               }}
+              target="_blank"
               onClick={() => setOpen(false)}
               className={pillClass}
             >

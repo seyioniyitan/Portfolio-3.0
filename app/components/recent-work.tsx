@@ -83,7 +83,11 @@ export default function RecentWork() {
             <h2>{year}</h2>
           </div>
         ))}
-        <div className="relative flex h-13.75 items-center justify-between border-b border-[#F2F2F7] py-3.5 dark:border-[#7F7F7F66]/40">
+        <a
+          href="/assets/seyis-cv.pdf"
+          download
+          className="relative flex h-13.75 cursor-pointer items-center justify-between border-b border-[#F2F2F7] py-3.5 dark:border-[#7F7F7F66]/40"
+        >
           <div className="flex h-[23px] items-end gap-2">
             <h2 className="text font-normal">Download resume</h2>
             <p className="block text-[12px] leading-[150%] font-medium tracking-[0%] text-[#8E8E93]">
@@ -94,7 +98,7 @@ export default function RecentWork() {
           <div className="absolute right-0 bottom-0">
             <PdfFileSvg />
           </div>
-        </div>
+        </a>
       </div>
     </div>
   );

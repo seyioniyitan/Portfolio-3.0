@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { urlFor } from "@/sanity/lib/image"; // adjust to your sanity image builder path
+import { urlFor } from "@/sanity/lib/image";
 import CategorySlide from "@/app/components/category-slide";
 import { ProjectShot } from "@/types";
+import { useEffect, useMemo, useState } from "react";
 
 const BentoImage = ({
   shot,
@@ -50,7 +51,7 @@ const DesktopChunk = ({ shots }: { shots: ProjectShot[] }) => {
         </div>
       )}
       {e && <BentoImage shot={e} className="col-span-2 row-span-1" />}
-      {f && <BentoImage shot={f} className="col-span-3 row-span-1" />}
+      {f && <BentoImage shot={f} className="test col-span-3 row-span-14" />}
     </div>
   );
 };
@@ -69,8 +70,23 @@ const MobileChunk = ({ shots }: { shots: ProjectShot[] }) => {
 };
 
 export default function ProjectShotsGrid({ shots }: { shots: ProjectShot[] }) {
-  const desktopChunks = chunk(shots, 6);
-  const mobileChunks = chunk(shots, 5);
+  const [displayShots, setDisplayShots] = useState(shots);
+
+  useEffect(() => {
+    setDisplayShots(shots);
+  }, [shots]);
+
+  const shuffledShots = useMemo(() => {
+    const shuffled = [...displayShots];
+    for (let i = shuffled.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }, [displayShots]);
+
+  const desktopChunks = chunk(shuffledShots, 6);
+  const mobileChunks = chunk(shuffledShots, 5);
 
   return (
     <>

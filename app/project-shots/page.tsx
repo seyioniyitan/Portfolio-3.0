@@ -10,12 +10,13 @@ import { urlFor } from "@/sanity/lib/image";
 import { fullProjectData } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import ProjectShotsGrid from "../components/project-shots-grid";
+import ProjectShotsGrid from "@/app/components/project-shots-grid";
+import CategorySlide from "@/app/components/category-slide";
 
 export default async function ProjectShots({
   searchParams,
 }: {
-  searchParams: Promise<{ view?: string }>;
+  searchParams: Promise<{ view?: string; shuffle?: string }>;
 }) {
   const resolvedSearchParams = await searchParams;
   const activeView: ProjectView =
@@ -27,6 +28,11 @@ export default async function ProjectShots({
     client.fetch(fullProjectQuery, {}, { cache: "no-store" }),
     client.fetch(projectShotsQuery, {}, { cache: "no-store" }),
   ]);
+
+  const shouldShuffle = resolvedSearchParams.shuffle !== undefined;
+  const projectShotsToDisplay = shouldShuffle
+    ? [...projectShots].sort(() => Math.random() - 0.5)
+    : projectShots;
 
   return (
     <section>
@@ -42,12 +48,17 @@ export default async function ProjectShots({
         {activeView === "case-studies" ? (
           <CaseStudies fullProjects={fullProjects} />
         ) : (
-          <ProjectShotsGrid shots={projectShots} />
+          <ProjectShotsGrid shots={projectShotsToDisplay} />
         )}
 
         <div className="pointer-events-none fixed bottom-7 hidden px-6 lg:block">
           <div className="pointer-events-auto">
             <ContactModal />
+          </div>
+        </div>
+        <div className="pointer-events-none mt-25 lg:hidden">
+          <div className="pointer-events-auto">
+            <CategorySlide mobile />
           </div>
         </div>
       </div>
@@ -69,7 +80,7 @@ const BentoImage = ({
 
 const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
   return (
-    <div className="grid grid-cols-1 gap-x-5 gap-y-8 p-6 lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-x-5 gap-y-8 px-4 pt-6 lg:grid-cols-2 lg:p-6">
       {fullProjects.map((project, index) => {
         const href = project.slug?.current
           ? `/project-detail/${project.slug.current}`
@@ -85,7 +96,7 @@ const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
         }
 
         return (
-          <Link href={href} key={`${project._id}-${index}`} className="">
+          <Link href={href} key={`${project._id}-${index}`}>
             <div className="relative h-[242px] overflow-hidden lg:h-[458px]">
               <Image
                 src={imageSrc}
@@ -95,7 +106,7 @@ const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
               />
             </div>
 
-            <div className="mb-7 flex h-15.5 flex-col justify-center gap-4 pr-4 pl-2 lg:mb-0 lg:flex-row lg:items-end">
+            <div className="mt-4 flex flex-col justify-center gap-4 lg:mb-0 lg:h-15.5 lg:flex-row lg:items-end">
               <div className="h-[46px]">
                 <h3 className="text text-center">{project.title}</h3>
                 <p className="text text-center font-normal text-[#8E8E93]">

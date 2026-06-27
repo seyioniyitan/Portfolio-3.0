@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export type ProjectView = "case-studies" | "project-shots";
 
@@ -7,24 +10,51 @@ type ShuffleButtonsProps = {
 };
 
 export default function ShuffleButtons({ activeView }: ShuffleButtonsProps) {
-  return (
-    <div className="flex w-full items-center justify-between gap-2 pt-6 md:w-auto md:justify-normal md:pt-7 lg:gap-3">
-      {shuffleButtons.map(({ title, view }, index) => {
-        const isActive = view === activeView;
-        const href = view ? `/project-shots?view=${view}` : "/project-shots";
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-        return (
-          <Link
-            key={index}
-            href={href}
-            className={`flex h-[25px] items-center rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase ${
-              isActive ? "bg-black text-white" : ""
-            } ${!view ? "pointer-events-none opacity-60" : ""}`}
-          >
-            {title}
-          </Link>
-        );
-      })}
+  const handleShuffle = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("view", "project-shots");
+    params.set("shuffle", String(Date.now()));
+    router.push(`/project-shots?${params.toString()}`);
+  };
+
+  return (
+    <div className="flex w-full items-center gap-2 pt-6 md:w-auto md:justify-normal md:pt-7 lg:gap-3">
+      {shuffleButtons
+        .filter(
+          ({ view }) => activeView === "project-shots" || view !== undefined,
+        )
+        .map(({ title, view }, index) => {
+          const isActive = view === activeView;
+          const href = view ? `/project-shots?view=${view}` : "/project-shots";
+
+          if (!view) {
+            return (
+              <button
+                key={index}
+                type="button"
+                onClick={handleShuffle}
+                className="flex h-[25px] items-center rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase opacity-60"
+              >
+                {title}
+              </button>
+            );
+          }
+
+          return (
+            <Link
+              key={index}
+              href={href}
+              className={`flex h-[25px] items-center rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase ${
+                isActive ? "bg-black text-white" : ""
+              }`}
+            >
+              {title}
+            </Link>
+          );
+        })}
     </div>
   );
 }
