@@ -20,7 +20,7 @@ export default async function Home() {
 
   return (
     <>
-      <HomePage data={data} />
+      <HomePage data={data} projectShots={projectShots} />
     </>
   );
 }

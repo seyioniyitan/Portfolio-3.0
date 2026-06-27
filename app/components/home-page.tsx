@@ -1,4 +1,6 @@
 "use client";
+import Link from "next/link";
+import { useState } from "react";
 import CategorySlide from "@/app/components/category-slide";
 import EmailWithCopy from "@/app/components/email-with-copy";
 import Header from "@/app/components/header";
@@ -6,13 +8,17 @@ import HeroSlider from "@/app/components/hero-slider";
 import LoadingScreen from "@/app/components/loading-screen";
 import RecentWork from "@/app/components/recent-work";
 import WorkTogetherLink from "@/app/components/work-together-link";
+import ProjectShotsSvg from "@/app/components/svgs/projects-shots-svg";
 import { useThemeState } from "@/app/hooks/use-theme-state";
-import { HomePageData } from "@/types";
-import Link from "next/link";
-import { useState } from "react";
-import ProjectShotsSvg from "./svgs/projects-shots-svg";
+import { HomePageData, ProjectShot } from "@/types";
 
-export default function HomePage({ data }: { data: HomePageData }) {
+export default function HomePage({
+  data,
+  projectShots,
+}: {
+  data: HomePageData;
+  projectShots: ProjectShot[];
+}) {
   const { hero } = data;
 
   const [done, setDone] = useState(false);
@@ -68,7 +74,7 @@ export default function HomePage({ data }: { data: HomePageData }) {
                 </Link>
               </div>
               <div className="mt-4.5 overflow-x-hidden">
-                <HeroSlider mobile />
+                <HeroSlider mobile projectShots={projectShots} />
               </div>
             </div>
 
@@ -90,7 +96,7 @@ export default function HomePage({ data }: { data: HomePageData }) {
           </div>
 
           <div className="hidden min-w-0 flex-1 overflow-hidden pt-5 md:block">
-            <HeroSlider />
+            <HeroSlider projectShots={projectShots} />
           </div>
         </section>
       </div>
