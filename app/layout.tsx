@@ -29,10 +29,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col antialiased">
-        <ReactLenis
+        {/* <ReactLenis
           root
           options={{ lerp: 0.1, duration: 0.3, smoothWheel: true }}
-        />
+        /> */}
         <ThemeProvider
           attribute="data-theme"
           defaultTheme="system"

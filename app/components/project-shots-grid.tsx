@@ -51,7 +51,7 @@ const DesktopChunk = ({ shots }: { shots: ProjectShot[] }) => {
         </div>
       )}
       {e && <BentoImage shot={e} className="col-span-2 row-span-1" />}
-      {f && <BentoImage shot={f} className="test col-span-3 row-span-14" />}
+      {f && <BentoImage shot={f} className="col-span-3 row-span-14" />}
     </div>
   );
 };
