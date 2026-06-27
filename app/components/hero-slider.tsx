@@ -1,10 +1,11 @@
 "use client";
-import { useThemeState } from "@/app/hooks/use-theme-state";
-import { urlFor } from "@/sanity/lib/image";
-import { ProjectShot } from "@/types";
+
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useThemeState } from "@/app/hooks/use-theme-state";
+import { ProjectShot } from "@/types";
+import { urlFor } from "@/sanity/lib/image";
 
 const TOP_IMAGE = { width: 418, height: 593 } as const;
 const BOTTOM_IMAGE = { width: 872, height: 581 } as const;
@@ -13,7 +14,7 @@ const LABEL = { width: 273, height: 64 } as const;
 const IMAGE_GAP = 20;
 const BOTTOM_LEFT_OFFSET = 77;
 const BRIDGE_LEFT_OFFSET = -10;
-const ROTATE_INTERVAL_MS = 1500;
+const ROTATE_INTERVAL_MS = 5000;
 
 const buildImageUrl = (shot: ProjectShot) => {
   if (!shot.image?.asset) return "/assets/hero-a.png";
@@ -26,17 +27,21 @@ const buildImageUrl = (shot: ProjectShot) => {
 
 const pickTwoRandomIndices = (length: number, exclude?: [number, number]) => {
   if (length <= 1) return [0, 0] as [number, number];
-
   const first = Math.floor(Math.random() * length);
   let second = Math.floor(Math.random() * (length - 1));
   if (second >= first) second += 1;
-
   if (exclude && exclude[0] === first && exclude[1] === second) {
     return pickTwoRandomIndices(length, exclude);
   }
-
   return [first, second] as [number, number];
 };
+
+// Pulse skeleton box
+const Skeleton = ({ className }: { className?: string }) => (
+  <div
+    className={`animate-pulse rounded-sm bg-gray-200 dark:bg-[#2a2a2a] ${className ?? ""}`}
+  />
+);
 
 export default function HeroSlider({
   mobile,
@@ -62,17 +67,38 @@ export default function HeroSlider({
   );
 
   const [pair, setPair] = useState<[number, number]>([0, 1]);
+  // Track which srcs have fully loaded at least once
+  const loadedSet = useRef<Set<string>>(new Set());
+  const [topLoaded, setTopLoaded] = useState(false);
+  const [bottomLoaded, setBottomLoaded] = useState(false);
 
   useEffect(() => {
     if (slides.length < 2) return;
     const interval = window.setInterval(() => {
-      setPair((prev) => pickTwoRandomIndices(slides.length, prev));
+      setPair((prev) => {
+        const next = pickTwoRandomIndices(slides.length, prev);
+        // Reset loaded state only for srcs we haven't cached yet
+        const nextTop = slides[next[0]]?.image;
+        const nextBottom = slides[next[1]]?.image;
+        setTopLoaded(!!nextTop && loadedSet.current.has(nextTop));
+        setBottomLoaded(!!nextBottom && loadedSet.current.has(nextBottom));
+        return next;
+      });
     }, ROTATE_INTERVAL_MS);
     return () => window.clearInterval(interval);
-  }, [slides.length]);
+  }, [slides]);
 
   const topImage = slides[pair[0]] ?? slides[0];
   const bottomImage = slides[pair[1]] ?? slides[0];
+
+  // Preload all images in the background so swaps are instant
+  useEffect(() => {
+    slides.forEach(({ image }) => {
+      if (!image) return;
+      const img = new window.Image();
+      img.src = image;
+    });
+  }, [slides]);
 
   if (mobile) {
     return (
@@ -80,20 +106,33 @@ export default function HeroSlider({
         key={`${pair[0]}-${pair[1]}`}
         className="flex items-start gap-[17px]"
       >
+        {/* Top */}
         <div className="relative h-[289px] w-1/2 overflow-hidden">
+          {!topLoaded && <Skeleton className="absolute inset-0" />}
           <Image
             src={topImage.image}
             alt={topImage.alt}
             className="object-cover"
             fill
+            onLoad={() => {
+              loadedSet.current.add(topImage.image);
+              setTopLoaded(true);
+            }}
           />
         </div>
+
+        {/* Bottom */}
         <div className="relative h-[356px] w-1/2 overflow-hidden">
+          {!bottomLoaded && <Skeleton className="absolute inset-0" />}
           <Image
             src={bottomImage.image}
             alt={bottomImage.alt}
             className="translate-x-1/2 object-cover"
             fill
+            onLoad={() => {
+              loadedSet.current.add(bottomImage.image);
+              setBottomLoaded(true);
+            }}
           />
         </div>
       </div>
@@ -112,13 +151,12 @@ export default function HeroSlider({
       style={{ width: sectionWidth, height: sectionHeight }}
       aria-label="Featured work"
     >
+      {/* Top image */}
       <div
-        className="absolute top-0 left-0 z-1 overflow-hidden"
-        style={{
-          width: TOP_IMAGE.width,
-          height: TOP_IMAGE.height,
-        }}
+        className="absolute top-0 left-0 z-[1] overflow-hidden"
+        style={{ width: TOP_IMAGE.width, height: TOP_IMAGE.height }}
       >
+        {!topLoaded && <Skeleton className="absolute inset-0" />}
         <Image
           src={topImage.image}
           alt={topImage.alt}
@@ -126,11 +164,16 @@ export default function HeroSlider({
           className="object-cover"
           sizes={`${TOP_IMAGE.width}px`}
           priority
+          onLoad={() => {
+            loadedSet.current.add(topImage.image);
+            setTopLoaded(true);
+          }}
         />
       </div>
 
+      {/* Bottom image */}
       <div
-        className="absolute z-1 overflow-hidden"
+        className="absolute z-[1] overflow-hidden"
         style={{
           top: bottomTop,
           left: BOTTOM_LEFT_OFFSET,
@@ -138,6 +181,7 @@ export default function HeroSlider({
           height: BOTTOM_IMAGE.height,
         }}
       >
+        {!bottomLoaded && <Skeleton className="absolute inset-0" />}
         <Image
           src={bottomImage.image}
           alt={bottomImage.alt}
@@ -145,9 +189,14 @@ export default function HeroSlider({
           className="object-cover"
           sizes={`${BOTTOM_IMAGE.width}px`}
           priority
+          onLoad={() => {
+            loadedSet.current.add(bottomImage.image);
+            setBottomLoaded(true);
+          }}
         />
       </div>
 
+      {/* Label */}
       <Link
         href="/project-shots"
         className="absolute z-10 flex items-end gap-3"
