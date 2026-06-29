@@ -5,14 +5,13 @@ import Image from "next/image";
 import { aboutPageQuery } from "@/app/lib/queries";
 import { client } from "@/app/lib/sanity";
 import { AboutPageData } from "@/types";
-import { urlFor } from "@/sanity/lib/image";
+import { aboutImageOneUrl, aboutImageTwoUrl } from "@/sanity/lib/image";
+
+// Portfolio content is nearly static — revalidate at most once per hour.
+export const revalidate = 3600;
 
 export default async function AboutPage() {
-  const aboutPageData = await client.fetch<AboutPageData>(
-    aboutPageQuery,
-    {},
-    { cache: "no-store" },
-  );
+  const aboutPageData = await client.fetch<AboutPageData>(aboutPageQuery, {});
   const { introOne, introTwo, contactDetails, imageOne, imageTwo } =
     aboutPageData;
 
@@ -56,18 +55,20 @@ export default async function AboutPage() {
           <div className="order-1 mt-31.5 flex w-full gap-2.5 overflow-hidden lg:order-2 lg:mt-0 lg:block lg:min-w-0 lg:flex-1 lg:gap-0 lg:space-y-4 lg:pt-4">
             <div className="relative h-[266px] w-1/2 lg:h-[429px] lg:w-[296px]">
               <Image
-                src={urlFor(imageOne!).url()}
+                src={aboutImageOneUrl(imageOne!)}
                 alt={imageOne?.alt!}
                 fill
                 className="object-cover"
+                sizes="(max-width: 1024px) 50vw, 296px"
               />
             </div>
             <div className="relative mt-[107px] h-[230px] w-1/2 lg:mt-0 lg:mr-3 lg:ml-40 lg:h-[551px] lg:w-[470px]">
               <Image
-                src={urlFor(imageTwo!).url()}
+                src={aboutImageTwoUrl(imageTwo!)}
                 alt={imageTwo?.alt!}
                 fill
                 className="object-cover"
+                sizes="(max-width: 1024px) 50vw, 470px"
               />
             </div>
           </div>
@@ -78,18 +79,20 @@ export default async function AboutPage() {
           <div className="mt-31.5 flex w-full gap-2.5 overflow-hidden">
             <div className="relative h-[266px] w-1/2 shrink-0">
               <Image
-                src={urlFor(imageOne!).url()}
+                src={aboutImageOneUrl(imageOne!)}
                 alt={imageOne?.alt!}
                 fill
                 className="object-cover"
+                sizes="50vw"
               />
             </div>
             <div className="relative mt-25 h-[230px] w-1/2 shrink-0 self-end">
               <Image
-                src={urlFor(imageTwo!).url()}
+                src={aboutImageTwoUrl(imageTwo!)}
                 alt={imageTwo?.alt!}
                 fill
                 className="object-cover"
+                sizes="50vw"
               />
             </div>
           </div>

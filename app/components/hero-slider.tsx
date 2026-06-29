@@ -5,7 +5,12 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useThemeState } from "@/app/hooks/use-theme-state";
 import { ProjectShot } from "@/types";
-import { urlFor } from "@/sanity/lib/image";
+import {
+  heroBottomImageUrl,
+  heroMobileImageUrl,
+  heroTopImageUrl,
+} from "@/sanity/lib/image";
+import type { SanityImageSource } from "@sanity/image-url";
 
 const TOP_IMAGE = { width: 418, height: 593 } as const;
 const BOTTOM_IMAGE = { width: 872, height: 581 } as const;
@@ -16,14 +21,7 @@ const BOTTOM_LEFT_OFFSET = 77;
 const BRIDGE_LEFT_OFFSET = -10;
 const ROTATE_INTERVAL_MS = 2000;
 
-const buildImageUrl = (shot: ProjectShot) => {
-  if (!shot.image?.asset) return "/assets/hero-a.png";
-  try {
-    return urlFor(shot.image.asset).url();
-  } catch {
-    return "/assets/hero-a.png";
-  }
-};
+const FALLBACK = "/assets/hero-a.png";
 
 const pickTwoRandomIndices = (length: number, exclude?: [number, number]) => {
   if (length <= 1) return [0, 0] as [number, number];
@@ -42,6 +40,35 @@ const Skeleton = ({ className }: { className?: string }) => (
   />
 );
 
+// ---------------------------------------------------------------------------
+// Slide shape — carries the raw asset so each render slot can request
+// the correct size without re-querying.
+// ---------------------------------------------------------------------------
+type Slide = {
+  id: string;
+  /** Raw Sanity asset reference — passed to preset helpers per slot. */
+  asset: SanityImageSource | null;
+  /** Pre-built top-slot URL, used as cache-key for the loadedSet. */
+  topUrl: string;
+  alt: string;
+};
+
+function buildSlide(shot: ProjectShot): Slide {
+  const asset = shot.image?.asset ?? null;
+  let topUrl = FALLBACK;
+  try {
+    if (asset) topUrl = heroTopImageUrl(asset);
+  } catch {
+    topUrl = FALLBACK;
+  }
+  return {
+    id: shot._id,
+    asset,
+    topUrl,
+    alt: shot.image?.alt ?? shot.title ?? "Project shot",
+  };
+}
+
 export default function HeroSlider({
   mobile,
   projectShots,
@@ -56,17 +83,12 @@ export default function HeroSlider({
       : "/assets/projects&shots-light.svg";
 
   const slides = useMemo(
-    () =>
-      projectShots.map((shot) => ({
-        id: shot._id,
-        image: buildImageUrl(shot),
-        alt: shot.image?.alt ?? shot.title ?? "Project shot",
-      })),
+    () => projectShots.map(buildSlide),
     [projectShots],
   );
 
   const [pair, setPair] = useState<[number, number]>([0, 1]);
-  // Track which srcs have fully loaded at least once
+  // Track which top-slot URLs have been fully loaded at least once
   const loadedSet = useRef<Set<string>>(new Set());
   const [topLoaded, setTopLoaded] = useState(false);
   const [bottomLoaded, setBottomLoaded] = useState(false);
@@ -76,9 +98,8 @@ export default function HeroSlider({
     const interval = window.setInterval(() => {
       setPair((prev) => {
         const next = pickTwoRandomIndices(slides.length, prev);
-        // Reset loaded state only for srcs we haven't cached yet
-        const nextTop = slides[next[0]]?.image;
-        const nextBottom = slides[next[1]]?.image;
+        const nextTop = slides[next[0]]?.topUrl;
+        const nextBottom = slides[next[1]]?.topUrl;
         setTopLoaded(!!nextTop && loadedSet.current.has(nextTop));
         setBottomLoaded(!!nextBottom && loadedSet.current.has(nextBottom));
         return next;
@@ -87,14 +108,19 @@ export default function HeroSlider({
     return () => window.clearInterval(interval);
   }, [slides]);
 
-  const topImage = slides[pair[0]] ?? slides[0];
-  const bottomImage = slides[pair[1]] ?? slides[0];
+  const topSlide = slides[pair[0]] ?? slides[0];
+  const bottomSlide = slides[pair[1]] ?? slides[0];
 
+  // Eagerly pre-fetch all size variants so rotations feel instant.
   useEffect(() => {
-    slides.forEach(({ image }) => {
-      if (!image) return;
-      const img = new window.Image();
-      img.src = image;
+    slides.forEach(({ asset }) => {
+      if (!asset) return;
+      [heroTopImageUrl, heroBottomImageUrl, heroMobileImageUrl].forEach(
+        (fn) => {
+          const img = new window.Image();
+          img.src = fn(asset);
+        },
+      );
     });
   }, [slides]);
 
@@ -104,31 +130,39 @@ export default function HeroSlider({
         key={`${pair[0]}-${pair[1]}`}
         className="flex items-start gap-[17px]"
       >
-        {/* Top */}
+        {/* Top — mobile half-vw */}
         <div className="relative h-[289px] w-1/2 overflow-hidden">
           {!topLoaded && <Skeleton className="absolute inset-0" />}
           <Image
-            src={topImage.image}
-            alt={topImage.alt}
+            src={
+              topSlide.asset ? heroMobileImageUrl(topSlide.asset) : FALLBACK
+            }
+            alt={topSlide.alt}
             className="object-cover"
             fill
+            sizes="50vw"
             onLoad={() => {
-              loadedSet.current.add(topImage.image);
+              loadedSet.current.add(topSlide.topUrl);
               setTopLoaded(true);
             }}
           />
         </div>
 
-        {/* Bottom */}
+        {/* Bottom — mobile half-vw */}
         <div className="relative h-[356px] w-1/2 overflow-hidden">
           {!bottomLoaded && <Skeleton className="absolute inset-0" />}
           <Image
-            src={bottomImage.image}
-            alt={bottomImage.alt}
+            src={
+              bottomSlide.asset
+                ? heroMobileImageUrl(bottomSlide.asset)
+                : FALLBACK
+            }
+            alt={bottomSlide.alt}
             className="object-cover"
             fill
+            sizes="50vw"
             onLoad={() => {
-              loadedSet.current.add(bottomImage.image);
+              loadedSet.current.add(bottomSlide.topUrl);
               setBottomLoaded(true);
             }}
           />
@@ -149,46 +183,47 @@ export default function HeroSlider({
       style={{ width: sectionWidth, height: sectionHeight }}
       aria-label="Featured work"
     >
-      {/* Top image */}
+      {/* Top image — 418 px slot, 2× for HiDPI */}
       <div
         className="absolute top-0 left-0 z-1 overflow-hidden"
         style={{ width: TOP_IMAGE.width, height: TOP_IMAGE.height }}
       >
         {!topLoaded && <Skeleton className="absolute inset-0" />}
         <Image
-          src={topImage.image}
-          alt={topImage.alt}
+          src={topSlide.asset ? heroTopImageUrl(topSlide.asset) : FALLBACK}
+          alt={topSlide.alt}
           fill
           className="object-contain object-bottom"
           sizes={`${TOP_IMAGE.width}px`}
           priority
           onLoad={() => {
-            loadedSet.current.add(topImage.image);
+            loadedSet.current.add(topSlide.topUrl);
             setTopLoaded(true);
           }}
         />
       </div>
 
-      {/* Bottom image */}
+      {/* Bottom image — 872 px slot, 2× for HiDPI */}
       <div
         className="absolute z-1 overflow-hidden"
         style={{
           top: bottomTop,
-          // left: BOTTOM_LEFT_OFFSET,
           width: BOTTOM_IMAGE.width,
           height: BOTTOM_IMAGE.height,
         }}
       >
         {!bottomLoaded && <Skeleton className="absolute inset-0" />}
         <Image
-          src={bottomImage.image}
-          alt={bottomImage.alt}
+          src={
+            bottomSlide.asset ? heroBottomImageUrl(bottomSlide.asset) : FALLBACK
+          }
+          alt={bottomSlide.alt}
           fill
           className="object-contain object-top"
           sizes={`${BOTTOM_IMAGE.width}px`}
           priority
           onLoad={() => {
-            loadedSet.current.add(bottomImage.image);
+            loadedSet.current.add(bottomSlide.topUrl);
             setBottomLoaded(true);
           }}
         />

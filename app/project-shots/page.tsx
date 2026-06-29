@@ -6,12 +6,15 @@ import ShuffleButtons, {
 import WorkTogetherLink from "@/app/components/work-together-link";
 import { fullProjectQuery, projectShotsQuery } from "@/app/lib/queries";
 import { client } from "@/app/lib/sanity";
-import { urlFor } from "@/sanity/lib/image";
+import { caseStudyImageUrl } from "@/sanity/lib/image";
 import { fullProjectData } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import ProjectShotsGrid from "@/app/components/project-shots-grid";
 import CategorySlide from "@/app/components/category-slide";
+
+// Portfolio content is nearly static — revalidate at most once per hour.
+export const revalidate = 3600;
 
 export default async function ProjectShots({
   searchParams,
@@ -25,8 +28,8 @@ export default async function ProjectShots({
       : "case-studies";
 
   const [fullProjects, projectShots] = await Promise.all([
-    client.fetch(fullProjectQuery, {}, { cache: "no-store" }),
-    client.fetch(projectShotsQuery, {}, { cache: "no-store" }),
+    client.fetch(fullProjectQuery, {}),
+    client.fetch(projectShotsQuery, {}),
   ]);
 
   const shouldShuffle = resolvedSearchParams.shuffle !== undefined;
@@ -89,7 +92,7 @@ const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
         let imageSrc = "/assets/hero-a.png";
         if (project.mainImage) {
           try {
-            imageSrc = urlFor(project.mainImage).url();
+            imageSrc = caseStudyImageUrl(project.mainImage);
           } catch {
             imageSrc = "/assets/hero-a.png";
           }
@@ -103,6 +106,7 @@ const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
                 alt={project.title ?? "Project"}
                 fill
                 className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
 

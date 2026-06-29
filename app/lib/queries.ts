@@ -1,5 +1,15 @@
 import { groq } from "next-sanity";
 
+/**
+ * Minimal query to collect all published project slugs.
+ * Used by generateStaticParams to pre-render project detail pages at build time.
+ */
+export const projectSlugsQuery = groq`
+  *[_type == "fullProject" && defined(slug.current)] {
+    "slug": slug.current
+  }
+`;
+
 export const projectShotsQuery = groq`
   *[
     _type == "projectShots" &&

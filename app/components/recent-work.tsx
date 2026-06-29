@@ -6,7 +6,7 @@ import { useThemeState } from "@/app/hooks/use-theme-state";
 import PdfFileSvg from "./svgs/pdf-file-svg";
 import Link from "next/link";
 import { RecentWorkData } from "@/types";
-import { urlFor } from "@/sanity/lib/image";
+import { thumbnailImageUrl } from "@/sanity/lib/image";
 
 export default function RecentWork({
   recentWork,
@@ -67,7 +67,7 @@ export default function RecentWork({
               style={{ opacity: hoveredIndex === index ? 1 : 0 }}
             >
               <Image
-                src={image ? urlFor(image).url() : "/assets/hero-a.png"}
+                src={image ? thumbnailImageUrl(image) : "/assets/hero-a.png"}
                 alt={image?.alt ?? `${company} preview`}
                 width={70}
                 height={70}

@@ -10,13 +10,12 @@ import Link from "next/link";
 import Header from "@/app/components/header";
 import { ProjectDetail } from "@/types";
 import { PortableText } from "@portabletext/react";
-import { urlFor } from "@/sanity/lib/image";
+import { projectDetailImageUrl } from "@/sanity/lib/image";
 
 export default function TypeD({ data }: { data: ProjectDetail }) {
   const { resolvedTheme, mounted } = useThemeState();
   const { title, bodyOne, bodyTwo, role, links, mainImage } = data;
 
-  console.log(data);
 
   const lightStyle = `border-[0.8px] border-black hover:bg-black hover:text-white`;
   const darkStyle = `border-[0.8px] border-white hover:bg-white hover:text-black`;
@@ -31,7 +30,10 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
   let imageSrc = "/assets/hero-a.png";
   if (mainImage) {
     try {
-      imageSrc = urlFor(mainImage).url();
+      // Background image: capped at 1400 px wide, served as WebP.
+      // The Next.js <Image> component cannot be used inside a CSS
+      // backgroundImage string, so we apply transformations here instead.
+      imageSrc = projectDetailImageUrl(mainImage);
     } catch {
       imageSrc = "/assets/hero-a.png";
     }

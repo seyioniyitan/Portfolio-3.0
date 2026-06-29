@@ -1,5 +1,4 @@
 import {
-  fullProjectQuery,
   heroQuery,
   projectShotsQuery,
   recentWorkQuery,
@@ -7,14 +6,16 @@ import {
 import { client } from "@/app/lib/sanity";
 import HomePage from "@/app/components/home-page";
 import { HomePageData } from "@/types";
-import { recentWork } from "@/sanity/schemaTypes/recentWork";
+
+// Revalidate the home page at most once per hour.
+// Portfolio content is nearly static, so ISR eliminates per-request Sanity fetches.
+export const revalidate = 3600;
 
 export default async function Home() {
-  const [hero, projectShots, fullProjects, recentWork] = await Promise.all([
-    client.fetch(heroQuery, {}, { cache: "no-store" }),
-    client.fetch(projectShotsQuery, {}, { cache: "no-store" }),
-    client.fetch(fullProjectQuery, {}, { cache: "no-store" }),
-    client.fetch(recentWorkQuery, {}, { cache: "no-store" }),
+  const [hero, projectShots, recentWork] = await Promise.all([
+    client.fetch(heroQuery),
+    client.fetch(projectShotsQuery),
+    client.fetch(recentWorkQuery),
   ]);
 
   const data: HomePageData = {
@@ -31,3 +32,4 @@ export default async function Home() {
     </>
   );
 }
+

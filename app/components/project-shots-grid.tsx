@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { urlFor } from "@/sanity/lib/image";
+import { bentoImageUrl } from "@/sanity/lib/image";
 import CategorySlide from "@/app/components/category-slide";
 import { ProjectShot } from "@/types";
 import { useEffect, useMemo, useState } from "react";
@@ -16,11 +16,11 @@ const BentoImage = ({
   <div className={`relative min-h-0 overflow-hidden ${className}`}>
     {shot.image?.asset && (
       <Image
-        src={urlFor(shot.image.asset).url()}
+        src={bentoImageUrl(shot.image.asset)}
         alt={shot.image.alt ?? shot.title}
         fill
         className="object-cover"
-        sizes="33vw"
+        sizes="(max-width: 768px) 50vw, 33vw"
       />
     )}
   </div>
