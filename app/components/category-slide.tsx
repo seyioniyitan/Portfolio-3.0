@@ -52,9 +52,7 @@ export default function CategorySlide({
     return (
       <div className="pointer-events-none fixed bottom-0 left-0 flex h-37 w-full flex-col bg-[#007AFF] md:hidden">
         <div className="mx-4 mt-3.5 flex h-8 items-center justify-between">
-          <h2 className="text font-semibold text-white">
-            Let&apos;s work together
-          </h2>
+          <h2 className="text font-semibold text-white">Start a project</h2>
           <div className="flex h-8 w-10 items-center justify-center rounded-[23px] bg-black">
             <Image
               src="/assets/arrow-icon.svg"

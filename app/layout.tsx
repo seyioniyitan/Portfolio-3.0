@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ReactLenis } from "lenis/react";
 import { ThemeProvider } from "next-themes";
 
 import "./globals.css";
@@ -14,7 +13,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Seyi Oniyitan",
-  description: "Seyi Oniyitan's personal website",
+  description:
+    "Seyi Oniyitan | Generalist designer transforming ideas into products, maximising business impact and the friend of your ambitious imaginations.",
 };
 
 export default function RootLayout({
@@ -29,10 +29,6 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col antialiased">
-        {/* <ReactLenis
-          root
-          options={{ lerp: 0.1, duration: 0.3, smoothWheel: true }}
-        /> */}
         <ThemeProvider
           attribute="data-theme"
           defaultTheme="system"

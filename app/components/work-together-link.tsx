@@ -59,7 +59,7 @@ export default function WorkTogetherLink() {
 
   return (
     <Link
-      href="mailto:hello@seyioniyitan.com?subject=Design%20Project"
+      href="/contact"
       className="text flex items-center gap-2 font-semibold"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -77,9 +77,9 @@ export default function WorkTogetherLink() {
 
       <span
         ref={textRef}
-        className="underline decoration-1 underline-offset-[20%]"
+        className="underline decoration-1 underline-offset-[22%]"
       >
-        Let&apos;s work together
+        Start a project
       </span>
     </Link>
   );

@@ -19,7 +19,7 @@ const LABEL = { width: 273, height: 64 } as const;
 const IMAGE_GAP = 20;
 const BOTTOM_LEFT_OFFSET = 77;
 const BRIDGE_LEFT_OFFSET = -10;
-const ROTATE_INTERVAL_MS = 2000;
+const ROTATE_INTERVAL_MS = 1000;
 
 const FALLBACK = "/assets/hero-a.png";
 
@@ -82,10 +82,7 @@ export default function HeroSlider({
       ? "/assets/projects&shots-dark.svg"
       : "/assets/projects&shots-light.svg";
 
-  const slides = useMemo(
-    () => projectShots.map(buildSlide),
-    [projectShots],
-  );
+  const slides = useMemo(() => projectShots.map(buildSlide), [projectShots]);
 
   const [pair, setPair] = useState<[number, number]>([0, 1]);
   // Track which top-slot URLs have been fully loaded at least once
@@ -134,9 +131,7 @@ export default function HeroSlider({
         <div className="relative h-[289px] w-1/2 overflow-hidden">
           {!topLoaded && <Skeleton className="absolute inset-0" />}
           <Image
-            src={
-              topSlide.asset ? heroMobileImageUrl(topSlide.asset) : FALLBACK
-            }
+            src={topSlide.asset ? heroMobileImageUrl(topSlide.asset) : FALLBACK}
             alt={topSlide.alt}
             className="object-cover"
             fill
