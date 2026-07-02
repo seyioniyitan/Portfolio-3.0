@@ -128,12 +128,12 @@ export default function HeroSlider({
         className="flex items-start gap-[17px]"
       >
         {/* Top — mobile half-vw */}
-        <div className="relative h-[289px] w-1/2 overflow-hidden">
+        <div className="relative h-[320px] w-1/2 overflow-hidden">
           {!topLoaded && <Skeleton className="absolute inset-0" />}
           <Image
             src={topSlide.asset ? heroMobileImageUrl(topSlide.asset) : FALLBACK}
             alt={topSlide.alt}
-            className="object-cover"
+            className="object-contain"
             fill
             sizes="50vw"
             onLoad={() => {
@@ -144,7 +144,7 @@ export default function HeroSlider({
         </div>
 
         {/* Bottom — mobile half-vw */}
-        <div className="relative h-[356px] w-1/2 overflow-hidden">
+        <div className="relative h-[320px] w-1/2 overflow-hidden">
           {!bottomLoaded && <Skeleton className="absolute inset-0" />}
           <Image
             src={
@@ -153,7 +153,7 @@ export default function HeroSlider({
                 : FALLBACK
             }
             alt={bottomSlide.alt}
-            className="object-cover"
+            className="object-contain"
             fill
             sizes="50vw"
             onLoad={() => {

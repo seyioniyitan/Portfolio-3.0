@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useThemeState } from "@/app/hooks/use-theme-state";
+import Link from "next/link";
 
 const AUTOPLAY_DELAY_MS = 600;
 
@@ -42,7 +43,9 @@ export default function ProjectShotsCategorySlide({
     return (
       <div className="fixed bottom-0 left-0 flex h-37 w-full flex-col bg-[#007AFF] md:hidden">
         <div className="mx-4 mt-3.5 flex h-8 items-center justify-between">
-          <h2 className="text font-semibold text-white">Start a project</h2>
+          <Link href="/contact" className="text font-semibold text-white">
+            Start a project
+          </Link>
           <div className="flex h-8 w-10 items-center justify-center rounded-[23px] bg-black">
             <Image
               src="/assets/arrow-icon.svg"

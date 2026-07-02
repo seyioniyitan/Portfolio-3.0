@@ -14,7 +14,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Seyi Oniyitan",
   description:
-    "Seyi Oniyitan | Generalist designer transforming ideas into products, maximising business impact and the friend of your ambitious imaginations.",
+    "Seyi Oniyitan | Generalist designer transforming ideas into tastefully enduring products, maximising business impact and the friend of your ambitious imaginations. I am redefining design values in the AI era. ",
 };
 
 export default function RootLayout({

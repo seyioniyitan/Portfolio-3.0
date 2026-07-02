@@ -22,6 +22,7 @@ export default function HomePage({
   recentWork: RecentWorkData[];
 }) {
   const { hero } = data;
+  console.log(hero?.headline);
 
   const [done, setDone] = useState(false);
   const { resolvedTheme, mounted } = useThemeState();
