@@ -41,7 +41,7 @@ export default async function ProjectShots({
     <section>
       <Header variant="project-shots" />
       <div className="relative pb-20 md:mt-0">
-        <div className="flex items-center justify-between px-4 lg:px-6">
+        <div className="flex items-baseline justify-between px-4 lg:px-6">
           <ShuffleButtons activeView={activeView} />
           <div className="hidden md:block">
             <WorkTogetherLink />
@@ -68,18 +68,6 @@ export default async function ProjectShots({
     </section>
   );
 }
-
-const BentoImage = ({
-  src,
-  className = "",
-}: {
-  src: string;
-  className?: string;
-}) => (
-  <div className={`relative min-h-0 overflow-hidden ${className}`}>
-    <Image src={src} alt="" fill className="object-cover" sizes="33vw" />
-  </div>
-);
 
 const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
   return (
@@ -110,7 +98,7 @@ const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
               />
             </div>
 
-            <div className="mt-4 flex flex-col justify-center gap-4 lg:mb-0 lg:h-15.5 lg:flex-row lg:items-end">
+            <div className="flex flex-col justify-center gap-4 lg:mb-0 lg:h-15.5 lg:flex-row lg:items-end">
               <div className="h-[46px]">
                 <h3 className="text text-center">{project.title}</h3>
                 <p className="text text-center font-normal text-[#8E8E93]">

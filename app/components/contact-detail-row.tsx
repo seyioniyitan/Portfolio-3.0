@@ -14,6 +14,7 @@ export default function ContactDetailRow({
   value,
 }: ContactDetailRowProps) {
   const [copied, setCopied] = useState(false);
+  console.log(label);
 
   useEffect(() => {
     if (!copied) return;
@@ -64,7 +65,7 @@ export default function ContactDetailRow({
         <button
           type="button"
           onClick={handleCopy}
-          className={`border-[0.8px]px-2 pointer-events-none flex h-[23px] items-center justify-center rounded-[23px] text-[11px] leading-4 font-medium tracking-[0%] opacity-0 group-hover:pointer-events-auto group-hover:opacity-100 ${
+          className={`pointer-events-none flex h-[23px] items-center justify-center rounded-[23px] border-[0.8px] px-2 text-[11px] leading-4 font-medium tracking-[0%] opacity-0 group-hover:pointer-events-auto group-hover:opacity-100 ${
             copied
               ? "border-[#007AFF] text-[#007AFF]"
               : "border-black text-black dark:border-white dark:text-white"

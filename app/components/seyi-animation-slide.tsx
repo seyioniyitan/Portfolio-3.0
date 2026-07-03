@@ -16,7 +16,7 @@ const categoryImages: {
   {
     id: 1,
     alt: "beret",
-    image: "/assets/beret.png",
+    image: "/assets/a.jpg",
     width: 75,
     height: 118,
     rotate: 3,
@@ -24,7 +24,7 @@ const categoryImages: {
   {
     id: 2,
     alt: "nike",
-    image: "/assets/hero-b.png",
+    image: "/assets/b.png",
     width: 137,
     height: 84,
     rotate: 6,
@@ -32,7 +32,7 @@ const categoryImages: {
   {
     id: 3,
     alt: "70's hype",
-    image: "/assets/slide-c.png",
+    image: "/assets/c.png",
     width: 140,
     height: 86,
     rotate: -6,

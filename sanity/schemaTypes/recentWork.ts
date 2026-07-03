@@ -35,6 +35,13 @@ export const recentWork = defineType({
     }),
 
     defineField({
+      name: "link",
+      title: "Link",
+      type: "string",
+      description: "Optional URL to the company, project, or case study.",
+    }),
+
+    defineField({
       name: "image",
       title: "Cover Image",
       type: "image",

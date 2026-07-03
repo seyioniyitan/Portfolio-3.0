@@ -81,6 +81,8 @@ export const aboutPageQuery = groq`
     _id,
     introOne,
     introTwo,
+    introThree,
+    introFour,
 
     contactDetails,
 
@@ -102,6 +104,7 @@ export const recentWorkQuery = groq`
     company,
     role,
     year,
+    link,
     tag,
     image {
       alt,

@@ -1,12 +1,106 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useThemeState } from "@/app/hooks/use-theme-state";
 import PdfFileSvg from "./svgs/pdf-file-svg";
 import Link from "next/link";
 import { RecentWorkData } from "@/types";
 import { thumbnailImageUrl } from "@/sanity/lib/image";
+
+const PREVIEW_SIZE = 80;
+const POSITION_TRANSITION_MS = 320;
+const MORPH_TRANSITION_MS = 420;
+
+function MorphingPreview({
+  containerRef,
+  hoveredIndex,
+  itemRefs,
+  images,
+}: {
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  hoveredIndex: number | null;
+  itemRefs: React.RefObject<(HTMLElement | null)[]>;
+  images: { src: string; alt: string }[];
+}) {
+  const [top, setTop] = useState(0);
+  // Two persistent DOM slots that ping-pong which one is "on top" —
+  // because these nodes never unmount, changing their inline styles
+  // (opacity/filter/transform) triggers a real CSS transition instead
+  // of a mount/unmount swap, so there's never a blank frame.
+  const [slots, setSlots] = useState<
+    [{ src: string; alt: string }, { src: string; alt: string }]
+  >([
+    { src: "", alt: "" },
+    { src: "", alt: "" },
+  ]);
+  const [active, setActive] = useState<0 | 1>(0);
+
+  // Reposition the floating preview to sit over whichever row is hovered.
+  useEffect(() => {
+    if (hoveredIndex === null) return;
+    const container = containerRef.current;
+    const row = itemRefs.current?.[hoveredIndex];
+    if (!container || !row) return;
+
+    const rowTop = row.offsetTop;
+    const rowHeight = row.offsetHeight;
+    setTop(rowTop + rowHeight / 2 - PREVIEW_SIZE / 2);
+  }, [hoveredIndex, containerRef, itemRefs]);
+
+  // Push the newly hovered image into whichever slot is currently
+  // inactive, then flip which slot is "active" — this is what drives
+  // the crossfade/morph without ever removing an element from the DOM.
+  useEffect(() => {
+    if (hoveredIndex === null) return;
+    const next = images[hoveredIndex];
+    if (!next) return;
+
+    setSlots((prev) => {
+      if (prev[active].src === next.src) return prev;
+      const inactive = active === 0 ? 1 : 0;
+      const updated: [(typeof prev)[0], (typeof prev)[0]] = [...prev] as any;
+      updated[inactive] = next;
+      setActive(inactive);
+      return updated;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hoveredIndex, images]);
+
+  const visible = hoveredIndex !== null;
+
+  return (
+    <div
+      className="pointer-events-none absolute right-0 z-10 overflow-hidden"
+      style={{
+        width: PREVIEW_SIZE,
+        height: PREVIEW_SIZE,
+        top,
+        opacity: visible ? 1 : 0,
+        transition: `top ${POSITION_TRANSITION_MS}ms cubic-bezier(0.4,0,0.2,1), opacity ${POSITION_TRANSITION_MS}ms ease-out`,
+      }}
+    >
+      {slots.map((slot, i) => {
+        const isActive = i === active;
+        return (
+          <Image
+            key={i}
+            src={slot.src || "/assets/hero-a.png"}
+            alt={slot.alt}
+            fill
+            className="object-cover grayscale"
+            style={{
+              opacity: slot.src && isActive ? 1 : 0,
+              transform: isActive ? "scale(1)" : "scale(1.18)",
+              filter: isActive ? "blur(0px)" : "blur(10px)",
+              transition: `opacity ${MORPH_TRANSITION_MS}ms cubic-bezier(0.4,0,0.2,1), transform ${MORPH_TRANSITION_MS}ms cubic-bezier(0.4,0,0.2,1), filter ${MORPH_TRANSITION_MS}ms cubic-bezier(0.4,0,0.2,1)`,
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
 
 export default function RecentWork({
   recentWork,
@@ -14,6 +108,8 @@ export default function RecentWork({
   recentWork: RecentWorkData[];
 }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLElement | null)[]>([]);
 
   const { resolvedTheme, mounted } = useThemeState();
   const imageSrc =
@@ -38,6 +134,12 @@ export default function RecentWork({
     mounted && resolvedTheme === "dark"
       ? `${base} ${darkStyle}`
       : `${base} ${lightStyle}`;
+
+  const previewImages = recentWork.map(({ company, image }) => ({
+    src: image ? thumbnailImageUrl(image) : "/assets/hero-a.png",
+    alt: image?.alt ?? `${company} preview`,
+  }));
+
   return (
     <div className="mt-10 mb-10 lg:mt-15 lg:mb-15">
       <div className="flex items-center gap-1">
@@ -54,27 +156,25 @@ export default function RecentWork({
           </Link>
         </div>
       </div>
-      <div className="px-4 md:w-[443px] md:pl-6">
-        {recentWork.map(({ company, role, year, tag, image }, index) => (
-          <div
+      <div ref={containerRef} className="relative px-4 md:w-[443px] md:pl-6">
+        <MorphingPreview
+          containerRef={containerRef}
+          hoveredIndex={hoveredIndex}
+          itemRefs={itemRefs}
+          images={previewImages}
+        />
+
+        {recentWork.map(({ company, role, year, tag, link }, index) => (
+          <Link
+            href={link ?? "/"}
             key={index}
+            ref={(el) => {
+              itemRefs.current[index] = el;
+            }}
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
             className="relative flex h-18.5 cursor-default justify-between border-b border-[#F2F2F7] py-3.5 dark:border-[#7F7F7F66]/40"
           >
-            <div
-              className="pointer-events-none absolute inset-0 z-10 ml-30 flex items-center justify-center transition-opacity"
-              style={{ opacity: hoveredIndex === index ? 1 : 0 }}
-            >
-              <Image
-                src={image ? thumbnailImageUrl(image) : "/assets/hero-a.png"}
-                alt={image?.alt ?? `${company} preview`}
-                width={70}
-                height={70}
-                className="object-cover grayscale"
-              />
-            </div>
-
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text font-normal">{company}</h2>
@@ -87,7 +187,7 @@ export default function RecentWork({
               <p className="text font-normal text-[#8E8E93]">{role}</p>
             </div>
             <h2>{year}</h2>
-          </div>
+          </Link>
         ))}
         <a
           href="/assets/seyis-cv.pdf"

@@ -17,7 +17,19 @@ export const aboutPageType = defineType({
 
     defineField({
       name: "introTwo",
-      title: "Introduction Paragraph 2",
+      title: "Paragraph 2",
+      type: "text",
+      rows: 5,
+    }),
+    defineField({
+      name: "introThree",
+      title: "Paragraph 3",
+      type: "text",
+      rows: 5,
+    }),
+    defineField({
+      name: "introFour",
+      title: "Paragraph 4",
       type: "text",
       rows: 5,
     }),

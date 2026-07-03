@@ -7,13 +7,19 @@ import { client } from "@/app/lib/sanity";
 import { AboutPageData } from "@/types";
 import { aboutImageOneUrl, aboutImageTwoUrl } from "@/sanity/lib/image";
 
-// Portfolio content is nearly static — revalidate at most once per hour.
 export const revalidate = 3600;
 
 export default async function AboutPage() {
   const aboutPageData = await client.fetch<AboutPageData>(aboutPageQuery, {});
-  const { introOne, introTwo, contactDetails, imageOne, imageTwo } =
-    aboutPageData;
+  const {
+    introOne,
+    introTwo,
+    introThree,
+    introFour,
+    contactDetails,
+    imageOne,
+    imageTwo,
+  } = aboutPageData;
 
   return (
     <section>
@@ -31,6 +37,12 @@ export default async function AboutPage() {
               <h2 className="text font-normal lg:indent-17.5">{introOne}</h2>
               <h2 className="text mt-8 font-normal lg:indent-17.5">
                 {introTwo}
+              </h2>
+              <h2 className="text mt-8 font-normal lg:indent-17.5">
+                {introThree}
+              </h2>
+              <h2 className="text mt-8 font-normal lg:indent-17.5">
+                {introFour}
               </h2>
             </div>
 
@@ -100,6 +112,8 @@ export default async function AboutPage() {
           <div className="w-full min-w-0 px-4">
             <h2 className="text font-normal">{introOne}</h2>
             <h2 className="text mt-8 font-normal">{introTwo}</h2>
+            <h2 className="text mt-8 font-normal">{introThree}</h2>
+            <h2 className="text mt-8 font-normal">{introFour}</h2>
 
             <div className="mt-16 space-y-2">
               {contactDetails?.map((item) => (

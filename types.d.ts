@@ -82,6 +82,8 @@ export type AboutPageData = {
   _id: string;
   introOne?: string;
   introTwo?: string;
+  introThree?: string;
+  introFour?: string;
 
   contactDetails?: {
     label: string;
@@ -109,6 +111,7 @@ export type RecentWorkData = {
   role: string;
   year: string;
   tag?: string;
+  link?: string;
 
   image?: {
     alt?: string;

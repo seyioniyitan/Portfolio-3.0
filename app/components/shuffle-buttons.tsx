@@ -13,6 +13,10 @@ export default function ShuffleButtons({ activeView }: ShuffleButtonsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // Global: is the URL currently in shuffle mode, regardless of which
+  // button we're rendering right now.
+  const isShuffleActive = !!searchParams.get("shuffle");
+
   const handleShuffle = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("view", "project-shots");
@@ -27,7 +31,15 @@ export default function ShuffleButtons({ activeView }: ShuffleButtonsProps) {
           ({ view }) => activeView === "project-shots" || view !== undefined,
         )
         .map(({ title, view }, index) => {
-          const isActive = view === activeView;
+          const isActive =
+            view !== undefined
+              ? view === activeView && !isShuffleActive
+              : isShuffleActive;
+
+          const className = `flex h-[25px] items-center rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase cursor-pointer transition-colors ${
+            isActive ? "bg-black text-white" : "hover:bg-black hover:text-white"
+          }`;
+
           const href = view ? `/project-shots?view=${view}` : "/project-shots";
 
           if (!view) {
@@ -36,7 +48,7 @@ export default function ShuffleButtons({ activeView }: ShuffleButtonsProps) {
                 key={index}
                 type="button"
                 onClick={handleShuffle}
-                className="flex h-[25px] items-center rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase opacity-60"
+                className={className}
               >
                 {title}
               </button>
@@ -44,13 +56,7 @@ export default function ShuffleButtons({ activeView }: ShuffleButtonsProps) {
           }
 
           return (
-            <Link
-              key={index}
-              href={href}
-              className={`flex h-[25px] items-center rounded-[23px] border-[0.4px] px-3 py-1 text-[13px] leading-4 font-medium tracking-[0%] uppercase ${
-                isActive ? "bg-black text-white" : ""
-              }`}
-            >
+            <Link key={index} href={href} className={className}>
               {title}
             </Link>
           );
@@ -62,9 +68,9 @@ export default function ShuffleButtons({ activeView }: ShuffleButtonsProps) {
 const shuffleButtons: {
   id: number;
   title: string;
-  view?: "case-studies" | "project-shots";
+  view?: ProjectView;
 }[] = [
   { id: 1, title: "case studies", view: "case-studies" },
-  { id: 2, title: "project shots ", view: "project-shots" },
+  { id: 2, title: "project shots", view: "project-shots" },
   { id: 3, title: "shuffle" },
 ];
