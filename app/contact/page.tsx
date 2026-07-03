@@ -67,7 +67,7 @@ export default function ContactPage() {
         <header className="sticky top-0 left-0 z-0 flex h-48 items-center justify-center bg-[#007AFF]">
           <SeyiAnimationSlide />
         </header>
-        <div className="relative z-10 -mt-21 bg-white px-4 py-7.5 dark:bg-[#232323]">
+        <div className="relative z-10 -mt-23.5 bg-white px-4 py-7.5 dark:bg-[#232323]">
           {!isSubmitted && (
             <>
               <StartProjectHeader

@@ -12,14 +12,11 @@ import {
 } from "@/sanity/lib/image";
 import type { SanityImageSource } from "@sanity/image-url";
 
-const TOP_IMAGE = { width: 418, height: 593 } as const;
-const BOTTOM_IMAGE = { width: 872, height: 581 } as const;
 const LABEL = { width: 273, height: 64 } as const;
 
 const IMAGE_GAP = 20;
-const BOTTOM_LEFT_OFFSET = 77;
 const BRIDGE_LEFT_OFFSET = -10;
-const ROTATE_INTERVAL_MS = 1000;
+const ROTATE_INTERVAL_MS = 1400;
 
 const FALLBACK = "/assets/hero-a.png";
 
@@ -40,15 +37,9 @@ const Skeleton = ({ className }: { className?: string }) => (
   />
 );
 
-// ---------------------------------------------------------------------------
-// Slide shape — carries the raw asset so each render slot can request
-// the correct size without re-querying.
-// ---------------------------------------------------------------------------
 type Slide = {
   id: string;
-  /** Raw Sanity asset reference — passed to preset helpers per slot. */
   asset: SanityImageSource | null;
-  /** Pre-built top-slot URL, used as cache-key for the loadedSet. */
   topUrl: string;
   alt: string;
 };
@@ -85,7 +76,6 @@ export default function HeroSlider({
   const slides = useMemo(() => projectShots.map(buildSlide), [projectShots]);
 
   const [pair, setPair] = useState<[number, number]>([0, 1]);
-  // Track which top-slot URLs have been fully loaded at least once
   const loadedSet = useRef<Set<string>>(new Set());
   const [topLoaded, setTopLoaded] = useState(false);
   const [bottomLoaded, setBottomLoaded] = useState(false);
@@ -108,7 +98,6 @@ export default function HeroSlider({
   const topSlide = slides[pair[0]] ?? slides[0];
   const bottomSlide = slides[pair[1]] ?? slides[0];
 
-  // Eagerly pre-fetch all size variants so rotations feel instant.
   useEffect(() => {
     slides.forEach(({ asset }) => {
       if (!asset) return;
@@ -127,7 +116,6 @@ export default function HeroSlider({
         key={`${pair[0]}-${pair[1]}`}
         className="flex items-start gap-[17px]"
       >
-        {/* Top — mobile half-vw */}
         <div className="relative h-[320px] w-1/2 overflow-hidden">
           {!topLoaded && <Skeleton className="absolute inset-0" />}
           <Image
@@ -143,7 +131,6 @@ export default function HeroSlider({
           />
         </div>
 
-        {/* Bottom — mobile half-vw */}
         <div className="relative h-[320px] w-1/2 overflow-hidden">
           {!bottomLoaded && <Skeleton className="absolute inset-0" />}
           <Image
@@ -166,30 +153,24 @@ export default function HeroSlider({
     );
   }
 
-  const bottomTop = TOP_IMAGE.height + IMAGE_GAP;
-  const bridgeTop = bottomTop - LABEL.height + 15;
-  const sectionWidth = BOTTOM_LEFT_OFFSET + BOTTOM_IMAGE.width;
-  const sectionHeight = bottomTop + BOTTOM_IMAGE.height;
-
   return (
     <section
       key={`${pair[0]}-${pair[1]}`}
-      className="relative shrink-0 overflow-hidden md:ml-56"
-      style={{ width: sectionWidth, height: sectionHeight }}
+      className="relative flex h-full w-full flex-col md:ml-56"
       aria-label="Featured work"
     >
-      {/* Top image — 418 px slot, 2× for HiDPI */}
+      {/* Top image — takes the top half of the available space */}
       <div
-        className="absolute top-0 left-0 z-1 overflow-hidden"
-        style={{ width: TOP_IMAGE.width, height: TOP_IMAGE.height }}
+        className="relative min-h-0 flex-1"
+        style={{ marginBottom: IMAGE_GAP / 2 }}
       >
         {!topLoaded && <Skeleton className="absolute inset-0" />}
         <Image
           src={topSlide.asset ? heroTopImageUrl(topSlide.asset) : FALLBACK}
           alt={topSlide.alt}
           fill
-          className="object-contain object-bottom"
-          sizes={`${TOP_IMAGE.width}px`}
+          className="object-contain object-left-bottom"
+          sizes="50vw"
           priority
           onLoad={() => {
             loadedSet.current.add(topSlide.topUrl);
@@ -198,14 +179,30 @@ export default function HeroSlider({
         />
       </div>
 
-      {/* Bottom image — 872 px slot, 2× for HiDPI */}
+      {/* Bridge / label — sits at the seam between the two halves */}
+      <div className="relative z-10 h-0">
+        <Link
+          href="/project-shots"
+          className="absolute flex items-end gap-3"
+          style={{
+            bottom: -(LABEL.height - 15),
+            left: BRIDGE_LEFT_OFFSET,
+          }}
+        >
+          <Image
+            src={labelImage}
+            alt="Projects & Shots"
+            width={LABEL.width}
+            height={LABEL.height}
+            priority
+          />
+        </Link>
+      </div>
+
+      {/* Bottom image — takes the bottom half of the available space */}
       <div
-        className="absolute z-1 overflow-hidden"
-        style={{
-          top: bottomTop,
-          width: BOTTOM_IMAGE.width,
-          height: BOTTOM_IMAGE.height,
-        }}
+        className="relative min-h-0 flex-1"
+        style={{ marginTop: IMAGE_GAP / 2 }}
       >
         {!bottomLoaded && <Skeleton className="absolute inset-0" />}
         <Image
@@ -214,8 +211,8 @@ export default function HeroSlider({
           }
           alt={bottomSlide.alt}
           fill
-          className="object-contain object-top"
-          sizes={`${BOTTOM_IMAGE.width}px`}
+          className="object-contain object-left-top"
+          sizes="50vw"
           priority
           onLoad={() => {
             loadedSet.current.add(bottomSlide.topUrl);
@@ -223,21 +220,6 @@ export default function HeroSlider({
           }}
         />
       </div>
-
-      {/* Label */}
-      <Link
-        href="/project-shots"
-        className="absolute z-10 flex items-end gap-3"
-        style={{ top: bridgeTop, left: BRIDGE_LEFT_OFFSET }}
-      >
-        <Image
-          src={labelImage}
-          alt="Projects & Shots"
-          width={LABEL.width}
-          height={LABEL.height}
-          priority
-        />
-      </Link>
     </section>
   );
 }

@@ -11,6 +11,7 @@ import WorkTogetherLink from "@/app/components/work-together-link";
 import ProjectShotsSvg from "@/app/components/svgs/projects-shots-svg";
 import { useThemeState } from "@/app/hooks/use-theme-state";
 import { HomePageData, ProjectShot, RecentWorkData } from "@/types";
+import BottomSheet from "@/app/components/bottom-sheet";
 
 export default function HomePage({
   data,
@@ -50,7 +51,7 @@ export default function HomePage({
       {!done && <LoadingScreen onComplete={() => setDone(true)} />}
       <div className="relative overflow-hidden">
         <Header />
-        <section className="mt-[75px] flex items-start md:mt-0">
+        <section className="mt-[75px] flex items-start lg:mt-0">
           <div className="md:shrink-0 md:pt-[104px]">
             <div className="mb-5 px-4 md:mb-0 md:px-0 md:pl-6">
               <div className="mt-10 w-full md:mt-13 md:w-[443px]">
@@ -85,20 +86,20 @@ export default function HomePage({
             <div className="pointer-events-auto md:pb-10 md:pl-6">
               <div className="mt-10.5 ml-4 lg:mt-0 lg:ml-0">
                 <CategorySlide />
-                <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%] lg:hidden">
+                <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%]">
                   ©2026 All rights reserved.
                 </p>
               </div>
-              <div className="mt-[188px] md:hidden">
-                <CategorySlide mobile />
+
+              <div className="mt-[188px] lg:hidden">
+                <BottomSheet />
               </div>
-              <p className="mt-6 hidden text-[14px] leading-[150%] font-normal tracking-[0%] md:block">
-                ©2026 All rights reserved.
-              </p>
             </div>
           </div>
 
-          <div className="hidden min-w-0 flex-1 overflow-hidden pt-5 md:block">
+          <div className="hidden min-w-0 flex-1 md:block" aria-hidden="true" />
+
+          <div className="fixed top-0 right-0 hidden h-screen w-[calc(100%-443px)] overflow-hidden py-5 md:block">
             <HeroSlider projectShots={projectShots} />
           </div>
         </section>

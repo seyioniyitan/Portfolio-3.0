@@ -27,16 +27,6 @@ export default function CategorySlide({
   const [current, setCurrent] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { resolvedTheme, mounted } = useThemeState();
-  const base = "";
-
-  const lightStyle = ``;
-
-  const darkStyle = ``;
-
-  const className =
-    mounted && resolvedTheme === "dark"
-      ? `${base} ${darkStyle}`
-      : `${base} ${lightStyle}`;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -77,7 +67,7 @@ export default function CategorySlide({
   return (
     <div className="flex h-11 items-center gap-3">
       <div
-        className={`${variant && "w-[33px] text-black"} ${escape && "dark:border-white"} flex h-5 items-center justify-center rounded-[23px] border-[0.8px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase md:dark:border-white`}
+        className={`${variant && "w-[33px] text-black"} ${escape && "dark:border-white"} flex h-5 items-center justify-center rounded-[23px] border-[0.8px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase dark:border-white`}
       >
         on
       </div>
@@ -93,7 +83,7 @@ export default function CategorySlide({
       </div>
 
       <div
-        className={`${variant && "w-16 text-black"} ${escape && "dark:border-white"} flex h-5 items-center justify-center rounded-[23px] border-[0.8px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase md:dark:border-white`}
+        className={`${variant && "w-16 text-black"} ${escape && "dark:border-white"} flex h-5 items-center justify-center rounded-[23px] border-[0.8px] border-black px-2 py-0.5 text-[11px] leading-4 font-medium tracking-[0%] uppercase dark:border-white`}
       >
         DESIGN™
       </div>

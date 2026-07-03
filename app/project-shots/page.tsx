@@ -1,5 +1,7 @@
+import BottomSheet from "@/app/components/bottom-sheet";
 import ContactModal from "@/app/components/contact-modal";
 import Header from "@/app/components/header";
+import ProjectShotsGrid from "@/app/components/project-shots-grid";
 import ShuffleButtons, {
   type ProjectView,
 } from "@/app/components/shuffle-buttons";
@@ -10,8 +12,6 @@ import { caseStudyImageUrl } from "@/sanity/lib/image";
 import { fullProjectData } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import ProjectShotsGrid from "@/app/components/project-shots-grid";
-import CategorySlide from "@/app/components/category-slide";
 
 // Portfolio content is nearly static — revalidate at most once per hour.
 export const revalidate = 3600;
@@ -59,10 +59,8 @@ export default async function ProjectShots({
             <ContactModal />
           </div>
         </div>
-        <div className="pointer-events-none mt-25 lg:hidden">
-          <div className="pointer-events-auto">
-            <CategorySlide mobile />
-          </div>
+        <div className="mt-25 lg:hidden">
+          <BottomSheet />
         </div>
       </div>
     </section>
@@ -98,7 +96,7 @@ const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
               />
             </div>
 
-            <div className="flex flex-col justify-center gap-4 lg:mb-0 lg:h-15.5 lg:flex-row lg:items-end">
+            <div className="mt-4 flex flex-col justify-center gap-4 lg:mt-0 lg:mb-0 lg:h-15.5 lg:flex-row lg:items-end">
               <div className="h-[46px]">
                 <h3 className="text text-center">{project.title}</h3>
                 <p className="text text-center font-normal text-[#8E8E93]">

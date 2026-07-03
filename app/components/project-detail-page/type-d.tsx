@@ -1,21 +1,21 @@
 "use client";
+import Link from "next/link";
 import CategorySlide from "@/app/components/category-slide";
+import { ProjectDetail } from "@/types";
 import {
   ProjectShotsHeaderLeft,
   ProjectShotsHeaderRight,
 } from "@/app/components/project-detail-page/project-detail-headers";
 import WorkTogetherLink from "@/app/components/work-together-link";
 import { useThemeState } from "@/app/hooks/use-theme-state";
-import Link from "next/link";
 import Header from "@/app/components/header";
-import { ProjectDetail } from "@/types";
-import { PortableText } from "@portabletext/react";
+import { PortableText, PortableTextComponents } from "@portabletext/react";
 import { projectDetailImageUrl } from "@/sanity/lib/image";
+import BottomSheet from "@/app/components/bottom-sheet";
 
 export default function TypeD({ data }: { data: ProjectDetail }) {
   const { resolvedTheme, mounted } = useThemeState();
   const { title, bodyOne, bodyTwo, role, links, mainImage } = data;
-
 
   const lightStyle = `border-[0.8px] border-black hover:bg-black hover:text-white`;
   const darkStyle = `border-[0.8px] border-white hover:bg-white hover:text-black`;
@@ -53,10 +53,16 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
 
             <div className="w-[444px]">
               <h2 className="text indent-17.5 font-normal">
-                <PortableText value={bodyOne} />
+                <PortableText
+                  value={bodyOne}
+                  components={myPortableTextComponents}
+                />
               </h2>
               <h2 className="text mt-6 indent-17.5 font-normal">
-                <PortableText value={bodyTwo} />
+                <PortableText
+                  value={bodyTwo}
+                  components={myPortableTextComponents}
+                />
               </h2>
               <h2 className="text my-6 font-normal">
                 Send an email to learn more about this project.
@@ -87,7 +93,7 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
         </div>
 
         <div
-          className="flex flex-1 flex-col bg-[#232323]"
+          className="fixed right-0 flex h-screen w-[40%] flex-col bg-[#232323]"
           style={{
             backgroundImage: `url(${imageSrc})`,
             backgroundSize: "cover",
@@ -147,13 +153,10 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
             }}
           />
         </div>
-
         <div className="fixed top-0 left-0 z-20 w-full pt-6">
           <Header showReturnButton backgroundImage />
         </div>
-
         <div className="h-[60vh]" />
-
         <div className="relative z-0 mx-4 mb-40 bg-white px-4 py-6 [transition:background-color_0.3s_ease-in-out,color_0.1s_ease-in-out] dark:bg-[#232323]">
           <div className="mx-auto w-[209px]">
             <h2 className="text font-normal">{title}</h2>
@@ -192,11 +195,27 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
             </p>
           </div>
         </div>
-
         <div className="pb-10">
-          <CategorySlide mobile />
+          <BottomSheet />
         </div>
       </div>
     </section>
   );
 }
+
+const myPortableTextComponents: PortableTextComponents = {
+  marks: {
+    link: ({ children, value }) => {
+      return (
+        <a
+          href={value.href}
+          style={{ textDecoration: "underline" }}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {children}
+        </a>
+      );
+    },
+  },
+};
