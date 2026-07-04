@@ -120,3 +120,18 @@ export type RecentWorkData = {
     };
   };
 };
+
+export type animationSliderData = {
+  _id: string;
+  slide: string;
+  width: number;
+  height: number;
+  rotate: number;
+
+  image: {
+    alt?: string;
+    asset: {
+      _ref: string;
+    };
+  };
+};

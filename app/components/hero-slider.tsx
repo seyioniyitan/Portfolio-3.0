@@ -169,7 +169,7 @@ export default function HeroSlider({
           src={topSlide.asset ? heroTopImageUrl(topSlide.asset) : FALLBACK}
           alt={topSlide.alt}
           fill
-          className="object-contain object-left-bottom"
+          className="object-contain object-bottom-left"
           sizes="50vw"
           priority
           onLoad={() => {
@@ -211,7 +211,7 @@ export default function HeroSlider({
           }
           alt={bottomSlide.alt}
           fill
-          className="object-contain object-left-top"
+          className="object-contain object-top-left"
           sizes="50vw"
           priority
           onLoad={() => {

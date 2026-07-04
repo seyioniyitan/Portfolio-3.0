@@ -24,10 +24,7 @@ function MorphingPreview({
   images: { src: string; alt: string }[];
 }) {
   const [top, setTop] = useState(0);
-  // Two persistent DOM slots that ping-pong which one is "on top" —
-  // because these nodes never unmount, changing their inline styles
-  // (opacity/filter/transform) triggers a real CSS transition instead
-  // of a mount/unmount swap, so there's never a blank frame.
+
   const [slots, setSlots] = useState<
     [{ src: string; alt: string }, { src: string; alt: string }]
   >([
@@ -48,9 +45,6 @@ function MorphingPreview({
     setTop(rowTop + rowHeight / 2 - PREVIEW_SIZE / 2);
   }, [hoveredIndex, containerRef, itemRefs]);
 
-  // Push the newly hovered image into whichever slot is currently
-  // inactive, then flip which slot is "active" — this is what drives
-  // the crossfade/morph without ever removing an element from the DOM.
   useEffect(() => {
     if (hoveredIndex === null) return;
     const next = images[hoveredIndex];
@@ -186,7 +180,7 @@ export default function RecentWork({
               </div>
               <p className="text font-normal text-[#8E8E93]">{role}</p>
             </div>
-            <h2>{year}</h2>
+            <h2 className="text font-normal">{year}</h2>
           </Link>
         ))}
         <a

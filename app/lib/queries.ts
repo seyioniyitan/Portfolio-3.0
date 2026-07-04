@@ -15,7 +15,7 @@ export const projectShotsQuery = groq`
     _type == "projectShots" &&
     (!defined(hidden) || hidden == false)
   ]
-  | order(_createdAt desc) {
+  | order(_createdAt asc) {
     _id,
     title,
     hidden,
@@ -106,6 +106,20 @@ export const recentWorkQuery = groq`
     year,
     link,
     tag,
+    image {
+      alt,
+      asset
+    }
+  }
+`;
+
+export const animationSliderQuery = groq`
+  *[_type == "animationSlider"] | order(_createdAt asc) {
+    _id,
+    alt,
+    width,
+    height,
+    rotate,
     image {
       alt,
       asset

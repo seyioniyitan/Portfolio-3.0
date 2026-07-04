@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import CategorySlide from "@/app/components/category-slide";
 import { ProjectDetail } from "@/types";
 import {
@@ -12,6 +13,7 @@ import Header from "@/app/components/header";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import { projectDetailImageUrl } from "@/sanity/lib/image";
 import BottomSheet from "@/app/components/bottom-sheet";
+import { useAdaptiveContrast } from "@/app/hooks/use-adaptive-contrast";
 
 export default function TypeD({ data }: { data: ProjectDetail }) {
   const { resolvedTheme, mounted } = useThemeState();
@@ -30,14 +32,64 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
   let imageSrc = "/assets/hero-a.png";
   if (mainImage) {
     try {
-      // Background image: capped at 1400 px wide, served as WebP.
-      // The Next.js <Image> component cannot be used inside a CSS
-      // backgroundImage string, so we apply transformations here instead.
       imageSrc = projectDetailImageUrl(mainImage);
     } catch {
       imageSrc = "/assets/hero-a.png";
     }
   }
+
+  const bgPanelRef = useRef<HTMLDivElement>(null);
+  const [panelSize, setPanelSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const el = bgPanelRef.current;
+    if (!el) return;
+
+    const measure = () => {
+      const rect = el.getBoundingClientRect();
+      setPanelSize({ width: rect.width, height: rect.height });
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const { variant: contrastVariant } = useAdaptiveContrast(
+    imageSrc,
+    panelSize.width,
+    panelSize.height,
+    { positionX: -166, sampleHeight: 140 },
+  );
+
+  const mobileHeaderRef = useRef<HTMLDivElement>(null);
+  const [mobileHeaderSize, setMobileHeaderSize] = useState({
+    width: 0,
+    height: 0,
+  });
+
+  useEffect(() => {
+    const el = mobileHeaderRef.current;
+    if (!el) return;
+
+    const measure = () => {
+      const rect = el.getBoundingClientRect();
+      setMobileHeaderSize({ width: rect.width, height: rect.height });
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const { variant: mobileContrastVariant } = useAdaptiveContrast(
+    imageSrc,
+    mobileHeaderSize.width,
+    mobileHeaderSize.height,
+    { positionX: -110.2, sampleHeight: 100 },
+  );
 
   return (
     <section>
@@ -93,20 +145,23 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
         </div>
 
         <div
+          ref={bgPanelRef}
           className="fixed right-0 flex h-screen w-[40%] flex-col bg-[#232323]"
           style={{
             backgroundImage: `url(${imageSrc})`,
             backgroundSize: "cover",
             backgroundPosition: "-166px center",
+            // backgroundRepeat: "no-repeat",
           }}
         >
-          <ProjectShotsHeaderRight />
+          <ProjectShotsHeaderRight contrastVariant={contrastVariant} />
         </div>
       </div>
 
       {/* Mobile */}
       <div className="relative lg:hidden">
         <div
+          ref={mobileHeaderRef}
           className="fixed inset-0 -z-10"
           style={{
             backgroundImage: `url(${imageSrc})`,
@@ -154,8 +209,13 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
           />
         </div>
         <div className="fixed top-0 left-0 z-20 w-full pt-6">
-          <Header showReturnButton backgroundImage />
+          <Header
+            showReturnButton
+            backgroundImage
+            contrastVariant={mobileContrastVariant}
+          />
         </div>
+
         <div className="h-[60vh]" />
         <div className="relative z-0 mx-4 mb-40 bg-white px-4 py-6 [transition:background-color_0.3s_ease-in-out,color_0.1s_ease-in-out] dark:bg-[#232323]">
           <div className="mx-auto w-[209px]">
@@ -174,9 +234,10 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
               Send an email to learn more about this project.
             </h2>
             <WorkTogetherLink />
-            {links?.map(({ url, title }, index) => (
-              <div className="mt-8 flex items-center" key={index}>
+            <div className="mt-8 flex items-center gap-3">
+              {links?.map(({ url, title }, index) => (
                 <Link
+                  key={index}
                   href={url ?? "/"}
                   target={url ? "_blank" : undefined}
                   rel={url ? "noopener noreferrer" : undefined}
@@ -184,11 +245,11 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
                 >
                   {title}
                 </Link>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
-          <div className="mt-4 flex h-32 flex-col justify-center">
+          <div className="mt-12 flex h-32 flex-col justify-center">
             <CategorySlide />
             <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%]">
               ©2026 All rights reserved.

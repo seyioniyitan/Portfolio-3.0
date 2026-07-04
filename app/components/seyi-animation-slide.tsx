@@ -2,58 +2,51 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
+import { animationSliderQuery } from "../lib/queries";
+import { animationSliderData } from "@/types";
 
 const AUTOPLAY_DELAY_MS = 200;
 
-const categoryImages: {
-  id: number;
-  alt: string;
-  image: string;
-  width: number;
-  height: number;
-  rotate: number;
-}[] = [
-  {
-    id: 1,
-    alt: "beret",
-    image: "/assets/a.jpg",
-    width: 75,
-    height: 118,
-    rotate: 3,
-  },
-  {
-    id: 2,
-    alt: "nike",
-    image: "/assets/b.png",
-    width: 137,
-    height: 84,
-    rotate: 6,
-  },
-  {
-    id: 3,
-    alt: "70's hype",
-    image: "/assets/c.png",
-    width: 140,
-    height: 86,
-    rotate: -6,
-  },
-];
-
-const TOTAL_STEPS = categoryImages.length + 1;
-const REVEAL_STEP = categoryImages.length;
-
 export default function SeyiAnimationSlide() {
   const [step, setStep] = useState(0);
+  const [categoryImages, setCategoryImages] = useState<animationSliderData[]>(
+    [],
+  );
 
   useEffect(() => {
+    const fetchSlides = async () => {
+      try {
+        const data: animationSliderData[] = await client.fetch(
+          animationSliderQuery,
+          {},
+          { cache: "force-cache" },
+        );
+
+        setCategoryImages(data);
+      } catch (error) {
+        console.error("Failed to fetch animation slides:", error);
+      }
+    };
+
+    fetchSlides();
+  }, []);
+
+  const TOTAL_STEPS = categoryImages.length + 1;
+  const REVEAL_STEP = categoryImages.length;
+
+  useEffect(() => {
+    if (!categoryImages.length) return;
+
     const interval = setInterval(() => {
       setStep((prev) => (prev + 1) % TOTAL_STEPS);
     }, AUTOPLAY_DELAY_MS);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [categoryImages.length, TOTAL_STEPS]);
 
   const isReveal = step === REVEAL_STEP;
-
   const stack = isReveal ? [] : categoryImages.slice(0, step + 1);
 
   return (
@@ -73,9 +66,9 @@ export default function SeyiAnimationSlide() {
           className="object-cover"
         />
 
-        {stack.map(({ id, alt, image, width, height, rotate }) => (
+        {stack.map(({ _id, image, width, height, rotate }) => (
           <div
-            key={id}
+            key={_id}
             style={{
               width: `${width}px`,
               height: `${height}px`,
@@ -84,8 +77,8 @@ export default function SeyiAnimationSlide() {
             className="absolute top-1/2 left-1/2 overflow-hidden"
           >
             <Image
-              src={image}
-              alt={alt}
+              src={image ? urlFor(image).url() : "/assets/a.jpg"}
+              alt={image?.alt ?? "slide-image"}
               width={width}
               height={height}
               style={{

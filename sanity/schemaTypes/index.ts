@@ -10,6 +10,7 @@ import { fullProjectType } from "./fullProjectType";
 import { hero } from "./hero";
 import { recentWork } from "./recentWork";
 import { aboutPageType } from "./aboutPage";
+import { animationSlider } from "./animationSlider";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -23,5 +24,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     hero,
     recentWork,
     aboutPageType,
+    animationSlider,
   ],
 };

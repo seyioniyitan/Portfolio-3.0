@@ -111,4 +111,10 @@ body {
   [data-theme="dark"] .input-field-default {
     border-color: #8e8e93;
   }
+  @media (max-width: 1023px) {
+    .input-field,
+    .input-field::placeholder {
+      font-size: 16px !important;
+    }
+  }
 }

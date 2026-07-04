@@ -8,6 +8,7 @@ import WorkTogetherLink from "@/app/components/work-together-link";
 import ThemeToggle from "@/app/components/theme-toggle";
 import MobileMenu from "@/app/components/mobile-menu";
 import { useMobileMenu } from "@/app/context/mobile-menu-context";
+import type { ContrastVariant } from "@/app/hooks/use-adaptive-contrast";
 
 type MobileExtraLink = {
   label: string;
@@ -19,6 +20,7 @@ type HeaderProps = {
   variant?: "default" | "minimal" | "project-shots";
   mobileLinks?: MobileExtraLink[];
   backgroundImage?: boolean;
+  contrastVariant?: ContrastVariant;
 };
 
 const menuLinks: { label: string; href: string }[] = [
@@ -32,6 +34,7 @@ export default function Header({
   variant = "default",
   mobileLinks = [],
   backgroundImage = false,
+  contrastVariant,
 }: HeaderProps) {
   const pathname = usePathname();
   const { resolvedTheme, mounted } = useThemeState();
@@ -55,12 +58,26 @@ export default function Header({
   const navPillBase =
     "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased";
 
+  // Regular (non-backdrop) styling: driven by site theme, as before.
   const pillClass = (active = false) => {
     if (mounted && resolvedTheme === "dark") {
       return `${navPillBase} border-[0.8px] border-white hover:bg-white hover:text-black ${active ? "bg-white text-black" : ""}`;
     }
     return `${navPillBase} border-[0.8px] border-black hover:bg-black hover:text-white ${active ? "bg-black text-white" : ""}`;
   };
+
+  // Backdrop-aware styling: driven by sampled image brightness rather
+  // than theme, since the pill sits directly over a photo. Applied only
+  // when `backgroundImage` is set and a variant has been sampled.
+  const isDarkBackdrop = contrastVariant === "dark-bg";
+  const pillClassOnImage = (active = false) => {
+    if (isDarkBackdrop) {
+      return `${navPillBase} border-[0.8px] border-white text-white hover:bg-white hover:text-black ${active ? "bg-white text-black" : ""}`;
+    }
+    return `${navPillBase} border-[0.8px] border-black text-black hover:bg-black hover:text-white ${active ? "bg-black text-white" : ""}`;
+  };
+
+  const useBackdropStyling = backgroundImage && !!contrastVariant;
 
   if (variant === "project-shots") {
     return (
@@ -149,7 +166,15 @@ export default function Header({
       {showReturnButton && (
         <Link
           href="/"
-          className="absolute top-[25px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.8px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase hover:text-white md:hidden dark:border-white dark:bg-[#232323]"
+          className={
+            useBackdropStyling
+              ? `absolute top-[25px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.8px] px-3 py-1 text-[13px] leading-4 font-medium uppercase md:hidden ${
+                  isDarkBackdrop
+                    ? "border-white bg-black/25 text-white backdrop-blur-md hover:bg-white hover:text-black"
+                    : "border-black bg-white/25 text-black backdrop-blur-md hover:bg-black hover:text-white"
+                }`
+              : "absolute top-[25px] left-[67px] z-10 flex h-[25px] w-fit items-center justify-center rounded-[23px] border-[0.8px] border-black bg-white px-3 py-1 text-[13px] leading-4 font-medium uppercase hover:text-white md:hidden dark:border-white dark:bg-[#232323]"
+          }
         >
           home
         </Link>
@@ -199,7 +224,6 @@ export default function Header({
       {/* Mobile */}
       <div className="mt-[25px] flex w-full items-start justify-between pr-4 pl-2 md:hidden">
         <Image
-          // src={`${backgroundImage ? "/assets/logo-light.svg" : imageSrc} `}
           src={imageSrc}
           alt="Seyi Oniyitan"
           height={72}
@@ -213,14 +237,21 @@ export default function Header({
             <Link
               key={index}
               href={link.href}
-              className={pillClass(isLinkActive(link.href))}
+              className={
+                useBackdropStyling
+                  ? pillClassOnImage(isLinkActive(link.href))
+                  : pillClass(isLinkActive(link.href))
+              }
             >
               {link.label}
             </Link>
           ))}
           <MobileMenu />
           <div className={open ? "hidden" : ""}>
-            <ThemeToggle width={32} />
+            <ThemeToggle
+              width={32}
+              contrastVariant={useBackdropStyling ? contrastVariant : undefined}
+            />
           </div>
         </div>
       </div>
