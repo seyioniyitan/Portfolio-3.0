@@ -70,6 +70,7 @@ export default async function AboutPage() {
                 src={aboutImageOneUrl(imageOne!)}
                 alt={imageOne?.alt!}
                 fill
+                unoptimized
                 className="object-cover"
                 sizes="(max-width: 1024px) 50vw, 296px"
               />
@@ -79,6 +80,7 @@ export default async function AboutPage() {
                 src={aboutImageTwoUrl(imageTwo!)}
                 alt={imageTwo?.alt!}
                 fill
+                unoptimized
                 className="object-cover"
                 sizes="(max-width: 1024px) 50vw, 470px"
               />
@@ -94,6 +96,7 @@ export default async function AboutPage() {
                 src={aboutImageOneUrl(imageOne!)}
                 alt={imageOne?.alt!}
                 fill
+                unoptimized
                 className="object-cover"
                 sizes="50vw"
               />
@@ -103,6 +106,7 @@ export default async function AboutPage() {
                 src={aboutImageTwoUrl(imageTwo!)}
                 alt={imageTwo?.alt!}
                 fill
+                unoptimized
                 className="object-cover"
                 sizes="50vw"
               />

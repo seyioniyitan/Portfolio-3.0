@@ -81,6 +81,7 @@ export default function SeyiAnimationSlide() {
               alt={image?.alt ?? "slide-image"}
               width={width}
               height={height}
+              unoptimized
               style={{
                 width: `${width}px`,
                 height: `${height}px`,

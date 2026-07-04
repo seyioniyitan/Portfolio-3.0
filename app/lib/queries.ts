@@ -40,7 +40,7 @@ export const heroQuery = groq`
 `;
 
 export const fullProjectQuery = groq`
-  *[_type == "fullProject"] | order(_createdAt desc) {
+  *[_type == "fullProject"] | order(_updatedAt desc) {
     ..., body
   }
 `;

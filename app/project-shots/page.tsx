@@ -13,7 +13,6 @@ import { fullProjectData } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-// Portfolio content is nearly static — revalidate at most once per hour.
 export const revalidate = 3600;
 
 export default async function ProjectShots({
@@ -68,9 +67,10 @@ export default async function ProjectShots({
 }
 
 const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
+  const orderedProjects = [...fullProjects].reverse();
   return (
     <div className="grid grid-cols-1 gap-x-5 gap-y-8 px-4 pt-6 lg:grid-cols-2 lg:p-6">
-      {fullProjects.map((project, index) => {
+      {orderedProjects.map((project, index) => {
         const href = project.slug?.current
           ? `/project-detail/${project.slug.current}`
           : "/project-shots";
@@ -91,6 +91,7 @@ const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
                 src={imageSrc}
                 alt={project.title ?? "Project"}
                 fill
+                unoptimized
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />

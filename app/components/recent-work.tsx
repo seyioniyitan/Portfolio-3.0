@@ -82,6 +82,7 @@ function MorphingPreview({
             src={slot.src || "/assets/hero-a.png"}
             alt={slot.alt}
             fill
+            unoptimized
             className="object-cover grayscale"
             style={{
               opacity: slot.src && isActive ? 1 : 0,

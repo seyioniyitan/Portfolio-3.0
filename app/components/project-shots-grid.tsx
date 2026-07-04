@@ -19,6 +19,7 @@ const BentoImage = ({
         src={bentoImageUrl(shot.image.asset)}
         alt={shot.image.alt ?? shot.title}
         fill
+        unoptimized
         className="object-cover"
         sizes="(max-width: 768px) 50vw, 33vw"
       />

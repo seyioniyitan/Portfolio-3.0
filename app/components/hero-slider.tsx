@@ -123,6 +123,7 @@ export default function HeroSlider({
             alt={topSlide.alt}
             className="object-contain"
             fill
+            unoptimized
             sizes="50vw"
             onLoad={() => {
               loadedSet.current.add(topSlide.topUrl);
@@ -142,6 +143,7 @@ export default function HeroSlider({
             alt={bottomSlide.alt}
             className="object-contain"
             fill
+            unoptimized
             sizes="50vw"
             onLoad={() => {
               loadedSet.current.add(bottomSlide.topUrl);
@@ -169,6 +171,7 @@ export default function HeroSlider({
           src={topSlide.asset ? heroTopImageUrl(topSlide.asset) : FALLBACK}
           alt={topSlide.alt}
           fill
+          unoptimized
           className="object-contain object-bottom-left"
           sizes="50vw"
           priority
@@ -211,6 +214,7 @@ export default function HeroSlider({
           }
           alt={bottomSlide.alt}
           fill
+          unoptimized
           className="object-contain object-top-left"
           sizes="50vw"
           priority
