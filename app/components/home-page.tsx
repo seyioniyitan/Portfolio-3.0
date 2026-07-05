@@ -12,6 +12,7 @@ import ProjectShotsSvg from "@/app/components/svgs/projects-shots-svg";
 import { useThemeState } from "@/app/hooks/use-theme-state";
 import { HomePageData, ProjectShot, RecentWorkData } from "@/types";
 import BottomSheet from "@/app/components/bottom-sheet";
+import { useMobileMenu } from "../context/mobile-menu-context";
 
 export default function HomePage({
   data,
@@ -26,6 +27,7 @@ export default function HomePage({
 
   const [done, setDone] = useState(false);
   const { resolvedTheme, mounted } = useThemeState();
+  const { open: menuOpen } = useMobileMenu();
 
   const base =
     "flex h-[25px] px-3 py-1 lg:h-5 items-center justify-center rounded-[23px] lg:px-2 lg:py-0.5 text-[13px] lg:text-[11px] leading-4 font-medium uppercase antialiased ";
@@ -90,7 +92,7 @@ export default function HomePage({
                 </p>
               </div>
 
-              <div className="mt-[188px] lg:hidden">
+              <div className={`${menuOpen ? "mt-2" : "mt-[188px]"} lg:hidden`}>
                 <BottomSheet />
               </div>
             </div>

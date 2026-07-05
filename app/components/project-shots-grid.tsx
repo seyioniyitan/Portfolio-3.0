@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { bentoImageUrl } from "@/sanity/lib/image";
-import CategorySlide from "@/app/components/category-slide";
 import { ProjectShot } from "@/types";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
 const BentoImage = ({
@@ -105,7 +104,6 @@ export default function ProjectShotsGrid({ shots }: { shots: ProjectShot[] }) {
             <MobileChunk key={i} shots={group} />
           ))}
         </div>
-        <CategorySlide mobile />
       </div>
     </>
   );

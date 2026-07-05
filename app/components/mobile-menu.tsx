@@ -80,7 +80,7 @@ export default function MobileMenu() {
           backgroundColor: "#007AFF",
           height: `${MENU_HEIGHT}px`,
         }}
-        className="fixed top-0 left-0 z-50 flex h-[50px] w-full justify-between px-4 pt-6"
+        className="fixed top-0 left-0 z-50 flex h-[50px] w-full justify-between pt-6 pr-13 pl-4"
       >
         <div className="relative h-[51px] w-[77px]">
           <Image

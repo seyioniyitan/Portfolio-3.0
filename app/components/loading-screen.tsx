@@ -3,78 +3,69 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-const COLS = 6;
-const ROWS = 5;
+const OVERLAY_COLOR = "#007AFF";
+const REVEAL_DURATION = 2.8;
+const MOBILE_BREAKPOINT = 768;
 
-type Cell = {
-  col: number;
-  row: number;
-  colSpan?: number;
-  rowSpan?: number;
-  group: number;
-};
+function mulberry32(seed: number) {
+  return function () {
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
-// Hand-crafted layout: mix of 1×1, 1×2, 2×1, and L-shapes (two cells, same group)
-const CELLS: Cell[] = [
-  // Row 1
-  { col: 1, row: 1, colSpan: 2, rowSpan: 1, group: 0 }, // wide
-  { col: 3, row: 1, colSpan: 1, rowSpan: 2, group: 1 }, // tall — top of L
-  { col: 4, row: 1, colSpan: 1, rowSpan: 1, group: 2 },
-  { col: 5, row: 1, colSpan: 2, rowSpan: 1, group: 3 }, // wide
+function buildScribble(
+  width: number,
+  height: number,
+  seed: number,
+  orientation: "horizontal" | "vertical",
+) {
+  const rand = mulberry32(seed);
 
-  // Row 2
-  { col: 1, row: 2, colSpan: 1, rowSpan: 1, group: 4 },
-  { col: 2, row: 2, colSpan: 1, rowSpan: 1, group: 5 },
-  // col 3 row 2 filled by group 1 (tall)
-  { col: 4, row: 2, colSpan: 2, rowSpan: 1, group: 6 }, // wide — bottom of L with group 3? no, independent
-  { col: 6, row: 2, colSpan: 1, rowSpan: 1, group: 7 },
+  const primaryLength = orientation === "horizontal" ? width : height;
+  const crossLength = orientation === "horizontal" ? height : width;
 
-  // Row 3
-  { col: 1, row: 3, colSpan: 1, rowSpan: 2, group: 8 }, // tall
-  { col: 2, row: 3, colSpan: 2, rowSpan: 1, group: 9 }, // wide
-  { col: 4, row: 3, colSpan: 1, rowSpan: 1, group: 10 },
-  { col: 5, row: 3, colSpan: 1, rowSpan: 2, group: 11 }, // tall
-  { col: 6, row: 3, colSpan: 1, rowSpan: 1, group: 12 },
+  const strokeWidth = Math.max(70, crossLength * 0.11);
+  const overshoot = strokeWidth * 1.2;
+  const rowStep = strokeWidth * 0.5; // tight overlap between rows
+  const rows = Math.ceil((crossLength + overshoot * 2) / rowStep) + 1;
+  const segs = 6;
 
-  // Row 4
-  // col 1 filled by group 8
-  { col: 2, row: 4, colSpan: 1, rowSpan: 1, group: 13 },
-  { col: 3, row: 4, colSpan: 2, rowSpan: 1, group: 14 }, // wide
-  // col 5 filled by group 11
-  { col: 6, row: 4, colSpan: 1, rowSpan: 1, group: 15 },
+  const minPrimary = -overshoot;
+  const maxPrimary = primaryLength + overshoot;
+  const minCross = -overshoot;
 
-  // Row 5
-  { col: 1, row: 5, colSpan: 3, rowSpan: 1, group: 16 }, // very wide
-  { col: 4, row: 5, colSpan: 1, rowSpan: 1, group: 17 },
-  { col: 5, row: 5, colSpan: 2, rowSpan: 1, group: 18 }, // wide
+  let d = "";
+  let goingForward = true;
 
-  // L-shapes: pair a wide with a 1×1 sharing a group number
-  // L group A: group 3 (wide top-right) + group 7 (single below-right) — animate together
-  // Re-assign group 7 to 3:
-];
+  for (let i = 0; i < rows; i++) {
+    const crossPos = minCross + i * rowStep + (rand() - 0.5) * rowStep * 0.3;
 
-// Re-map so L-shapes share a group: group 3 (cols 5-6 row1) + col6 row2 → same group
-const LAYOUT: Cell[] = [
-  { col: 1, row: 1, colSpan: 2, rowSpan: 1, group: 0 },
-  { col: 3, row: 1, colSpan: 1, rowSpan: 2, group: 1 },
-  { col: 4, row: 1, colSpan: 1, rowSpan: 1, group: 2 },
-  { col: 5, row: 1, colSpan: 2, rowSpan: 1, group: 3 }, // L top
-  { col: 1, row: 2, colSpan: 1, rowSpan: 1, group: 4 },
-  { col: 2, row: 2, colSpan: 1, rowSpan: 1, group: 5 },
-  { col: 4, row: 2, colSpan: 2, rowSpan: 1, group: 6 },
-  { col: 6, row: 2, colSpan: 1, rowSpan: 1, group: 3 }, // L bottom (same as top)
-  { col: 1, row: 3, colSpan: 1, rowSpan: 2, group: 7 },
-  { col: 2, row: 3, colSpan: 2, rowSpan: 1, group: 8 },
-  { col: 4, row: 3, colSpan: 1, rowSpan: 1, group: 9 },
-  { col: 5, row: 3, colSpan: 1, rowSpan: 2, group: 10 },
-  { col: 6, row: 3, colSpan: 1, rowSpan: 1, group: 11 }, // L top
-  { col: 2, row: 4, colSpan: 1, rowSpan: 1, group: 12 },
-  { col: 3, row: 4, colSpan: 2, rowSpan: 1, group: 13 },
-  { col: 6, row: 4, colSpan: 1, rowSpan: 1, group: 11 }, // L bottom (same as above)
-  { col: 1, row: 5, colSpan: 3, rowSpan: 1, group: 14 },
-  { col: 4, row: 5, colSpan: 1, rowSpan: 1, group: 15 },
-  { col: 5, row: 5, colSpan: 2, rowSpan: 1, group: 16 },
-];
+    for (let s = 0; s <= segs; s++) {
+      const t = s / segs;
+      const primaryPos = goingForward
+        ? minPrimary + t * (maxPrimary - minPrimary)
+        : maxPrimary - t * (maxPrimary - minPrimary);
+
+      const cross =
+        crossPos +
+        Math.sin(t * Math.PI * 2.2 + i * 1.4) * (rowStep * 0.35) +
+        (rand() - 0.5) * rowStep * 0.25;
+
+      const x = orientation === "horizontal" ? primaryPos : cross;
+      const y = orientation === "horizontal" ? cross : primaryPos;
+
+      if (i === 0 && s === 0) d += `M ${x.toFixed(1)} ${y.toFixed(1)} `;
+      else d += `L ${x.toFixed(1)} ${y.toFixed(1)} `;
+    }
+    goingForward = !goingForward;
+  }
+
+  return { d, strokeWidth };
+}
 
 export default function LoadingScreen({
   onComplete,
@@ -82,34 +73,33 @@ export default function LoadingScreen({
   onComplete?: () => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    const path = pathRef.current;
+    const svg = svgRef.current;
+    if (!container || !path || !svg) return;
 
-    // Group cell elements by group id
-    const cellEls = Array.from(
-      container.querySelectorAll<HTMLDivElement>("[data-group]"),
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+    const orientation = width < MOBILE_BREAKPOINT ? "vertical" : "horizontal";
+
+    const { d, strokeWidth } = buildScribble(
+      width,
+      height,
+      Date.now() % 100000,
+      orientation,
     );
+    path.setAttribute("d", d);
+    path.setAttribute("stroke-width", String(strokeWidth));
 
-    const groupMap = new Map<number, HTMLDivElement[]>();
-    cellEls.forEach((el) => {
-      const g = Number(el.dataset.group);
-      if (!groupMap.has(g)) groupMap.set(g, []);
-      groupMap.get(g)!.push(el);
-    });
-
-    const groups = Array.from(groupMap.entries()); // [groupId, els[]]
-
-    // Shuffle group order
-    for (let i = groups.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [groups[i], groups[j]] = [groups[j], groups[i]];
-    }
-
-    const BATCH_SIZE = 3;
-    const BATCH_DELAY = 0.09;
-    const PANE_DURATION = 0.5;
+    const length = path.getTotalLength();
+    path.setAttribute("stroke-dasharray", String(length));
+    path.setAttribute("stroke-dashoffset", String(length));
 
     const tl = gsap.timeline({
       delay: 0.3,
@@ -119,22 +109,11 @@ export default function LoadingScreen({
       },
     });
 
-    for (let b = 0; b < Math.ceil(groups.length / BATCH_SIZE); b++) {
-      const batch = groups.slice(b * BATCH_SIZE, (b + 1) * BATCH_SIZE);
-      // For L-shapes, all cells in the group must collapse together
-      batch.forEach(([, els], i) => {
-        tl.to(
-          els,
-          {
-            scaleY: 0,
-            transformOrigin: "top center",
-            duration: PANE_DURATION,
-            ease: "expo.inOut",
-          },
-          b * BATCH_DELAY + i * 0.025,
-        );
-      });
-    }
+    tl.to(path, {
+      attr: { "stroke-dashoffset": 0 },
+      duration: REVEAL_DURATION,
+      ease: "power3.inOut",
+    });
 
     return () => {
       tl.kill();
@@ -148,24 +127,29 @@ export default function LoadingScreen({
         position: "fixed",
         inset: 0,
         zIndex: 9999,
-        display: "grid",
-        gridTemplateColumns: `repeat(${COLS}, 1fr)`,
-        gridTemplateRows: `repeat(${ROWS}, 1fr)`,
         pointerEvents: "none",
       }}
     >
-      {LAYOUT.map((cell, i) => (
-        <div
-          key={i}
-          data-group={cell.group}
-          style={{
-            gridColumn: `${cell.col} / span ${cell.colSpan ?? 1}`,
-            gridRow: `${cell.row} / span ${cell.rowSpan ?? 1}`,
-            backgroundColor: "#007AFF",
-            willChange: "transform",
-          }}
+      <svg ref={svgRef} width="100%" height="100%" style={{ display: "block" }}>
+        <mask id="scribble-reveal-mask" maskUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="100%" height="100%" fill="white" />
+          <path
+            ref={pathRef}
+            fill="none"
+            stroke="black"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </mask>
+        <rect
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
+          fill={OVERLAY_COLOR}
+          mask="url(#scribble-reveal-mask)"
         />
-      ))}
+      </svg>
     </div>
   );
 }

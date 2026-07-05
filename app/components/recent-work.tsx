@@ -159,31 +159,45 @@ export default function RecentWork({
           images={previewImages}
         />
 
-        {recentWork.map(({ company, role, year, tag, link }, index) => (
-          <Link
-            href={link ?? "/"}
-            key={index}
-            ref={(el) => {
-              itemRefs.current[index] = el;
-            }}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-            className="relative flex h-18.5 cursor-default justify-between border-b border-[#F2F2F7] py-3.5 dark:border-[#7F7F7F66]/40"
-          >
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text font-normal">{company}</h2>
-                {tag && (
-                  <p className="flex h-3.5 w-6 items-center justify-center rounded-[4px] border-[0.8px] border-[#000000]/8 bg-[#808080]/55 px-1 py-0.5 text-[8px] leading-[100%] font-semibold tracking-[0%] text-white">
-                    {tag}
-                  </p>
-                )}
+        {recentWork.map(({ company, role, year, tag, link }, index) => {
+          const isExternal =
+            !!link &&
+            !link.startsWith("/") &&
+            (link.includes(".com") ||
+              link.includes(".net") ||
+              link.includes(".org") ||
+              link.includes(".io"));
+
+          const href = isExternal ? `https://${link}` : (link ?? "/");
+
+          return (
+            <Link
+              href={href}
+              key={index}
+              target={isExternal ? "_blank" : undefined}
+              rel={isExternal ? "noopener noreferrer" : undefined}
+              ref={(el) => {
+                itemRefs.current[index] = el;
+              }}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              className="relative flex h-18.5 cursor-default justify-between border-b border-[#F2F2F7] py-3.5 dark:border-[#7F7F7F66]/40"
+            >
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text font-normal">{company}</h2>
+                  {tag && (
+                    <p className="flex h-3.5 w-6 items-center justify-center rounded-[4px] border-[0.8px] border-[#000000]/8 bg-[#808080]/55 px-1 py-0.5 text-[8px] leading-[100%] font-semibold tracking-[0%] text-white">
+                      {tag}
+                    </p>
+                  )}
+                </div>
+                <p className="text font-normal text-[#8E8E93]">{role}</p>
               </div>
-              <p className="text font-normal text-[#8E8E93]">{role}</p>
-            </div>
-            <h2 className="text font-normal">{year}</h2>
-          </Link>
-        ))}
+              <h2 className="text font-normal">{year}</h2>
+            </Link>
+          );
+        })}
         <a
           href="/assets/seyis-cv.pdf"
           download
