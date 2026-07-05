@@ -93,20 +93,25 @@ export default function MobileMenu() {
         </div>
 
         <nav className="flex h-full flex-col gap-6">
-          {menuLinks.map((link, i) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              ref={(el) => {
-                itemsRef.current[i] = el;
-              }}
-              target="_blank"
-              onClick={() => setOpen(false)}
-              className={pillClass}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {menuLinks.map((link, i) => {
+            const isExternal = /^https?:\/\//.test(link.href);
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                ref={(el) => {
+                  itemsRef.current[i] = el;
+                }}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                onClick={() => setOpen(false)}
+                className={pillClass}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <button onClick={() => setOpen(false)} className={pillClass}>

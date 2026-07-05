@@ -41,9 +41,9 @@ export default function BottomSheet() {
     <div
       className="fixed bottom-0 left-0 z-50 flex h-37 w-full flex-col bg-[#007AFF]"
       style={{
-        transform: menuOpen ? "translateY(100%)" : "translateY(0%)",
-        transition: `transform ${SHEET_TRANSITION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
-
+        opacity: menuOpen ? 0 : 1,
+        visibility: menuOpen ? "hidden" : "visible",
+        transition: `opacity ${SHEET_TRANSITION_MS}ms ease, visibility ${SHEET_TRANSITION_MS}ms`,
         pointerEvents: menuOpen ? "none" : "auto",
       }}
       aria-hidden={menuOpen}
