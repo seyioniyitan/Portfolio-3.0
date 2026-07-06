@@ -206,7 +206,7 @@ export default function RecentWork({
           <div className="flex items-baseline gap-2">
             <h2 className="text font-normal">Download resume</h2>
             <p className="text-[12px] leading-[150%] font-medium tracking-[0%] text-[#8E8E93]">
-              805kB
+              55kB
             </p>
           </div>
 

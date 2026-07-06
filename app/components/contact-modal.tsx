@@ -12,7 +12,7 @@ export default function ContactModal() {
         <div className="flex items-baseline gap-2 py-5 pl-4">
           <h2 className="text font-normal dark:text-white">Download resume</h2>
           <p className="text-[12px] leading-[150%] font-medium tracking-[0%] text-[#8E8E93]">
-            805kB
+            55kB
           </p>
         </div>
 
