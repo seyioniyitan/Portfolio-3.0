@@ -35,7 +35,7 @@ export default function ContactDetailRow({
         ? value
         : `https://${value}`;
 
-  const displayValue = value.length > 26 ? `${value.slice(0, 26)}...` : value;
+  const displayValue = value.length > 23 ? `${value.slice(0, 23)}...` : value;
 
   return (
     <div className="group relative flex h-[23px] w-fit min-w-[346px] items-center">
