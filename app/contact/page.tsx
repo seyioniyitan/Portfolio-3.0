@@ -99,7 +99,7 @@ export default function ContactPage() {
               <CategorySlide escape />
             </div>
             <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%]">
-              ©2026 All rights reserved.
+              ©2026 Seyi Oniyitan. All rights reserved.
             </p>
           </div>
         </div>

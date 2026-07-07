@@ -139,7 +139,7 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
           <div className="mt-[211px] mb-[45px] ml-6">
             <CategorySlide />
             <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%]">
-              ©2026 All rights reserved.
+              ©2026 Seyi Oniyitan. All rights reserved.
             </p>
           </div>
         </div>
@@ -252,7 +252,7 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
           <div className="mt-12 flex h-32 flex-col justify-center">
             <CategorySlide />
             <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%]">
-              ©2026 All rights reserved.
+              ©2026 Seyi Oniyitan. All rights reserved.
             </p>
           </div>
         </div>

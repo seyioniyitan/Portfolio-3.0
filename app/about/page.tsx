@@ -59,7 +59,7 @@ export default async function AboutPage() {
             <div className="mt-[140px] lg:mt-[282px]">
               <CategorySlide />
               <h2 className="mt-6 mb-[65px] text-[14px] leading-[150%] font-normal tracking-[0%] lg:mb-[45px]">
-                ©2026 All rights reserved.
+                ©2026 Seyi Oniyitan. All rights reserved.
               </h2>
             </div>
           </div>
@@ -132,7 +132,7 @@ export default async function AboutPage() {
             <div className="mt-[140px]">
               <CategorySlide />
               <h2 className="mt-6 mb-[65px] text-[14px] leading-[150%] font-normal tracking-[0%]">
-                ©2026 All rights reserved.
+                ©2026 Seyi Oniyitan. All rights reserved.
               </h2>
             </div>
           </div>

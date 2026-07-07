@@ -17,16 +17,27 @@ function mulberry32(seed: number) {
   };
 }
 
+/**
+ * "vertical" = the reveal progresses top-to-bottom (mobile — screen is
+ * taller than it is wide): rows stack down the height, and each
+ * individual stroke sweeps left-to-right across the width.
+ *
+ * "horizontal" = the reveal progresses left-to-right (desktop — screen
+ * is wider than it is tall): rows stack across the width, and each
+ * individual stroke sweeps top-to-bottom down the height.
+ */
 function buildScribble(
   width: number,
   height: number,
   seed: number,
-  orientation: "horizontal" | "vertical",
+  direction: "vertical" | "horizontal",
 ) {
   const rand = mulberry32(seed);
 
-  const primaryLength = orientation === "horizontal" ? width : height;
-  const crossLength = orientation === "horizontal" ? height : width;
+  // crossLength = the axis rows stack along (the progression direction).
+  // primaryLength = the axis each individual stroke sweeps along.
+  const crossLength = direction === "vertical" ? height : width;
+  const primaryLength = direction === "vertical" ? width : height;
 
   const strokeWidth = Math.max(70, crossLength * 0.11);
   const overshoot = strokeWidth * 1.2;
@@ -55,8 +66,8 @@ function buildScribble(
         Math.sin(t * Math.PI * 2.2 + i * 1.4) * (rowStep * 0.35) +
         (rand() - 0.5) * rowStep * 0.25;
 
-      const x = orientation === "horizontal" ? primaryPos : cross;
-      const y = orientation === "horizontal" ? cross : primaryPos;
+      const x = direction === "vertical" ? primaryPos : cross;
+      const y = direction === "vertical" ? cross : primaryPos;
 
       if (i === 0 && s === 0) d += `M ${x.toFixed(1)} ${y.toFixed(1)} `;
       else d += `L ${x.toFixed(1)} ${y.toFixed(1)} `;
@@ -86,13 +97,13 @@ export default function LoadingScreen({
     const height = window.innerHeight;
     svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
 
-    const orientation = width < MOBILE_BREAKPOINT ? "vertical" : "horizontal";
+    const direction = width < MOBILE_BREAKPOINT ? "vertical" : "horizontal";
 
     const { d, strokeWidth } = buildScribble(
       width,
       height,
       Date.now() % 100000,
-      orientation,
+      direction,
     );
     path.setAttribute("d", d);
     path.setAttribute("stroke-width", String(strokeWidth));

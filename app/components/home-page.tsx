@@ -88,7 +88,7 @@ export default function HomePage({
               <div className="mt-10.5 ml-4 lg:mt-0 lg:ml-0">
                 <CategorySlide />
                 <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%]">
-                  ©2026 All rights reserved.
+                  ©2026 Seyi Oniyitan. All rights reserved.
                 </p>
               </div>
 
