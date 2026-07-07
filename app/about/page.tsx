@@ -64,7 +64,7 @@ export default async function AboutPage() {
             </div>
           </div>
 
-          <div className="order-1 mt-31.5 flex w-full gap-2.5 overflow-hidden lg:order-2 lg:mt-0 lg:block lg:min-w-0 lg:flex-1 lg:gap-0 lg:space-y-4 lg:pt-4">
+          <div className="lg order-1 mt-31.5 flex w-full gap-2.5 overflow-hidden lg:order-2 lg:mt-0 lg:block lg:min-w-0 lg:flex-1 lg:gap-0 lg:space-y-4 lg:pt-4">
             <div className="relative h-[266px] w-1/2 lg:h-[429px] lg:w-[296px]">
               <Image
                 src={aboutImageOneUrl(imageOne!)}
@@ -75,7 +75,7 @@ export default async function AboutPage() {
                 sizes="(max-width: 1024px) 50vw, 296px"
               />
             </div>
-            <div className="relative mt-[107px] h-[230px] w-1/2 lg:mt-0 lg:mr-3 lg:ml-40 lg:h-[551px] lg:w-[470px]">
+            <div className="lg relative mt-[107px] h-[230px] w-1/2 lg:mt-0 lg:mr-3 lg:ml-40 lg:h-[551px] lg:w-[470px]">
               <Image
                 src={aboutImageTwoUrl(imageTwo!)}
                 alt={imageTwo?.alt!}

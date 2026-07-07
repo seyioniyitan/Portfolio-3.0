@@ -67,10 +67,9 @@ export default async function ProjectShots({
 }
 
 const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
-  const orderedProjects = [...fullProjects].reverse();
   return (
     <div className="grid grid-cols-1 gap-x-5 gap-y-8 px-4 pt-6 lg:grid-cols-2 lg:p-6">
-      {orderedProjects.map((project, index) => {
+      {fullProjects.map((project, index) => {
         const href = project.slug?.current
           ? `/project-detail/${project.slug.current}`
           : "/project-shots";

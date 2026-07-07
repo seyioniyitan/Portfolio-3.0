@@ -14,7 +14,6 @@ export default function ContactDetailRow({
   value,
 }: ContactDetailRowProps) {
   const [copied, setCopied] = useState(false);
-  console.log(label);
 
   useEffect(() => {
     if (!copied) return;
@@ -36,6 +35,8 @@ export default function ContactDetailRow({
         ? value
         : `https://${value}`;
 
+  const displayValue = value.length > 26 ? `${value.slice(0, 26)}...` : value;
+
   return (
     <div className="group relative flex h-[23px] w-fit min-w-[346px] items-center">
       <div className="text w-[151px] shrink-0 font-normal text-[#8E8E93]">
@@ -49,7 +50,7 @@ export default function ContactDetailRow({
             className="text font-normal whitespace-nowrap decoration-1 underline-offset-[20%] hover:underline"
             onClick={() => redirect(`mailto:${value}`)}
           >
-            {value}
+            {displayValue}
           </a>
         ) : (
           <Link
@@ -58,7 +59,7 @@ export default function ContactDetailRow({
             rel="noopener noreferrer"
             className="text font-normal whitespace-nowrap decoration-1 underline-offset-[20%] hover:underline"
           >
-            {value}
+            {displayValue}
           </Link>
         )}
 
