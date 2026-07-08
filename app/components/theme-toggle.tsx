@@ -212,8 +212,8 @@ export default function ThemeToggle({
       </button>
 
       {open && (
-        <div className="absolute top-full right-2 z-50 mt-4.5 lg:right-[-16.5px] lg:mt-[15px]">
-          <div className="absolute top-[-8px] right-[9.5px]">
+        <div className="absolute top-full right-0 z-50 mt-4.5 lg:right-[-16.5px] lg:mt-[15px]">
+          <div className="absolute top-[-8px] right-0 lg:right-[9.5px]">
             <Image
               src="/assets/dropdown-arrow.svg"
               width={37}
