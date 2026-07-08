@@ -11,6 +11,42 @@ export const recentWork = defineType({
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "order",
+      title: "Display Order",
+      type: "number",
+      description: "Lower numbers appear first.",
+      validation: (Rule) =>
+        Rule.required()
+          .integer()
+          .positive()
+          .custom(async (value, context) => {
+            if (value === undefined) return true;
+
+            const { document, getClient } = context;
+
+            const client = getClient({ apiVersion: "2025-01-01" });
+
+            const id = document?._id?.replace(/^drafts\./, "");
+
+            const existing = await client.fetch(
+              `*[
+            _type == "recentWork" &&
+            order == $order &&
+            !(_id in [$draftId, $publishedId])
+          ][0]._id`,
+              {
+                order: value,
+                draftId: `drafts.${id}`,
+                publishedId: id,
+              },
+            );
+
+            return existing
+              ? "Another Recent Work item already uses this display order."
+              : true;
+          }),
+    }),
 
     defineField({
       name: "role",

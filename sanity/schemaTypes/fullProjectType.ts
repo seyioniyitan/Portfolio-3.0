@@ -11,6 +11,42 @@ export const fullProjectType = defineType({
       name: "title",
       type: "string",
     }),
+    defineField({
+      name: "order",
+      title: "Display Order",
+      type: "number",
+      description: "Projects are displayed in ascending order (1, 2, 3, ...).",
+      validation: (Rule) =>
+        Rule.required()
+          .integer()
+          .positive()
+          .custom(async (value, context) => {
+            if (value === undefined) return true;
+
+            const { document, getClient } = context;
+
+            const client = getClient({ apiVersion: "2025-01-01" });
+
+            const id = document?._id?.replace(/^drafts\./, "");
+
+            const existing = await client.fetch(
+              `*[
+          _type == "fullProject" &&
+          order == $order &&
+          !(_id in [$draftId, $publishedId])
+        ][0]._id`,
+              {
+                order: value,
+                draftId: `drafts.${id}`,
+                publishedId: id,
+              },
+            );
+
+            return existing
+              ? "Another project already uses this display order."
+              : true;
+          }),
+    }),
 
     defineField({
       name: "role",
@@ -66,39 +102,6 @@ export const fullProjectType = defineType({
       name: "bodyTwo",
       title: "Second Paragraph",
       type: "blockContent",
-    }),
-    defineField({
-      name: "order",
-      title: "Display Order",
-      type: "number",
-      description: "Projects are displayed in ascending order (1, 2, 3, ...).",
-      validation: (Rule) =>
-        Rule.required()
-          .integer()
-          .positive()
-          .custom(async (value, context) => {
-            if (value === undefined) return true;
-
-            const { document, getClient } = context;
-
-            const client = getClient({ apiVersion: "2025-01-01" });
-
-            const existing = await client.fetch(
-              `*[
-            _type == "fullProject" &&
-            order == $order &&
-            _id != $id
-          ][0]._id`,
-              {
-                order: value,
-                id: document?._id,
-              },
-            );
-
-            return existing
-              ? "Another project already uses this display order."
-              : true;
-          }),
     }),
 
     defineField({

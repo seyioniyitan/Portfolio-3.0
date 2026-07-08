@@ -99,7 +99,7 @@ export const aboutPageQuery = groq`
 `;
 
 export const recentWorkQuery = groq`
-  *[_type == "recentWork"] | order(_createdAt asc) {
+  *[_type == "recentWork"] | order(order asc) {
     _id,
     company,
     role,
