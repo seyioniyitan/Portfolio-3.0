@@ -62,7 +62,7 @@ export default function HomePage({
                   </span>{" "}
                   | {hero?.headline}
                 </h2>
-                <h2 className="text mb-4 indent-16 font-normal md:indent-17.5">
+                <h2 className="text mb-4 font-normal">
                   {hero?.secondHeadline}
                 </h2>
               </div>
