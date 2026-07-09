@@ -56,7 +56,7 @@ export default function HomePage({
           <div className="md:shrink-0 md:pt-[104px]">
             <div className="mb-5 px-4 md:mb-0 md:px-0 md:pl-6">
               <div className="mt-10 w-full md:mt-13 md:w-[443px]">
-                <h2 className="text h-[138px] indent-16 font-normal md:h-[115px] md:indent-17.5">
+                <h2 className="text mb-4 indent-16 font-normal md:indent-17.5">
                   <span className="underline decoration-1 underline-offset-[20%]">
                     Seyi Oniyitan
                   </span>{" "}

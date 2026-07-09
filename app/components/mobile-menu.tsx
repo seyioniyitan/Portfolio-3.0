@@ -65,12 +65,14 @@ export default function MobileMenu() {
   return (
     <>
       {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.8px] border-black px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased hover:bg-black hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-        >
-          more
-        </button>
+        <>
+          <button
+            onClick={() => setOpen(true)}
+            className="flex h-[25px] items-center justify-center rounded-[23px] border-[0.8px] border-black px-3 text-[13px] leading-none font-medium uppercase antialiased hover:bg-black hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+          >
+            more
+          </button>
+        </>
       )}
 
       <div

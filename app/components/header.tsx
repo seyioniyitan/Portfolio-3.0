@@ -88,7 +88,7 @@ export default function Header({
               home
             </Link>
           </div>
-          <nav className="flex gap-3 pt-10">
+          <nav className="flex items-center gap-3 pt-10">
             {menuLinks.map((link, index) => {
               const isExternal = /^https?:\/\//i.test(link.href);
 

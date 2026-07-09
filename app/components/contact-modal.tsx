@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ProjectShotsCategorySlide from "./project-shots-category-slide";
+import Link from "next/link";
 
 export default function ContactModal() {
   return (
@@ -28,7 +29,10 @@ export default function ContactModal() {
       </a>
 
       <div className="h-37 rounded-b-[12px] bg-[#007AFF]">
-        <div className="flex items-center justify-between px-4 pt-3.5 pb-6">
+        <Link
+          href="/contact"
+          className="flex items-center justify-between px-4 pt-3.5 pb-6"
+        >
           <h2 className="text font-semibold text-white">Let’s work together</h2>
 
           <div className="flex h-8 w-10 items-center justify-center rounded-3xl bg-black">
@@ -39,7 +43,7 @@ export default function ContactModal() {
               height={12}
             />
           </div>
-        </div>
+        </Link>
         <div className="flex items-center justify-center">
           <ProjectShotsCategorySlide variant />
         </div>

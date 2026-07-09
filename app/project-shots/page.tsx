@@ -53,7 +53,7 @@ export default async function ProjectShots({
           <ProjectShotsGrid shots={projectShotsToDisplay} />
         )}
 
-        <div className="pointer-events-none fixed bottom-7 hidden px-6 lg:block">
+        <div className="pointer-events-none sticky bottom-7 mt-10 hidden px-6 lg:block">
           <div className="pointer-events-auto">
             <ContactModal />
           </div>
