@@ -58,7 +58,6 @@ export default function Header({
   const navPillBase =
     "flex h-[25px] items-center justify-center rounded-[23px] px-3 py-1 text-[13px] leading-4 font-medium uppercase antialiased";
 
-  // Regular (non-backdrop) styling: driven by site theme, as before.
   const pillClass = (active = false) => {
     if (mounted && resolvedTheme === "dark") {
       return `${navPillBase} border-[0.8px] border-white hover:bg-white hover:text-black ${active ? "bg-white text-black" : ""}`;
@@ -66,9 +65,6 @@ export default function Header({
     return `${navPillBase} border-[0.8px] border-black hover:bg-black hover:text-white ${active ? "bg-black text-white" : ""}`;
   };
 
-  // Backdrop-aware styling: driven by sampled image brightness rather
-  // than theme, since the pill sits directly over a photo. Applied only
-  // when `backgroundImage` is set and a variant has been sampled.
   const isDarkBackdrop = contrastVariant === "dark-bg";
   const pillClassOnImage = (active = false) => {
     if (isDarkBackdrop) {
@@ -249,7 +245,8 @@ export default function Header({
           <MobileMenu />
           <div className={open ? "hidden" : ""}>
             <ThemeToggle
-              width={32}
+              width={24}
+              height={24}
               contrastVariant={useBackdropStyling ? contrastVariant : undefined}
             />
           </div>

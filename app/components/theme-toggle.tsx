@@ -21,7 +21,6 @@ const ICON_SRC: Record<ThemeOption, string> = {
   dark: "/assets/theme-dark.svg",
 };
 
-// -15deg diagonal cut across a 96x50 box, expressed as a polygon.
 const SLANT_OFFSET = 50 * Math.tan((15 * Math.PI) / 180);
 
 const LEFT_HALF_POLYGON = `polygon(0 0, ${48 + SLANT_OFFSET}px 0, ${48 - SLANT_OFFSET}px 50px, 0 50px)`;
@@ -61,8 +60,22 @@ function ThemeOptionButton({
   const highlighted = isActive || isHovered;
 
   return (
-    <div className="flex w-full items-center justify-between">
-      <span className="text-[14px] font-normal text-[#B0B0B5]">{label}</span>
+    <button
+      type="button"
+      onClick={() => onSelect(value)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      aria-pressed={isActive}
+      aria-label={`Set theme: ${label}`}
+      className="flex w-full cursor-pointer items-center justify-between"
+    >
+      <span
+        className={`text-[14px] font-normal ${
+          highlighted ? "text-white" : "text-[#B0B0B5]"
+        }`}
+      >
+        {label}
+      </span>
 
       <div
         className="flex items-center justify-center rounded-[15px] transition-none"
@@ -74,20 +87,12 @@ function ThemeOptionButton({
           boxShadow: highlighted ? "0 0 0 2px #007AFF66" : "none",
         }}
       >
-        <button
-          type="button"
-          onClick={() => onSelect(value)}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          aria-pressed={isActive}
-          aria-label={`Set theme: ${label}`}
-          className="relative cursor-pointer overflow-hidden rounded-[12px]"
+        <div
+          className="relative overflow-hidden rounded-[12px]"
           style={{ width: 96, height: 50 }}
         >
           {value === "system" ? (
             <div className="relative h-full w-full">
-              {/* Right half: image and background render exactly as
-                  the source asset intends — untouched. */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -105,12 +110,6 @@ function ThemeOptionButton({
                 </div>
               </div>
 
-              {/* Left half: white background. A solid black layer is
-                  masked using the same PNG's alpha channel, so black
-                  only paints exactly where the icon's ink is — the icon
-                  reads as a black silhouette against white, as if the
-                  image became transparent there and black showed
-                  through from behind. */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -154,9 +153,9 @@ function ThemeOptionButton({
           )}
 
           {isActive && <CheckBadge />}
-        </button>
+        </div>
       </div>
-    </div>
+    </button>
   );
 }
 
@@ -169,9 +168,15 @@ export default function ThemeToggle({
   height?: number;
   contrastVariant?: ContrastVariant;
 }) {
-  const { theme, mounted, setTheme } = useThemeState();
+  const { theme, mounted, setTheme, resolvedTheme } = useThemeState();
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const toggleImage = "/assets/theme-toggle.svg";
+  const imageSrc =
+    mounted && resolvedTheme === "dark"
+      ? toggleImage.replace(".svg", "-light.svg")
+      : toggleImage.replace(".svg", "-dark.svg");
 
   useEffect(() => {
     if (!open) return;
@@ -195,50 +200,132 @@ export default function ThemeToggle({
   };
 
   return (
-    <div ref={containerRef} className="relative">
-      <button
+    <div
+      ref={containerRef}
+      className="relative flex h-8 w-8 shrink-0 items-center justify-center"
+    >
+      {/* <button
         onClick={() => setOpen((prev) => !prev)}
         aria-label="Open theme settings"
         aria-expanded={open}
-        className="flex h-[25px] cursor-pointer items-center justify-center"
+        className="relative flex h-[25px] cursor-pointer items-center justify-center"
       >
-        <Image
-          src="/assets/theme-toggle.svg"
-          width={width ? width : 24}
-          height={height ? height : 24}
-          alt="theme_toggle"
-          priority
-        />
+        <div
+          className="relative"
+          style={{
+            width: width ? width : 24,
+            height: height ? height : 24,
+            transform: open ? "rotate(180deg)" : "rotate(0deg)",
+            // transition: "transform 320ms cubic-bezier(0.4, 0, 0.2, 1)",
+          }}
+        >
+          <Image
+            src={imageSrc}
+            width={width ? width : 24}
+            height={height ? height : 24}
+            alt="theme_toggle"
+            priority
+            className="absolute inset-0"
+            style={{
+              opacity: open ? 0 : 1,
+              transition: "opacity 320ms ease",
+            }}
+          />
+          <Image
+            src="/assets/theme-toggle-open.svg"
+            width={width ? width : 24}
+            height={height ? height : 24}
+            alt=""
+            priority
+            className="absolute inset-0"
+            style={{
+              opacity: open ? 1 : 0,
+              transition: "opacity 320ms ease",
+            }}
+          />
+        </div>
+      </button> */}
+
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-label="Open theme settings"
+        aria-expanded={open}
+        className="relative flex h-6 w-6 shrink-0 items-center justify-center"
+      >
+        <div
+          className="relative h-full w-full"
+          style={{
+            transform: open ? "rotate(180deg)" : "rotate(0deg)",
+          }}
+        >
+          <Image
+            src={imageSrc}
+            alt="theme_toggle"
+            fill
+            priority
+            sizes="32px"
+            className="object-contain"
+            style={{
+              opacity: open ? 0 : 1,
+              transition: "opacity 320ms ease",
+            }}
+          />
+
+          <Image
+            src="/assets/theme-toggle-open.svg"
+            alt=""
+            fill
+            priority
+            sizes="32px"
+            className="object-contain"
+            style={{
+              opacity: open ? 1 : 0,
+              transition: "opacity 320ms ease",
+            }}
+          />
+        </div>
       </button>
 
-      {open && (
-        <div className="absolute top-full right-0 z-50 mt-4.5 lg:right-[-16.5px] lg:mt-[15px]">
-          <div className="absolute top-[-8px] right-0 lg:right-[9.5px]">
-            <Image
-              src="/assets/dropdown-arrow.svg"
-              width={37}
-              height={18}
-              alt="arrow"
-              aria-hidden="true"
-            />
-          </div>
-
-          <div
-            className="flex flex-col items-center justify-center gap-2 rounded-[4px] bg-black px-[11px] py-[12px]"
-            style={{ width: 218, height: 202 }}
-          >
-            {OPTIONS.map(({ value, label }) => (
-              <ThemeOptionButton
-                key={value}
-                value={value}
-                label={label}
-                isActive={mounted && theme === value}
-                onSelect={handleSelect}
-              />
-            ))}
-          </div>
+      <div
+        className="absolute top-full right-0 z-50 mt-4.5 lg:right-[-16.5px] lg:mt-[15px]"
+        style={{
+          opacity: open ? 1 : 0,
+          transform: open
+            ? "translateY(0) scale(1)"
+            : "translateY(-6px) scale(0.96)",
+          transformOrigin: "top right",
+          transition:
+            "opacity 220ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+          pointerEvents: open ? "auto" : "none",
+        }}
+        aria-hidden={!open}
+      >
+        <div className="absolute top-[-8px] right-0 lg:right-[9.5px]">
+          <Image
+            src="/assets/dropdown-arrow.svg"
+            width={37}
+            height={18}
+            alt="arrow"
+            aria-hidden="true"
+          />
         </div>
-      )}
+
+        <div
+          className="flex flex-col items-center justify-center gap-2 rounded-[4px] bg-black px-[11px] py-[12px]"
+          style={{ width: 218, height: 202 }}
+        >
+          {OPTIONS.map(({ value, label }) => (
+            <ThemeOptionButton
+              key={value}
+              value={value}
+              label={label}
+              isActive={mounted && theme === value}
+              onSelect={handleSelect}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
