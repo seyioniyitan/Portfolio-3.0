@@ -62,6 +62,9 @@ export default function HomePage({
                   </span>{" "}
                   | {hero?.headline}
                 </h2>
+                <h2 className="text mb-4 indent-16 font-normal md:indent-17.5">
+                  {hero?.secondHeadline}
+                </h2>
               </div>
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-5">
                 <WorkTogetherLink />

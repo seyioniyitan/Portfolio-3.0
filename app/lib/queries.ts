@@ -35,6 +35,7 @@ export const heroQuery = groq`
     _id,
     name,
     headline,
+    secondHeadline,
     tagline
   }
 `;

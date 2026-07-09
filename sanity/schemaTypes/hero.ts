@@ -17,6 +17,11 @@ export const hero = defineType({
       title: "Headline",
       type: "text",
     }),
+    defineField({
+      name: "secondHeadline",
+      title: "Second Headline",
+      type: "text",
+    }),
 
     defineField({
       name: "tagline",

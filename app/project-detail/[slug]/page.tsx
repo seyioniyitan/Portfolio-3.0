@@ -1,10 +1,7 @@
 import { ProjectDetail } from "@/types";
 import { client } from "@/app/lib/sanity";
 import { notFound } from "next/navigation";
-import {
-  fullProjectBySlugQuery,
-  projectSlugsQuery,
-} from "@/app/lib/queries";
+import { fullProjectBySlugQuery, projectSlugsQuery } from "@/app/lib/queries";
 import TypeD from "@/app/components/project-detail-page/type-d";
 
 // Revalidate cached pages at most once per hour.
@@ -14,9 +11,7 @@ export const revalidate = 3600;
 // instant static pages rather than waiting for on-demand SSR.
 export async function generateStaticParams() {
   const projects = await client.fetch<{ slug: string }[]>(projectSlugsQuery);
-  return projects
-    .filter((p) => Boolean(p.slug))
-    .map((p) => ({ slug: p.slug }));
+  return projects.filter((p) => Boolean(p.slug)).map((p) => ({ slug: p.slug }));
 }
 
 export default async function ProjectDetailPage({
@@ -41,4 +36,3 @@ export default async function ProjectDetailPage({
     </div>
   );
 }
-

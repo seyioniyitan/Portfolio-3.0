@@ -3,6 +3,7 @@ export type HomePageData = {
     _id: string;
     name: string;
     headline: string;
+    secondHeadline?: string;
     tagline?: string;
   } | null;
 };
