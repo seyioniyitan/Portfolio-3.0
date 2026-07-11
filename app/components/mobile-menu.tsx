@@ -8,7 +8,7 @@ import { useThemeState } from "@/app/hooks/use-theme-state";
 import { useMobileMenu } from "@/app/context/mobile-menu-context";
 
 const menuLinks = [
-  { label: "Store", href: "https://www.gumroad.com/leveredman" },
+  { label: "Store", href: "https://seyioniyitan.gumroad.com" },
   { label: "Articles", href: "https://www.medium.com/@seyioniyitan" },
   { label: "About", href: "/about" },
 ];

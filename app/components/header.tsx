@@ -24,7 +24,7 @@ type HeaderProps = {
 };
 
 const menuLinks: { label: string; href: string }[] = [
-  { label: "Store", href: "https://www.gumroad.com/leveredman" },
+  { label: "Store", href: "https://seyioniyitan.gumroad.com" },
   { label: "Articles", href: "https://www.medium.com/@seyioniyitan" },
   { label: "About", href: "/about" },
 ];
