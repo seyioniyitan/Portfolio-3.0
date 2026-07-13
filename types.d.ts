@@ -136,3 +136,9 @@ export type animationSliderData = {
     };
   };
 };
+
+export type SanityProjectSlug = {
+  slug: string;
+  _updatedAt: string;
+  publishedAt?: string;
+};

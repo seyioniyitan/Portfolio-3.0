@@ -127,3 +127,11 @@ export const animationSliderQuery = groq`
     }
   }
 `;
+
+export const sitemapProjectsQuery = groq`
+  *[_type == "fullProject" && defined(slug.current)] {
+    "slug": slug.current,
+    _updatedAt,
+    publishedAt
+  }
+`;
