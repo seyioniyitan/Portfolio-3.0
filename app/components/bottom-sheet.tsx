@@ -21,7 +21,6 @@ const SHEET_TRANSITION_MS = 280;
 export default function BottomSheet() {
   const [current, setCurrent] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const { resolvedTheme, mounted } = useThemeState();
   const { open: menuOpen } = useMobileMenu();
 
   useEffect(() => {
@@ -32,10 +31,6 @@ export default function BottomSheet() {
   }, []);
 
   const { alt, image } = categoryImages[current];
-  const imageSrc =
-    mounted && resolvedTheme === "dark"
-      ? image.replace(".svg", "-dark.svg")
-      : image;
 
   return (
     <div
@@ -79,7 +74,7 @@ export default function BottomSheet() {
           >
             <Image
               key={current}
-              src={imageSrc}
+              src={image}
               alt={alt}
               width={120}
               height={63}

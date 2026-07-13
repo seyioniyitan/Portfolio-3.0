@@ -204,54 +204,12 @@ export default function ThemeToggle({
       ref={containerRef}
       className="relative flex h-8 w-8 shrink-0 items-center justify-center"
     >
-      {/* <button
-        onClick={() => setOpen((prev) => !prev)}
-        aria-label="Open theme settings"
-        aria-expanded={open}
-        className="relative flex h-[25px] cursor-pointer items-center justify-center"
-      >
-        <div
-          className="relative"
-          style={{
-            width: width ? width : 24,
-            height: height ? height : 24,
-            transform: open ? "rotate(180deg)" : "rotate(0deg)",
-            // transition: "transform 320ms cubic-bezier(0.4, 0, 0.2, 1)",
-          }}
-        >
-          <Image
-            src={imageSrc}
-            width={width ? width : 24}
-            height={height ? height : 24}
-            alt="theme_toggle"
-            priority
-            className="absolute inset-0"
-            style={{
-              opacity: open ? 0 : 1,
-              transition: "opacity 320ms ease",
-            }}
-          />
-          <Image
-            src="/assets/theme-toggle-open.svg"
-            width={width ? width : 24}
-            height={height ? height : 24}
-            alt=""
-            priority
-            className="absolute inset-0"
-            style={{
-              opacity: open ? 1 : 0,
-              transition: "opacity 320ms ease",
-            }}
-          />
-        </div>
-      </button> */}
-
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         aria-label="Open theme settings"
         aria-expanded={open}
-        className="relative flex h-6 w-6 shrink-0 items-center justify-center"
+        className="relative flex h-7.5 w-7.5 shrink-0 items-center justify-center"
       >
         <div
           className="relative h-full w-full"
