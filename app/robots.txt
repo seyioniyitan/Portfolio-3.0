@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://seyioniyitan.com
+Sitemap: https://seyioniyitan.com/sitemap.xml
