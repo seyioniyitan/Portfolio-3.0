@@ -5,6 +5,7 @@ import { categoryType } from "./categoryType";
 import { postType } from "./postType";
 import { authorType } from "./authorType";
 import { artPieceType } from "./artPieceType";
+import { heroShotsType } from "./heroShotsTypes";
 import { projectShotsType } from "./projectShotsTypes";
 import { fullProjectType } from "./fullProjectType";
 import { hero } from "./hero";
@@ -19,6 +20,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     postType,
     authorType,
     artPieceType,
+    heroShotsType,
     projectShotsType,
     fullProjectType,
     hero,

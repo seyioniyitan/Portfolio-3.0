@@ -1,6 +1,6 @@
 import {
   heroQuery,
-  projectShotsQuery,
+  heroShotsQuery,
   recentWorkQuery,
 } from "@/app/lib/queries";
 import { client } from "@/app/lib/sanity";
@@ -10,9 +10,9 @@ import { HomePageData } from "@/types";
 export const revalidate = 3600;
 
 export default async function Home() {
-  const [hero, projectShots, recentWork] = await Promise.all([
+  const [hero, heroShots, recentWork] = await Promise.all([
     client.fetch(heroQuery),
-    client.fetch(projectShotsQuery),
+    client.fetch(heroShotsQuery),
     client.fetch(recentWorkQuery),
   ]);
 
@@ -24,7 +24,7 @@ export default async function Home() {
     <>
       <HomePage
         data={data}
-        projectShots={projectShots}
+        heroShots={heroShots}
         recentWork={recentWork}
       />
     </>

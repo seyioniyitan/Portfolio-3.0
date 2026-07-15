@@ -10,6 +10,27 @@ export const projectSlugsQuery = groq`
   }
 `;
 
+export const heroShotsQuery = groq`
+  *[
+    _type == "heroShots" &&
+    (!defined(hidden) || hidden == false)
+  ]
+  | order(order asc, _createdAt asc) {
+    _id,
+    title,
+    order,
+    hidden,
+    image {
+      alt,
+      asset
+    },
+    categories[]->{
+      _id,
+      title
+    }
+  }
+`;
+
 export const projectShotsQuery = groq`
   *[
     _type == "projectShots" &&

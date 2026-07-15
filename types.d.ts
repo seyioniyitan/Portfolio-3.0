@@ -8,6 +8,25 @@ export type HomePageData = {
   } | null;
 };
 
+export type HeroShot = {
+  _id: string;
+  title: string;
+  order?: number;
+  hidden?: boolean;
+
+  image?: {
+    alt?: string;
+    asset: {
+      _ref: string;
+    };
+  };
+
+  categories?: {
+    _id: string;
+    title: string;
+  }[];
+};
+
 export type ProjectShot = {
   _id: string;
   title: string;

@@ -112,16 +112,7 @@ const CaseStudies = ({ fullProjects }: { fullProjects: fullProjectData }) => {
 };
 
 export const menuLinks: { label: string; href: string }[] = [
-  {
-    label: "Shop",
-    href: "/",
-  },
-  {
-    label: "Articles",
-    href: "/articles",
-  },
-  {
-    label: "About",
-    href: "/about",
-  },
+  { label: "Store", href: "https://seyioniyitan.gumroad.com" },
+  { label: "Articles", href: "https://www.medium.com/@seyioniyitan" },
+  { label: "About", href: "/about" },
 ];

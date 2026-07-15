@@ -9,18 +9,19 @@ import LoadingScreen from "@/app/components/loading-screen";
 import RecentWork from "@/app/components/recent-work";
 import WorkTogetherLink from "@/app/components/work-together-link";
 import ProjectShotsSvg from "@/app/components/svgs/projects-shots-svg";
+import { useMediaQuery } from "@/app/hooks/use-media-query";
 import { useThemeState } from "@/app/hooks/use-theme-state";
-import { HomePageData, ProjectShot, RecentWorkData } from "@/types";
+import { HomePageData, HeroShot, RecentWorkData } from "@/types";
 import BottomSheet from "@/app/components/bottom-sheet";
 import { useMobileMenu } from "../context/mobile-menu-context";
 
 export default function HomePage({
   data,
-  projectShots,
+  heroShots,
   recentWork,
 }: {
   data: HomePageData;
-  projectShots: ProjectShot[];
+  heroShots: HeroShot[];
   recentWork: RecentWorkData[];
 }) {
   const { hero } = data;
@@ -28,6 +29,7 @@ export default function HomePage({
   const [done, setDone] = useState(false);
   const { resolvedTheme, mounted } = useThemeState();
   const { open: menuOpen } = useMobileMenu();
+  const isMobile = useMediaQuery("(max-width: 767px)");
 
   const base =
     "flex h-[25px] px-3 py-1 lg:h-5 items-center justify-center rounded-[23px] lg:px-2 lg:py-0.5 text-[13px] lg:text-[11px] leading-4 font-medium uppercase antialiased ";
@@ -72,19 +74,21 @@ export default function HomePage({
               </div>
             </div>
 
-            <div className="md:hidden">
-              <div className="mt-s2 mr-4 ml-2 flex h-[45px] items-center justify-between">
-                <div>
-                  <ProjectShotsSvg />
+            {isMobile === true && (
+              <div className="md:hidden">
+                <div className="mt-2 mr-4 ml-2 flex h-[45px] items-center justify-between">
+                  <div>
+                    <ProjectShotsSvg />
+                  </div>
+                  <Link href="/project-shots" className={className}>
+                    browse
+                  </Link>
                 </div>
-                <Link href="/project-shots" className={className}>
-                  browse
-                </Link>
+                <div className="mt-4.5 overflow-x-hidden">
+                  <HeroSlider mobile heroShots={heroShots} />
+                </div>
               </div>
-              <div className="mt-4.5 overflow-x-hidden">
-                <HeroSlider mobile projectShots={projectShots} />
-              </div>
-            </div>
+            )}
 
             <RecentWork recentWork={recentWork} />
             <div className="pointer-events-auto md:pb-10 md:pl-6">
@@ -103,9 +107,11 @@ export default function HomePage({
 
           <div className="hidden min-w-0 flex-1 md:block" aria-hidden="true" />
 
-          <div className="fixed top-0 right-0 hidden h-screen w-[calc(100%-443px)] overflow-hidden py-5 md:block">
-            <HeroSlider projectShots={projectShots} />
-          </div>
+          {isMobile === false && (
+            <div className="fixed top-0 right-0 hidden h-screen w-[calc(100%-443px)] overflow-hidden py-5 md:block">
+              <HeroSlider heroShots={heroShots} />
+            </div>
+          )}
         </section>
       </div>
     </>

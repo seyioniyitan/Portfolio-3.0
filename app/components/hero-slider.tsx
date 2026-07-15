@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useThemeState } from "@/app/hooks/use-theme-state";
-import { ProjectShot } from "@/types";
+import { HeroShot } from "@/types";
 import {
   heroBottomImageUrl,
   heroMobileImageUrl,
@@ -41,31 +41,53 @@ type Slide = {
   id: string;
   asset: SanityImageSource | null;
   topUrl: string;
+  bottomUrl: string;
+  mobileUrl: string;
   alt: string;
 };
 
-function buildSlide(shot: ProjectShot): Slide {
+function buildSlide(shot: HeroShot): Slide {
   const asset = shot.image?.asset ?? null;
   let topUrl = FALLBACK;
+  let bottomUrl = FALLBACK;
+  let mobileUrl = FALLBACK;
+
   try {
-    if (asset) topUrl = heroTopImageUrl(asset);
+    if (asset) {
+      topUrl = heroTopImageUrl(asset);
+      bottomUrl = heroBottomImageUrl(asset);
+      mobileUrl = heroMobileImageUrl(asset);
+    }
   } catch {
     topUrl = FALLBACK;
+    bottomUrl = FALLBACK;
+    mobileUrl = FALLBACK;
   }
+
   return {
     id: shot._id,
     asset,
     topUrl,
-    alt: shot.image?.alt ?? shot.title ?? "Project shot",
+    bottomUrl,
+    mobileUrl,
+    alt: shot.image?.alt ?? shot.title ?? "Hero shot",
   };
+}
+
+function preloadUrls(urls: string[]) {
+  for (const url of urls) {
+    if (!url || url === FALLBACK) continue;
+    const img = new window.Image();
+    img.src = url;
+  }
 }
 
 export default function HeroSlider({
   mobile,
-  projectShots,
+  heroShots,
 }: {
   mobile?: boolean;
-  projectShots: ProjectShot[];
+  heroShots: HeroShot[];
 }) {
   const { resolvedTheme, mounted } = useThemeState();
   const labelImage =
@@ -73,60 +95,65 @@ export default function HeroSlider({
       ? "/assets/projects&shots-dark.svg"
       : "/assets/projects&shots-light.svg";
 
-  const slides = useMemo(() => projectShots.map(buildSlide), [projectShots]);
+  const slides = useMemo(
+    () => heroShots.map((shot) => buildSlide(shot)),
+    [heroShots],
+  );
 
   const [pair, setPair] = useState<[number, number]>([0, 1]);
   const loadedSet = useRef<Set<string>>(new Set());
   const [topLoaded, setTopLoaded] = useState(false);
   const [bottomLoaded, setBottomLoaded] = useState(false);
+  const [hasRotated, setHasRotated] = useState(false);
 
   useEffect(() => {
     if (slides.length < 2) return;
     const interval = window.setInterval(() => {
+      setHasRotated(true);
       setPair((prev) => {
         const next = pickTwoRandomIndices(slides.length, prev);
-        const nextTop = slides[next[0]]?.topUrl;
-        const nextBottom = slides[next[1]]?.topUrl;
-        setTopLoaded(!!nextTop && loadedSet.current.has(nextTop));
-        setBottomLoaded(!!nextBottom && loadedSet.current.has(nextBottom));
+        const nextTop = slides[next[0]];
+        const nextBottom = slides[next[1]];
+        const topKey = mobile ? nextTop?.mobileUrl : nextTop?.topUrl;
+        const bottomKey = mobile ? nextBottom?.mobileUrl : nextBottom?.bottomUrl;
+        setTopLoaded(!!topKey && loadedSet.current.has(topKey));
+        setBottomLoaded(!!bottomKey && loadedSet.current.has(bottomKey));
         return next;
       });
     }, ROTATE_INTERVAL_MS);
     return () => window.clearInterval(interval);
-  }, [slides]);
+  }, [slides, mobile]);
 
   const topSlide = slides[pair[0]] ?? slides[0];
   const bottomSlide = slides[pair[1]] ?? slides[0];
 
+  const topSrc = mobile
+    ? topSlide?.mobileUrl ?? FALLBACK
+    : topSlide?.topUrl ?? FALLBACK;
+  const bottomSrc = mobile
+    ? bottomSlide?.mobileUrl ?? FALLBACK
+    : bottomSlide?.bottomUrl ?? FALLBACK;
+
+  // Preload only the two images currently on screen — never the full library.
   useEffect(() => {
-    slides.forEach(({ asset }) => {
-      if (!asset) return;
-      [heroTopImageUrl, heroBottomImageUrl, heroMobileImageUrl].forEach(
-        (fn) => {
-          const img = new window.Image();
-          img.src = fn(asset);
-        },
-      );
-    });
-  }, [slides]);
+    preloadUrls([topSrc, bottomSrc]);
+  }, [topSrc, bottomSrc]);
 
   if (mobile) {
     return (
-      <div
-        key={`${pair[0]}-${pair[1]}`}
-        className="flex items-start gap-[17px]"
-      >
+      <div className="flex items-start gap-[17px]">
         <div className="relative h-[320px] w-1/2 overflow-hidden">
           {!topLoaded && <Skeleton className="absolute inset-0" />}
           <Image
-            src={topSlide.asset ? heroMobileImageUrl(topSlide.asset) : FALLBACK}
-            alt={topSlide.alt}
+            src={topSlide?.asset ? topSrc : FALLBACK}
+            alt={topSlide?.alt ?? "Hero shot"}
             className="object-contain"
             fill
             unoptimized
             sizes="50vw"
+            priority={!hasRotated}
             onLoad={() => {
-              loadedSet.current.add(topSlide.topUrl);
+              loadedSet.current.add(topSrc);
               setTopLoaded(true);
             }}
           />
@@ -135,18 +162,15 @@ export default function HeroSlider({
         <div className="relative h-[320px] w-1/2 overflow-hidden">
           {!bottomLoaded && <Skeleton className="absolute inset-0" />}
           <Image
-            src={
-              bottomSlide.asset
-                ? heroMobileImageUrl(bottomSlide.asset)
-                : FALLBACK
-            }
-            alt={bottomSlide.alt}
+            src={bottomSlide?.asset ? bottomSrc : FALLBACK}
+            alt={bottomSlide?.alt ?? "Hero shot"}
             className="object-contain"
             fill
             unoptimized
             sizes="50vw"
+            priority={!hasRotated}
             onLoad={() => {
-              loadedSet.current.add(bottomSlide.topUrl);
+              loadedSet.current.add(bottomSrc);
               setBottomLoaded(true);
             }}
           />
@@ -157,32 +181,29 @@ export default function HeroSlider({
 
   return (
     <section
-      key={`${pair[0]}-${pair[1]}`}
       className="relative flex h-full w-full flex-col md:ml-56"
       aria-label="Featured work"
     >
-      {/* Top image — takes the top half of the available space */}
       <div
         className="relative min-h-0 flex-1"
         style={{ marginBottom: IMAGE_GAP / 2 }}
       >
         {!topLoaded && <Skeleton className="absolute inset-0" />}
         <Image
-          src={topSlide.asset ? heroTopImageUrl(topSlide.asset) : FALLBACK}
-          alt={topSlide.alt}
+          src={topSlide?.asset ? topSrc : FALLBACK}
+          alt={topSlide?.alt ?? "Hero shot"}
           fill
           unoptimized
           className="object-contain object-bottom-left"
           sizes="50vw"
-          priority
+          priority={!hasRotated}
           onLoad={() => {
-            loadedSet.current.add(topSlide.topUrl);
+            loadedSet.current.add(topSrc);
             setTopLoaded(true);
           }}
         />
       </div>
 
-      {/* Bridge / label — sits at the seam between the two halves */}
       <div className="relative z-10 h-0">
         <Link
           href="/project-shots"
@@ -202,24 +223,21 @@ export default function HeroSlider({
         </Link>
       </div>
 
-      {/* Bottom image — takes the bottom half of the available space */}
       <div
         className="relative min-h-0 flex-1"
         style={{ marginTop: IMAGE_GAP / 2 }}
       >
         {!bottomLoaded && <Skeleton className="absolute inset-0" />}
         <Image
-          src={
-            bottomSlide.asset ? heroBottomImageUrl(bottomSlide.asset) : FALLBACK
-          }
-          alt={bottomSlide.alt}
+          src={bottomSlide?.asset ? bottomSrc : FALLBACK}
+          alt={bottomSlide?.alt ?? "Hero shot"}
           fill
           unoptimized
           className="object-contain object-top-left"
           sizes="50vw"
-          priority
+          priority={!hasRotated}
           onLoad={() => {
-            loadedSet.current.add(bottomSlide.topUrl);
+            loadedSet.current.add(bottomSrc);
             setBottomLoaded(true);
           }}
         />
