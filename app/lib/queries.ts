@@ -98,6 +98,16 @@ export const fullProjectBySlugQuery = groq`
   }
 `;
 
+export const projectNavigationItemsQuery = groq`
+  *[_type == "fullProject" && defined(slug.current)] | order(order asc) {
+    _id,
+    title,
+    role,
+    "slug": slug.current,
+    order
+  }
+`;
+
 export const aboutPageQuery = groq`
   *[_type == "aboutPage"][0]{
     _id,

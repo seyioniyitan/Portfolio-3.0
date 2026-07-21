@@ -1,7 +1,11 @@
-import { ProjectDetail } from "@/types";
+import { ProjectDetail, ProjectNavigationItem } from "@/types";
 import { client } from "@/app/lib/sanity";
 import { notFound } from "next/navigation";
-import { fullProjectBySlugQuery, projectSlugsQuery } from "@/app/lib/queries";
+import {
+  fullProjectBySlugQuery,
+  projectNavigationItemsQuery,
+  projectSlugsQuery,
+} from "@/app/lib/queries";
 import TypeD from "@/app/components/project-detail-page/type-d";
 
 // Revalidate cached pages at most once per hour.
@@ -21,18 +25,32 @@ export default async function ProjectDetailPage({
 }) {
   const { slug } = await params;
 
-  const projectDetail: ProjectDetail = await client.fetch(
-    fullProjectBySlugQuery,
-    { slug },
-  );
+  const [projectDetail, navigationProjects] = await Promise.all([
+    client.fetch<ProjectDetail>(fullProjectBySlugQuery, { slug }),
+    client.fetch<ProjectNavigationItem[]>(projectNavigationItemsQuery, {}),
+  ]);
 
   if (!projectDetail) {
     notFound();
   }
 
+  const currentIndex = navigationProjects.findIndex(
+    (project) => project.slug === projectDetail.slug?.current,
+  );
+  const previousProject =
+    currentIndex > 0 ? navigationProjects[currentIndex - 1] : null;
+  const nextProject =
+    currentIndex >= 0 && currentIndex < navigationProjects.length - 1
+      ? navigationProjects[currentIndex + 1]
+      : null;
+
   return (
     <div>
-      <TypeD data={projectDetail} />
+      <TypeD
+        data={projectDetail}
+        previousProject={previousProject}
+        nextProject={nextProject}
+      />
     </div>
   );
 }

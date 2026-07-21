@@ -98,6 +98,14 @@ export type ProjectDetail = {
   }[];
 };
 
+export type ProjectNavigationItem = {
+  _id: string;
+  title?: string;
+  role?: string;
+  slug?: string;
+  order?: number;
+};
+
 export type AboutPageData = {
   _id: string;
   introOne?: string;

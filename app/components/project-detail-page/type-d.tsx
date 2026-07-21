@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import CategorySlide from "@/app/components/category-slide";
-import { ProjectDetail } from "@/types";
+import { ProjectDetail, ProjectNavigationItem } from "@/types";
 import {
   ProjectShotsHeaderLeft,
   ProjectShotsHeaderRight,
@@ -15,7 +15,15 @@ import { projectDetailImageUrl } from "@/sanity/lib/image";
 import BottomSheet from "@/app/components/bottom-sheet";
 import { useAdaptiveContrast } from "@/app/hooks/use-adaptive-contrast";
 
-export default function TypeD({ data }: { data: ProjectDetail }) {
+export default function TypeD({
+  data,
+  previousProject,
+  nextProject,
+}: {
+  data: ProjectDetail;
+  previousProject?: ProjectNavigationItem | null;
+  nextProject?: ProjectNavigationItem | null;
+}) {
   const { resolvedTheme, mounted } = useThemeState();
   const { title, bodyOne, bodyTwo, role, links, mainImage } = data;
 
@@ -134,8 +142,82 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
                   </Link>
                 ))}
               </div>
+              <div className="mt-28 flex h-30.25 w-114.5 justify-end dark:border-white/15">
+                <div className="flex h-full w-full items-stretch">
+                  <div className="flex-1">
+                    {previousProject && (
+                      <Link
+                        href={`/project-detail/${previousProject.slug}`}
+                        className={`group flex h-full flex-col justify-between gap-2 p-3 hover:border-black hover:bg-black hover:text-white dark:hover:border-white dark:hover:bg-white dark:hover:text-black ${
+                          nextProject
+                            ? "border-y border-l border-[#F2F2F7] dark:border-[#F2F2F7]/15"
+                            : "border border-[#F2F2F7] dark:border-[#F2F2F7]/15"
+                        }`}
+                      >
+                        <svg
+                          width="17"
+                          height="16"
+                          viewBox="0 0 17 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M16.0842 7.53998H1.08423M7.4884 0.539978L1.08423 7.53998L7.4884 14.54"
+                            className="stroke-black group-hover:stroke-white dark:stroke-white dark:group-hover:stroke-black"
+                            strokeWidth="1.6"
+                          />
+                        </svg>
+
+                        <div className="flex flex-col">
+                          <span className="text font-normal text-[#8E8E93]">
+                            Previous Project
+                          </span>
+
+                          <span className="text font-normal">
+                            {previousProject.title || "Previous project"}
+                          </span>
+                        </div>
+                      </Link>
+                    )}
+                  </div>
+
+                  <div className="flex-1 text-right">
+                    {nextProject && (
+                      <Link
+                        href={`/project-detail/${nextProject.slug}`}
+                        className="group flex h-full flex-col items-end justify-between gap-2 border border-[#F2F2F7] p-3 hover:z-10 hover:border-black hover:bg-black hover:text-white dark:border-[#F2F2F7]/15 dark:hover:border-white dark:hover:bg-white dark:hover:text-black"
+                      >
+                        <svg
+                          width="17"
+                          height="16"
+                          viewBox="0 0 17 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0 7.53998H15M8.59583 0.539978L15 7.53998L8.59583 14.54"
+                            className="stroke-black group-hover:stroke-white dark:stroke-white dark:group-hover:stroke-black"
+                            strokeWidth="1.6"
+                          />
+                        </svg>
+
+                        <div className="flex flex-col">
+                          <span className="text font-normal text-[#8E8E93]">
+                            Next Project
+                          </span>
+
+                          <span className="text font-normal">
+                            {nextProject.title || "Next project"}
+                          </span>
+                        </div>
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+
           <div className="mt-[211px] mb-[45px] ml-6">
             <CategorySlide />
             <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%]">
@@ -222,7 +304,6 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
             <h2 className="text font-normal">{title}</h2>
             <p className="text font-normal text-[#8E8E93]">{role}</p>
           </div>
-
           <div className="mt-6">
             <h2 className="text font-normal">
               <PortableText value={bodyOne} />
@@ -241,14 +322,86 @@ export default function TypeD({ data }: { data: ProjectDetail }) {
                   href={url ?? "/"}
                   target={url ? "_blank" : undefined}
                   rel={url ? "noopener noreferrer" : undefined}
-                  className={`${className} flex-1`}
+                  className={`${className} flex w-full max-w-[calc(50%-6px)] flex-1 items-center justify-center text-center leading-none`}
                 >
                   {title}
                 </Link>
               ))}
             </div>
           </div>
+          <div className="mt-20 flex h-30.25 w-full justify-end dark:border-white/15">
+            <div className="flex h-full w-full items-stretch">
+              <div className="flex-1">
+                {previousProject && (
+                  <Link
+                    href={`/project-detail/${previousProject.slug}`}
+                    className={`group flex h-full flex-col justify-between gap-2 p-3 hover:border-black hover:bg-black hover:text-white dark:hover:border-white dark:hover:bg-white dark:hover:text-black ${
+                      nextProject
+                        ? "border-y border-l border-[#F2F2F7] dark:border-[#F2F2F7]/15"
+                        : "border border-[#F2F2F7] dark:border-[#F2F2F7]/15"
+                    }`}
+                  >
+                    <svg
+                      width="17"
+                      height="16"
+                      viewBox="0 0 17 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M16.0842 7.53998H1.08423M7.4884 0.539978L1.08423 7.53998L7.4884 14.54"
+                        className="stroke-black group-hover:stroke-white dark:stroke-white dark:group-hover:stroke-black"
+                        strokeWidth="1.6"
+                      />
+                    </svg>
 
+                    <div className="flex flex-col">
+                      <span className="text font-normal text-[#8E8E93]">
+                        Previous Project
+                      </span>
+
+                      <span className="text font-normal">
+                        {previousProject.title || "Previous project"}
+                      </span>
+                    </div>
+                  </Link>
+                )}
+              </div>
+
+              <div className="flex-1 text-right">
+                {nextProject && (
+                  <Link
+                    href={`/project-detail/${nextProject.slug}`}
+                    className="group flex h-full flex-col items-end justify-between gap-2 border border-[#F2F2F7] p-3 hover:z-10 hover:border-black hover:bg-black hover:text-white dark:border-[#F2F2F7]/15 dark:hover:border-white dark:hover:bg-white dark:hover:text-black"
+                  >
+                    <svg
+                      width="17"
+                      height="16"
+                      viewBox="0 0 17 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0 7.53998H15M8.59583 0.539978L15 7.53998L8.59583 14.54"
+                        className="stroke-black group-hover:stroke-white dark:stroke-white dark:group-hover:stroke-black"
+                        strokeWidth="1.6"
+                      />
+                    </svg>
+
+                    <div className="flex flex-col">
+                      <span className="text font-normal text-[#8E8E93]">
+                        Next Project
+                      </span>
+
+                      <span className="text font-normal">
+                        {nextProject.title || "Next project"}
+                      </span>
+                    </div>
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
           <div className="mt-12 flex h-32 flex-col justify-center">
             <CategorySlide />
             <p className="mt-6 text-[14px] leading-[150%] font-normal tracking-[0%]">
