@@ -173,8 +173,12 @@ export default function TypeD({
                             Previous Project
                           </span>
 
-                          <span className="text font-normal">
-                            {previousProject.title || "Previous project"}
+                          <span className="text block truncate font-normal">
+                            {previousProject.title
+                              ? previousProject.title.length > 17
+                                ? `${previousProject.title.slice(0, 17)}...`
+                                : previousProject.title
+                              : "Previous project"}
                           </span>
                         </div>
                       </Link>
@@ -206,8 +210,12 @@ export default function TypeD({
                             Next Project
                           </span>
 
-                          <span className="text font-normal">
-                            {nextProject.title || "Next project"}
+                          <span className="text block truncate font-normal">
+                            {nextProject.title
+                              ? nextProject.title.length > 17
+                                ? `${nextProject.title.slice(0, 17)}...`
+                                : nextProject.title
+                              : "Next project"}
                           </span>
                         </div>
                       </Link>
@@ -360,8 +368,12 @@ export default function TypeD({
                         Previous Project
                       </span>
 
-                      <span className="text font-normal">
-                        {previousProject.title || "Previous project"}
+                      <span className="text block truncate font-normal">
+                        {previousProject.title
+                          ? previousProject.title.length > 17
+                            ? `${previousProject.title.slice(0, 17)}...`
+                            : previousProject.title
+                          : "Previous project"}
                       </span>
                     </div>
                   </Link>
@@ -393,8 +405,12 @@ export default function TypeD({
                         Next Project
                       </span>
 
-                      <span className="text font-normal">
-                        {nextProject.title || "Next project"}
+                      <span className="text block truncate font-normal">
+                        {nextProject.title
+                          ? nextProject.title.length > 17
+                            ? `${nextProject.title.slice(0, 17)}...`
+                            : nextProject.title
+                          : "Next project"}
                       </span>
                     </div>
                   </Link>
